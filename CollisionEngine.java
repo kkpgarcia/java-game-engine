@@ -23,7 +23,7 @@ public class CollisionEngine extends Engine {
         for(GameObject obj : objects) {
             for(GameObject other : objects) {
                 if(!obj.equals(other)) {
-                    if(obj.aabb.isColliding(other.aabb)) {
+                    if(obj.boundingBox.isOverlapping(other.boundingBox)) {
                         obj.onCollision(other);
                         other.onCollision(obj);
 
@@ -42,6 +42,28 @@ public class CollisionEngine extends Engine {
                         }
                     }
                 }
+
+
+                /*if(!obj.equals(other)) {
+                    if(obj.aabb.isColliding(other.aabb)) {
+                        obj.onCollision(other);
+                        other.onCollision(obj);
+
+                        if(!obj.aabb.isOnCollision) {
+                            resolveCollisionEnter(obj, other);
+                            resolveCollisionEnter(other, obj);
+                            return;
+                        } else {
+                            resolveCollisionStay(obj,other);
+                            resolveCollisionStay(other, obj);
+                        }
+                    } else {
+                        if(obj.aabb.isOnCollision) {
+                            resolveCollisionExit(obj, other);
+                            resolveCollisionExit(other, obj);
+                        }
+                    }
+                }*/
             }
         }
     }

@@ -6,6 +6,7 @@ public abstract class GameObject {
 
     public Transform transform;
     public Aabb2D aabb;
+    public BoundingBox2D boundingBox;
     public Renderer renderer;
     public Rigidbody rigidbody;
 
@@ -18,10 +19,12 @@ public abstract class GameObject {
 		this.transform = new Transform();
         this.aabb = new Aabb2D();
         this.renderer = new Renderer();
+        this.boundingBox = new BoundingBox2D(new Vector2(0,0), new Vector2(20, 20));
 	}
 
 	public void update() {
-        this.aabb.position = this.transform.position;
+        //this.aabb.position = this.transform.position;
+        this.boundingBox.translate(this.transform.position);
         
         //Collision to right screen
         if(this.transform.position.x + aabb.getCenter().x > Screen.width/2) {
@@ -43,6 +46,8 @@ public abstract class GameObject {
             this.transform.position.y = -aabb.getCenter().y + Screen.height/2;
             rigidbody.isGrounded = true;
         }
+
+        //System.out.println(isOverlapping)
 	}
 
     public void updatePhysics() {
@@ -100,6 +105,9 @@ public abstract class GameObject {
 
 	public void render(Graphics2D g) {
 		renderer.render(transform, g);
+
+        g.setColor(java.awt.Color.BLUE);
+        g.drawRect((int)transform.position.x - 10, (int)transform.position.y - 10,20,20);
 	}
 
     public void reset(Graphics2D g) {
