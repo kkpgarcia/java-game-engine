@@ -31,14 +31,30 @@ public class Player extends GameObject {
 
         Vector2 axis = new Vector2();
 
-        if(moveLeft.isPressed())
+        if(moveLeft.isPressed()) {
             this.transform.translate(new Vector2(-this.velocity.x,0));
-        if(moveRight.isPressed())
+            this.normalDirection.x = -1;
+        } else {
+            this.normalDirection.x = 0;
+        }
+        if(moveRight.isPressed()) {
             this.transform.translate(new Vector2(this.velocity.x,0));
-        if(moveUp.isPressed())
+            this.normalDirection.x = 1;
+        } else {
+            this.normalDirection.x = 0;
+        }
+        if(moveUp.isPressed()) {
             this.transform.translate(new Vector2(0, -this.velocity.y));
-        if(moveDown.isPressed())
-            this.transform.translate(new Vector2(0, this.velocity.y)); 
+            this.normalDirection.y = -1;
+        } else {
+            this.normalDirection.y = 0;
+        }
+        if(moveDown.isPressed()) {
+            this.transform.translate(new Vector2(0, this.velocity.y));
+            this.normalDirection.y = 1;
+        } else {
+            this.normalDirection.y = 0;
+        }
 
 		//this.transform.translate(this.velocity);
 	}

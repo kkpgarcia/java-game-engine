@@ -51,7 +51,7 @@ public class GameEngine extends Engine {
         Input input = new Input(screen);
 
         Player player = new Player();
-        player.transform.position = new Vector2(0,-Screen.height);
+        player.transform.position = new Vector2(0,0);
         player.color = Color.BLACK;
         player.boundingBox = new BoundingBox2D(new Vector2(0,0),new Vector2(20,20));
         player.input = input;
@@ -61,7 +61,7 @@ public class GameEngine extends Engine {
 		player.renderer.sprite = new Sprite();
 
         game.addObject(player);
-        game.addObject((GameObject)createDummy(new Vector2(-Screen.width/2, 0), new Vector2(1, 0), Color.RED, new BoundingBox2D(new Vector2(0,0),new Vector2(20,20))));
+        //game.addObject((GameObject)createDummy(new Vector2(-Screen.width/2, 0), new Vector2(1, 0), Color.RED, new BoundingBox2D(new Vector2(0,0),new Vector2(20,20))));
         /*game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(0, 1), Color.BLUE, 20, 20));
         game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(0, -1), Color.RED, 20, 20));
         game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(1, 1), Color.BLUE, 20, 20));

@@ -10,13 +10,16 @@ public abstract class GameObject {
     public Rigidbody rigidbody;
 
     public Vector2 velocity;
+    public Vector2 normalDirection;
     public Color color;
 
     public boolean isTrigger = false;
+    private float penetrationValue;
 
 	public GameObject() {
 		this.transform = new Transform();
         this.renderer = new Renderer();
+        this.normalDirection = new Vector2();
 	}
 
 	public void update() {
@@ -57,7 +60,7 @@ public abstract class GameObject {
 
         //Collision right
         if(this.transform.position.x + this.renderer.sprite.width/2 > other.transform.position.x + other.renderer.sprite.width/2) {
-            this.transform.position.x = this.transform.position.x + other.velocity.x; //+ this.velocity.x;
+            this.transform.position.x = + this.transform.position.x + other.velocity.x; //+ this.velocity.x;
         }
 
         //Collision down
@@ -74,6 +77,39 @@ public abstract class GameObject {
         if(this.transform.position.y + this.renderer.sprite.height/2 < other.transform.position.y + other.renderer.sprite.height/2) {
             this.transform.position.y = this.transform.position.y - other.velocity.y;
         }
+    }
+
+    private bool resolvePenetration(GameObject other) {
+        /*Vec2 n = other.transform.position.subtract(transform.position);
+        float a_extent = (boundingBox.max.x - boundingBox.min.x)/2;
+        float b_extent = (other.boundingBox.max.x - other.boundingBox.min.x)/2;
+
+        float x_overlap = a_extent + b_extent - Math.abs(n.x);
+
+        if(x_overlap > 0) {
+            float a_extent = (boundingBox.max.y - boundingBox.min.y) / 2;
+            float b_extent = (other.boundingBox.max.y - other.boundingBox.min.y) / 2;
+            
+            float y_overlap = a_extent + b_extent - Math.abs(n.y);
+
+            if(y_overlap > 0) {
+                if(x_overlap > y_overlap) {
+                    if(n.x < 0)
+                        normalDirection = new Vector2(-1,0);
+                    else
+                        normalDirection = new Vector2(0,0);
+                    penetrationValue = x_overlap;
+                    return true;
+                } else {
+                    if(n.y < 0)
+                        normalDirection = new Vector2(0, -1);
+                    else
+                        normalDirection = new Vector2(0, 1);
+                    penetrationValue = y_overlap;
+                    return true;
+                }
+            } 
+        }*/
     }
 
     public void onCollisionEnter(GameObject other) {

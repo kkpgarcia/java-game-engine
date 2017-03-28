@@ -12,9 +12,9 @@ public class Vector2 {
         this.y = y;
     }
 
-    public float dot(Vector2 v2) {
+    public static float dot(Vector2 v1, Vector2 v2) {
         float result = 0.0f;
-        result = this.x * v2.x + this.y * v2.y;
+        result = v1.x * v2.x + v1.y * v2.y;
         return result;
     }
 
