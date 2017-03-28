@@ -53,7 +53,7 @@ public class Player extends GameObject {
             g.setColor(color);
         }
 		g.translate(this.transform.position.x, this.transform.position.y);
-		g.fillOval((int)(-this.aabb.getCenter().x),(int)(-this.aabb.getCenter().y),(int)(this.aabb.width),(int)(this.aabb.height));
+		g.fillOval((int)(-this.renderer.sprite.width/2),(int)(-this.renderer.sprite.height/2),(int)(this.renderer.sprite.width),(int)(this.renderer.sprite.height));
         super.reset(g);
 	}
 }

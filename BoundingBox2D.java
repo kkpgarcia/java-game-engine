@@ -3,6 +3,8 @@ public class BoundingBox2D {
     public Vector2 max;
     private float BIG_NUMBER = 1e3f;
 
+    public boolean isCollided;
+
     public BoundingBox2D() {
         this.min = new Vector2();
         this.max = new Vector2();

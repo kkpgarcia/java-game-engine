@@ -53,15 +53,15 @@ public class GameEngine extends Engine {
         Player player = new Player();
         player.transform.position = new Vector2(0,-Screen.height);
         player.color = Color.BLACK;
-        player.aabb = new Aabb2D(20,20);
-        player.aabb.position = player.transform.position;
+        player.boundingBox = new BoundingBox2D(new Vector2(0,0),new Vector2(20,20));
         player.input = input;
         player.velocity = new Vector2(5,5);
         player.bindInput();
 		player.rigidbody = new Rigidbody(player);
+		player.renderer.sprite = new Sprite();
 
         game.addObject(player);
-        game.addObject((GameObject)createDummy(new Vector2(-Screen.width/2, 0), new Vector2(1, 0), Color.RED, new Aabb2D(20,20)));
+        game.addObject((GameObject)createDummy(new Vector2(-Screen.width/2, 0), new Vector2(1, 0), Color.RED, new BoundingBox2D(new Vector2(0,0),new Vector2(20,20))));
         /*game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(0, 1), Color.BLUE, 20, 20));
         game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(0, -1), Color.RED, 20, 20));
         game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(1, 1), Color.BLUE, 20, 20));
@@ -79,13 +79,13 @@ public class GameEngine extends Engine {
 		game.init();
 	}
 
-    private static Enemy createDummy(Vector2 position, Vector2 velocity, Color color, Aabb2D aabb) {
+    private static Enemy createDummy(Vector2 position, Vector2 velocity, Color color, BoundingBox2D boundingBox) {
         Enemy enemy = new Enemy();
         enemy.transform.position = position;
         enemy.velocity = velocity;
         enemy.color = color;
-        enemy.aabb = aabb;
-        aabb.position = position;
+        enemy.boundingBox = boundingBox;
+		enemy.renderer.sprite = new Sprite();
         
         return enemy;
     }
