@@ -31,14 +31,30 @@ public class Player extends GameObject {
 
         Vector2 axis = new Vector2();
 
-        if(moveLeft.isPressed())
+        if(moveLeft.isPressed()) {
             this.transform.translate(new Vector2(-this.velocity.x,0));
-        if(moveRight.isPressed())
+            this.normalDirection.x = -1;
+        } else {
+            this.normalDirection.x = 0;
+        }
+        if(moveRight.isPressed()) {
             this.transform.translate(new Vector2(this.velocity.x,0));
-        if(moveUp.isPressed())
+            this.normalDirection.x = 1;
+        } else {
+            this.normalDirection.x = 0;
+        }
+        if(moveUp.isPressed()) {
             this.transform.translate(new Vector2(0, -this.velocity.y));
-        if(moveDown.isPressed())
-            this.transform.translate(new Vector2(0, this.velocity.y)); 
+            this.normalDirection.y = -1;
+        } else {
+            this.normalDirection.y = 0;
+        }
+        if(moveDown.isPressed()) {
+            this.transform.translate(new Vector2(0, this.velocity.y));
+            this.normalDirection.y = 1;
+        } else {
+            this.normalDirection.y = 0;
+        }
 
 		//this.transform.translate(this.velocity);
 	}
@@ -53,7 +69,7 @@ public class Player extends GameObject {
             g.setColor(color);
         }
 		g.translate(this.transform.position.x, this.transform.position.y);
-		g.fillOval((int)(-this.aabb.getCenter().x),(int)(-this.aabb.getCenter().y),(int)(this.aabb.width),(int)(this.aabb.height));
+		g.fillOval((int)(-this.renderer.sprite.width/2),(int)(-this.renderer.sprite.height/2),(int)(this.renderer.sprite.width),(int)(this.renderer.sprite.height));
         super.reset(g);
 	}
 }

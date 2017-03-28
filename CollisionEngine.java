@@ -23,6 +23,28 @@ public class CollisionEngine extends Engine {
         for(GameObject obj : objects) {
             for(GameObject other : objects) {
                 if(!obj.equals(other)) {
+                    if(obj.boundingBox.isOverlapping(other.boundingBox)) {
+                        obj.onCollision(other);
+                        other.onCollision(obj);
+
+                        if(!obj.boundingBox.isCollided) {
+                            resolveCollisionEnter(obj, other);
+                            resolveCollisionEnter(other, obj);
+                            return;
+                        } else {
+                            resolveCollisionStay(obj, other);
+                            resolveCollisionStay(other, obj);
+                        }
+                    } else {
+                        if(obj.boundingBox.isCollided) {
+                            resolveCollisionExit(obj, other);
+                            resolveCollisionExit(other, obj);
+                        }
+                    }
+                }
+
+
+                /*if(!obj.equals(other)) {
                     if(obj.aabb.isColliding(other.aabb)) {
                         obj.onCollision(other);
                         other.onCollision(obj);
@@ -41,7 +63,7 @@ public class CollisionEngine extends Engine {
                             resolveCollisionExit(other, obj);
                         }
                     }
-                }
+                }*/
             }
         }
     }
@@ -52,7 +74,7 @@ public class CollisionEngine extends Engine {
         else
             main.onTriggerEnter(other);
 
-        main.aabb.isOnCollision = true;
+        main.boundingBox.isCollided = true;
     }
 
     private void resolveCollisionStay(GameObject main, GameObject other) {
@@ -68,6 +90,6 @@ public class CollisionEngine extends Engine {
         else
             main.onTriggerExit(other);
 
-        main.aabb.isOnCollision = false;
+        main.boundingBox.isCollided = false;
     }
 }

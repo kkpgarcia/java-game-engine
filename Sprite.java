@@ -20,8 +20,8 @@ public class Sprite {
     */
     public Sprite() {
         image = null;
-        width = 0;
-        height = 0;
+        width = 20;
+        height = 20;
     }
 
     /**

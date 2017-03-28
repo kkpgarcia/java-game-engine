@@ -16,7 +16,7 @@ public abstract class Engine {
         engineThread.start();
     }
     
-    protected void runEngine() {
+    protected synchronized void runEngine() {
         final double GAME_HERTZ = 30;
 		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
 		final int MAX_UPDATES_BEFORE_RENDER = 5;

@@ -5,44 +5,49 @@ import java.awt.Color;
 public abstract class GameObject {
 
     public Transform transform;
-    public Aabb2D aabb;
+    public BoundingBox2D boundingBox;
     public Renderer renderer;
     public Rigidbody rigidbody;
 
     public Vector2 velocity;
+    public Vector2 normalDirection;
     public Color color;
 
     public boolean isTrigger = false;
+    private float penetrationValue;
 
 	public GameObject() {
 		this.transform = new Transform();
-        this.aabb = new Aabb2D();
         this.renderer = new Renderer();
+        this.normalDirection = new Vector2();
 	}
 
 	public void update() {
-        this.aabb.position = this.transform.position;
+        if(boundingBox != null)
+            this.boundingBox.translate(this.transform.position);
         
         //Collision to right screen
-        if(this.transform.position.x + aabb.getCenter().x > Screen.width/2) {
-            this.transform.position.x = -aabb.getCenter().x + Screen.width/2;
+        if(this.transform.position.x + this.renderer.sprite.width/2 > Screen.width/2) {
+            this.transform.position.x = -this.renderer.sprite.width/2 + Screen.width/2;
         }
 
         //Collision to left screen
-        if(this.transform.position.x - aabb.getCenter().x < -(Screen.width/2)) {
-            this.transform.position.x = aabb.getCenter().x - Screen.width/2;
+        if(this.transform.position.x - this.renderer.sprite.width/2 < -(Screen.width/2)) {
+            this.transform.position.x = this.renderer.sprite.width/2 - Screen.width/2;
         }
 
         //Collision to upper screen
-        if(this.transform.position.y - aabb.getCenter().y < -Screen.height/2) {
-            this.transform.position.y = aabb.getCenter().y - Screen.height/2;
+        if(this.transform.position.y - this.renderer.sprite.height/2 < -Screen.height/2) {
+            this.transform.position.y = this.renderer.sprite.height/2 - Screen.height/2;
         }
 
         //Collision to bottom screen
-        if(this.transform.position.y + aabb.getCenter().y > (Screen.height/2)) {
-            this.transform.position.y = -aabb.getCenter().y + Screen.height/2;
-            rigidbody.isGrounded = true;
+        if(this.transform.position.y + this.renderer.sprite.height/2 > (Screen.height/2)) {
+            this.transform.position.y = -this.renderer.sprite.height/2 + Screen.height/2;
+            //rigidbody.isGrounded = true;
         }
+
+        //System.out.println(isOverlapping)
 	}
 
     public void updatePhysics() {
@@ -54,24 +59,57 @@ public abstract class GameObject {
             return;
 
         //Collision right
-        if(this.transform.position.x + aabb.width/2 > other.transform.position.x + other.aabb.width/2) {
-            this.transform.position.x = this.transform.position.x + other.velocity.x; //+ this.velocity.x;
+        if(this.transform.position.x + this.renderer.sprite.width/2 > other.transform.position.x + other.renderer.sprite.width/2) {
+            this.transform.position.x = + this.transform.position.x + other.velocity.x; //+ this.velocity.x;
         }
 
         //Collision down
-        if(this.transform.position.y + aabb.height/2 > other.transform.position.y + other.aabb.height/2) {
+        if(this.transform.position.y + this.renderer.sprite.height/2 > other.transform.position.y + other.renderer.sprite.height/2) {
             this.transform.position.y = this.transform.position.y + other.velocity.y;
         }
 
         //Collision left
-        if(this.transform.position.x + aabb.width/2 < other.transform.position.x + other.aabb.width/2) {
+        if(this.transform.position.x + this.renderer.sprite.width/2 < other.transform.position.x + other.renderer.sprite.width/2) {
             this.transform.position.x = this.transform.position.x - other.velocity.x;
         }
 
         //Collision up
-        if(this.transform.position.y + aabb.height/2 < other.transform.position.y + other.aabb.height/2) {
+        if(this.transform.position.y + this.renderer.sprite.height/2 < other.transform.position.y + other.renderer.sprite.height/2) {
             this.transform.position.y = this.transform.position.y - other.velocity.y;
         }
+    }
+
+    private bool resolvePenetration(GameObject other) {
+        /*Vec2 n = other.transform.position.subtract(transform.position);
+        float a_extent = (boundingBox.max.x - boundingBox.min.x)/2;
+        float b_extent = (other.boundingBox.max.x - other.boundingBox.min.x)/2;
+
+        float x_overlap = a_extent + b_extent - Math.abs(n.x);
+
+        if(x_overlap > 0) {
+            float a_extent = (boundingBox.max.y - boundingBox.min.y) / 2;
+            float b_extent = (other.boundingBox.max.y - other.boundingBox.min.y) / 2;
+            
+            float y_overlap = a_extent + b_extent - Math.abs(n.y);
+
+            if(y_overlap > 0) {
+                if(x_overlap > y_overlap) {
+                    if(n.x < 0)
+                        normalDirection = new Vector2(-1,0);
+                    else
+                        normalDirection = new Vector2(0,0);
+                    penetrationValue = x_overlap;
+                    return true;
+                } else {
+                    if(n.y < 0)
+                        normalDirection = new Vector2(0, -1);
+                    else
+                        normalDirection = new Vector2(0, 1);
+                    penetrationValue = y_overlap;
+                    return true;
+                }
+            } 
+        }*/
     }
 
     public void onCollisionEnter(GameObject other) {
@@ -100,6 +138,9 @@ public abstract class GameObject {
 
 	public void render(Graphics2D g) {
 		renderer.render(transform, g);
+
+        g.setColor(java.awt.Color.BLUE);
+        g.drawRect((int)transform.position.x - 10, (int)transform.position.y - 10,20,20);
 	}
 
     public void reset(Graphics2D g) {
