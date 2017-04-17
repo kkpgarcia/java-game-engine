@@ -60,26 +60,27 @@ public abstract class GameObject {
 
         //Collision right
         if(this.transform.position.x + this.renderer.sprite.width/2 > other.transform.position.x + other.renderer.sprite.width/2) {
-            this.transform.position.x = + this.transform.position.x + other.velocity.x; //+ this.velocity.x;
+            this.transform.position.x = this.transform.position.x + (other.velocity.x + this.velocity.x);// + this.velocity.x; //+ this.velocity.x;
         }
 
         //Collision down
         if(this.transform.position.y + this.renderer.sprite.height/2 > other.transform.position.y + other.renderer.sprite.height/2) {
-            this.transform.position.y = this.transform.position.y + other.velocity.y;
+            this.transform.position.y = this.transform.position.y + (other.velocity.y + this.velocity.y);// + this.velocity.y;
         }
 
         //Collision left
         if(this.transform.position.x + this.renderer.sprite.width/2 < other.transform.position.x + other.renderer.sprite.width/2) {
-            this.transform.position.x = this.transform.position.x - other.velocity.x;
+            this.transform.position.x = this.transform.position.x - (other.velocity.x + this.velocity.x);// - this.velocity.x;
         }
 
         //Collision up
         if(this.transform.position.y + this.renderer.sprite.height/2 < other.transform.position.y + other.renderer.sprite.height/2) {
-            this.transform.position.y = this.transform.position.y - other.velocity.y;
+            this.transform.position.y = this.transform.position.y - (other.velocity.y + this.velocity.y);// - this.velocity.y;
         }
     }
 
-    private bool resolvePenetration(GameObject other) {
+    private boolean resolvePenetration(GameObject other) {
+        return true;
         /*Vec2 n = other.transform.position.subtract(transform.position);
         float a_extent = (boundingBox.max.x - boundingBox.min.x)/2;
         float b_extent = (other.boundingBox.max.x - other.boundingBox.min.x)/2;

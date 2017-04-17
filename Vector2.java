@@ -12,18 +12,35 @@ public class Vector2 {
         this.y = y;
     }
 
+    public static float cross(Vector2 v1, Vector2 v2) {
+        float result = 0.0f;
+        result = v1.x * v2.y - v1.y * v2.x;
+        return result;
+    }
+
     public static float dot(Vector2 v1, Vector2 v2) {
         float result = 0.0f;
         result = v1.x * v2.x + v1.y * v2.y;
         return result;
     }
 
-    public float magnitude() {
-        return (float)Math.sqrt(this.x * this.x + this.y * this.y);
+    public static Vector2 direction(Vector2 v1, Vector2 v2) {
+        return v1.subtract(v2).normalize();
+    }
+
+    public static Vector2 delta(Vector2 v1, Vector2 v2) {
+        Vector2 result = new Vector2();
+        result.x = v1.x - v2.x;
+        result.y = v1.y - v2.y;
+        return result;
     }
 
     public static float distance(Vector2 v1, Vector2 v2) {
         return (float) Math.sqrt((v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y));
+    }
+
+    public float magnitude() {
+        return (float)Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
     public Vector2 add(Vector2 v2) {
@@ -47,21 +64,14 @@ public class Vector2 {
         return result;
     }
 
-    public static Vector2 delta(Vector2 v1, Vector2 v2) {
-        Vector2 result = new Vector2();
-        result.x = v1.x - v2.x;
-        result.y = v1.y - v2.y;
-        return result;
-    }
-
     public boolean greaterThan(Vector2 v2) {
-        return Comparison.tolerantGreaterThanOrEquals(this.x, v2.x) ||
-        Comparison.tolerantGreaterThanOrEquals(this.y, v2.y);
+        return MathEx.tolerantGreaterThanOrEquals(this.x, v2.x) ||
+        MathEx.tolerantGreaterThanOrEquals(this.y, v2.y);
     }
 
     public boolean lesserThan(Vector2 v2) {
-        return Comparison.tolerantLesserThanOrEquals(this.x, v2.x) ||
-        Comparison.tolerantLesserThanOrEquals(this.y, v2.y);
+        return MathEx.tolerantLesserThanOrEquals(this.x, v2.x) ||
+        MathEx.tolerantLesserThanOrEquals(this.y, v2.y);
     }
 
     public Vector2 normalize() {
