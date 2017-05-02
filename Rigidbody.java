@@ -1,38 +1,56 @@
 public class Rigidbody {
-    private GameObject gameObject;
+	public Vector2 position = new Vector2();
+	public Vector2 velocity = new Vector2();
+	public Vector2 force = new Vector2();
+	public float angularVelocity;
+	public float torque;
+	public float orient;
+	public float mass, invMass, inertia, invInertia;
+	public float staticFriction;
+	public float dynamicFriction;
+	public float restitution;
+	public Shape shape;
 
-    public Vector2 velocity;
-    public Vector2 acceleration;
-    public float gravity;
-    public float drag;
-    public float mass;
-    public boolean applyGravity;
+	public Rigidbody( Shape shape, int x, int y )
+	{
+		this.shape = shape;
 
-    public boolean isGrounded = false;
+		position.set( x, y );
+		velocity.set( 0, 0 );
+		angularVelocity = 0;
+		torque = 0;
+		orient = ImpulseMath.random( -ImpulseMath.PI, ImpulseMath.PI );
+		force.set( 0, 0 );
+		staticFriction = 0.5f;
+		dynamicFriction = 0.3f;
+		restitution = 0.2f;
 
-    public Rigidbody(GameObject gameObject) {
-        this.velocity = new Vector2();
-        this.acceleration = new Vector2(0,2f);
-        this.gravity = 1;
-        this.drag = 0;
-        this.mass = 10;
-        this.gameObject = gameObject;
-    }
+		shape.body = this;
+		shape.initialize();
+	}
 
-    public void update() {
-        /*if(isGrounded) {
-            acceleration.x = 0;
-            acceleration.y = 0;
-            velocity.x = 0;
-            velocity.y = 0;
-        }*/
+	public void applyForce( Vector2 f ) {
+		//force.addi( f );
+		force = force.add(f);
+		
+	}
 
-        //Vector2 prevPos = gameObject.transform.prevPosition;
-        //velocity = Vector2.delta(prevPos, gameObject.transform.position).multiply((float)Time.deltaTime);
+	public void applyImpulse( Vector2 impulse, Vector2 contactVector ) {
+		//velocity.addsi( impulse, invMass );
+		velocity = velocity.add(impulse.multiply(invMass));
+		angularVelocity += invInertia * Vector2.cross( contactVector, impulse );
+	}
 
-        
-        //velocity = velocity.add(new Vector2(acceleration.x * (float)Time.deltaTime, acceleration.y * (float)Time.deltaTime));
-        //gameObject.transform.position = gameObject.transform.position.subtract(velocity);
-        //System.out.println(velocity.toString());
-    }
+	public void setStatic() {
+		inertia = 0.0f;
+		invInertia = 0.0f;
+		mass = 0.0f;
+		invMass = 0.0f;
+	}
+
+	public void setOrient( float radians ) {
+		orient = radians;
+		shape.setOrient( radians );
+	}
+
 }

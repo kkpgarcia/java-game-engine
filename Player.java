@@ -1,6 +1,7 @@
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+//import org.magnos.impulse;
 
 public class Player extends GameObject {
    
@@ -13,7 +14,7 @@ public class Player extends GameObject {
     public Player() {
         super();
     }
-
+    
     public void bindInput() {
         moveUp = new InputAction("up");
         moveDown = new InputAction("down");
@@ -28,34 +29,34 @@ public class Player extends GameObject {
 
 	public void update() {
         super.update();
-
-        Vector2 axis = new Vector2();
+        
+        //Vector2 axis = new Vector2();
 
         if(moveLeft.isPressed()) {
-            this.transform.translate(new Vector2(-this.velocity.x,0));
-            this.normalDirection.x = -1;
-        } else {
-            this.normalDirection.x = 0;
-        }
+            //this.rigidbody.position.add(new Vec2(-100,0));
+            //this.normalDirection.x = -1;
+        } //else if(!moveLeft.isPressed() && !moveRight.isPressed()) {
+           // this.normalDirection.x = 0;
+        //}//
         if(moveRight.isPressed()) {
-            this.transform.translate(new Vector2(this.velocity.x,0));
-            this.normalDirection.x = 1;
-        } else {
-            this.normalDirection.x = 0;
-        }
+            //this.rigidbody.translate(new Vec2(100,0));
+         //   this.normalDirection.x = 1;
+        } //else if(!moveLeft.isPressed() && !moveRight.isPressed()){
+          //  this.normalDirection.x = 0;
+       // }
         if(moveUp.isPressed()) {
-            this.transform.translate(new Vector2(0, -this.velocity.y));
-            this.normalDirection.y = -1;
-        } else {
-            this.normalDirection.y = 0;
-        }
+            //this.rigidbody.position.add(new Vec2(0, -100));
+           // this.normalDirection.y = -1;
+        }// else if(!moveUp.isPressed() && !moveDown.isPressed()){
+           // this.normalDirection.y = 0;
+        //}
         if(moveDown.isPressed()) {
-            this.transform.translate(new Vector2(0, this.velocity.y));
-            this.normalDirection.y = 1;
-        } else {
-            this.normalDirection.y = 0;
-        }
-
+            //this.rigidbody.position.add(new Vec2(0, 100));
+          //  this.normalDirection.y = 1;
+        } //else if(!moveUp.isPressed() && !moveDown.isPressed()){
+            //this.normalDirection.y = 0;
+        //}
+        
 		//this.transform.translate(this.velocity);
 	}
 
@@ -63,6 +64,11 @@ public class Player extends GameObject {
 
 	public void render(Graphics2D g) {
 		super.render(g);
+
+        g.setColor(Color.RED);
+        g.translate(this.rigidbody.position.x, this.rigidbody.position.y);
+        g.drawOval((int)(-this.renderer.sprite.width/2),(int)(-this.renderer.sprite.height/2),(int)(this.renderer.sprite.width),(int)(this.renderer.sprite.height));
+
         if(color == null) {
             g.setColor(Color.BLACK);
         } else {
