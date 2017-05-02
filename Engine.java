@@ -32,10 +32,11 @@ public abstract class Engine {
 			int updateCount = 0;
 
 			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                updateCollisionEngine();
+                //Check InvokeLater
                 updateMainEngine();
-                updateUIEngine();
                 updatePhysicsEngine();
+                updateCollisionEngine();
+                updateUIEngine();
                 updateAudioEngine();
 				lastUpdateTime += TIME_BETWEEN_UPDATES;
 				updateCount++;

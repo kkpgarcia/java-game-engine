@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 public class GameEngine extends Engine {
 	private ArrayList<GameObject> objects;
-    private CollisionEngine collisionEngine;
+    //private CollisionEngine collisionEngine;
 	private RenderEngine renderEngine;
 	private PhysicsEngine physicsEngine;
-	private Time time;
+	//private Time time;
 
 	public GameEngine(Screen screen) {
 		objects = new ArrayList<>();
-        collisionEngine = new CollisionEngine();
+        //collisionEngine = new CollisionEngine();
 		renderEngine = new RenderEngine(screen);
-		physicsEngine = new PhysicsEngine();
-		time = new Time();
-		time.init();
+		physicsEngine = new PhysicsEngine(MathEx.DT, 10);
+		//time = new Time();
+		//time.init();
 	}
 
 	public void addObject(GameObject obj) {
@@ -26,14 +26,14 @@ public class GameEngine extends Engine {
 		}
 
 		objects.add(obj);
-        collisionEngine.addObjects(obj);
+        //collisionEngine.addObjects(obj);
 		renderEngine.addRenderers(obj);
-		physicsEngine.addObjects(obj);
+		physicsEngine.addRigidbody(obj);
 	}
 
 	public void init() {
 		super.init();
-		collisionEngine.init();
+		//collisionEngine.init();
 		renderEngine.init();
 		physicsEngine.init();
 	}
@@ -43,7 +43,7 @@ public class GameEngine extends Engine {
 			g.update();
 		}
 	}
-
+	/*
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Game");
 		Screen screen = new Screen(300, 800);
@@ -53,7 +53,7 @@ public class GameEngine extends Engine {
         Player player = new Player();
         player.transform.position = new Vector2(0,0);
         player.color = Color.BLACK;
-        player.boundingBox = new BoundingBox2D(new Vector2(0,0),new Vector2(100,100));
+        player.boundingBox = new BoundingBox2D(new Vector2(0,0),new Vector2(20,20));
         player.input = input;
         player.velocity = new Vector2(5,5);
         player.bindInput();
@@ -61,7 +61,7 @@ public class GameEngine extends Engine {
 		player.renderer.sprite = new Sprite();
 
         game.addObject(player);
-        game.addObject((GameObject)createDummy(new Vector2(-Screen.width/2, 0), new Vector2(1, 0), Color.RED, new BoundingBox2D(new Vector2(0,0),new Vector2(100,100))));
+        game.addObject((GameObject)createDummy(new Vector2(-Screen.width/2, 0), new Vector2(1, 0), Color.RED, new BoundingBox2D(new Vector2(0,0),new Vector2(5,5))));
         /*game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(0, 1), Color.BLUE, 20, 20));
         game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(0, -1), Color.RED, 20, 20));
         game.addObject((GameObject)createDummyPlayer(new Vector2(0, 0), new Vector2(1, 1), Color.BLUE, 20, 20));
@@ -73,7 +73,7 @@ public class GameEngine extends Engine {
 		game.addObject(createDebris(Color.BLUE));
 		game.addObject(createDebris(Color.YELLOW));
 		game.addObject(createDebris(Color.GREEN));
-		game.addObject(createDebris(Color.ORANGE));*/
+		game.addObject(createDebris(Color.ORANGE));
 
 		window.add(screen);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,5 +107,5 @@ public class GameEngine extends Engine {
 		debris.rigidbody = new Rigidbody(debris);
 
 		return debris;
-	}
+	}*/
 }
