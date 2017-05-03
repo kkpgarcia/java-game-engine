@@ -60,12 +60,12 @@ public class Player extends GameObject {
         if(spaceBar.isPressed()) {
             System.out.println("Creating new Object!");
             p2 = new Player();
-            GameEngine.instance.addObject(p2);
+            GameObject.instantiate(p2);
         }
 
         if(backSpace.isPressed()) {
             System.out.println("Removing object");
-            GameEngine.instance.removeObject(p2);
+            GameObject.destroy(p2);
         }
     }
 }
