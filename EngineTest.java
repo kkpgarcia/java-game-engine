@@ -62,7 +62,9 @@ public class EngineTest {
             input.mapToKey(downArrow, KeyEvent.VK_DOWN);
         }
 
+        @Override
         public void update() {
+            super.update();
             if(rightArrow.isPressed()) {
                 if(this.renderer.flipped)
                     this.renderer.flipped = !this.renderer.flipped;
@@ -74,7 +76,10 @@ public class EngineTest {
 
                 this.transform.position.x -= movementSpeed;
             }
-            if(upArrow.isPressed()) this.transform.position.y -= movementSpeed;
+            if(upArrow.isPressed()) {
+                this.rigidbody.clearVelocity();
+                this.transform.position.y -= movementSpeed;
+            }
             if(downArrow.isPressed()) this.transform.position.y += movementSpeed;
         }
     }
@@ -90,6 +95,11 @@ public class EngineTest {
             BufferedImage image = Resources.loadImage("Assets/pink-alien.png");
             this.renderer.sprite = new Sprite(image);
             this.rigidbody = new Rigidbody(new Circle(50), 0,0);
+        }
+
+        @Override
+        public void update() {
+            super.update();
         }
     }
 }

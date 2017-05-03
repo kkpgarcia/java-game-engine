@@ -9,19 +9,13 @@ public abstract class GameObject {
     public Renderer renderer;
     public Rigidbody rigidbody;
 
-    //To be omitted
-    public Color color;
-
-    //To be omitted
-    public boolean isTrigger = false;
-
 	public GameObject() {
 		this.transform = new Transform();
         this.renderer = new Renderer();
 	}
 
 	public void update() {
-        
+        this.transform.position = this.rigidbody.position;//this.transform.position.add(rigidbody.deltaPosition);
     }
 
 	public void render(Graphics2D g) {
