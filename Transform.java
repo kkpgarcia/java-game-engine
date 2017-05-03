@@ -7,27 +7,27 @@ public class Transform {
     public Transform() {
         this.position = new Vector2();
         this.rotation = new Vector2();
-        this.scale = new Vector2();
+        this.scale = new Vector2(1,1);
         this.prevPosition = new Vector2();
     }
 
     public Transform(Vector2 position) {
         this.position = position;
         this.rotation = new Vector2();
-        this.scale = new Vector2();
+        this.scale = new Vector2(1,1);
         this.prevPosition = new Vector2();
     }
 
     public Transform(Vector2 position, Vector2 rotation) {
         this(position);
         this.rotation = rotation;
-        this.scale = new Vector2();
+        this.scale = new Vector2(1,1);
         this.prevPosition = new Vector2();
     }
 
     public Transform(Vector2 position, Vector2 rotation, Vector2 scale) {
         this(position, rotation);
-        this.scale = new Vector2();
+        this.scale = scale;
         this.prevPosition = new Vector2();
     }
 

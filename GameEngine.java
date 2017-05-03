@@ -47,7 +47,6 @@ public class GameEngine extends Engine {
 	public void start() {
 		super.start();
 		collisionEngine.start();
-		collisionEngine.start();
 		physicsEngine.start();
 		renderEngine.start();
 	}
