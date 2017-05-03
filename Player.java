@@ -22,7 +22,7 @@ public class Player extends GameObject {
         Sprite newSprite = new Sprite(image);
         this.renderer.sprite = newSprite;
 
-        this.rigidbody = new Rigidbody(new Circle(50), 0,0);
+        //this.rigidbody = new Rigidbody(new Circle(50), 0,0);
     }
 
     public void bindInput() {
