@@ -1,14 +1,46 @@
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
+
 public abstract class Engine implements Runnable {
     protected boolean isRunning;
+
+    protected transient volatile GameObject[] objects;
+
     protected Thread engineThread;
+    protected ReentrantLock lock;
+
+    public Engine() {
+        init();
+    }
 
     public void init() {
-        isRunning = true;
-
+        objects = new GameObject[0];
         if(engineThread == null) {
             engineThread = new Thread(this);
         }
 
+        if(lock == null) {
+            lock = new ReentrantLock();
+        }
+    }
+
+    public void addObject(GameObject obj) {
+        lock.lock();
+        System.out.println(this.getClass().getSimpleName() + " added object");
+        try {
+            GameObject[] elements = objects;
+            int length = elements.length;
+            GameObject[] newElements = Arrays.copyOf(elements, length+1);
+            newElements[length] = obj;
+            objects = newElements;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void start() {
+        isRunning = true;
         engineThread.start();
     }
     
@@ -63,6 +95,15 @@ public abstract class Engine implements Runnable {
 				now = System.nanoTime();
 			}
 		}
+    }
+
+    public ReentrantLock getLock() {
+        if(engineThread != null) {
+            return lock;
+        } else {
+            System.out.println("Thread does not exists!");
+            return null;
+        }
     }
 
  
