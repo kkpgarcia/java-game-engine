@@ -7,7 +7,7 @@ public class PhysicsEngineTest {
         Input input = new Input(screen);
 
         GameEngine game = new GameEngine(screen);
-
+        /*
         Player player = new Player();
         player.input = input;
         player.transform.position = new Vector2(0,0);
@@ -48,6 +48,6 @@ public class PhysicsEngineTest {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
-        game.init();
+        game.init();*/
     }
 }

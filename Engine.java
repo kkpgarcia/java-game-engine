@@ -1,4 +1,4 @@
-public abstract class Engine {
+public abstract class Engine implements Runnable {
     protected boolean isRunning;
     protected Thread engineThread;
 
@@ -6,17 +6,13 @@ public abstract class Engine {
         isRunning = true;
 
         if(engineThread == null) {
-            engineThread = new Thread() {
-                public void run() {
-                    runEngine();
-                }
-            };
+            engineThread = new Thread(this);
         }
 
         engineThread.start();
     }
     
-    protected synchronized void runEngine() {
+    public void run() {
         final double GAME_HERTZ = 30;
 		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
 		final int MAX_UPDATES_BEFORE_RENDER = 5;
@@ -34,8 +30,8 @@ public abstract class Engine {
 			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
                 //Check InvokeLater
                 updateMainEngine();
-                updatePhysicsEngine();
                 updateCollisionEngine();
+                updatePhysicsEngine();
                 updateUIEngine();
                 updateAudioEngine();
 				lastUpdateTime += TIME_BETWEEN_UPDATES;

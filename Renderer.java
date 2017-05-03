@@ -20,12 +20,12 @@ public class Renderer {
     public void render(Transform transform, Graphics2D g) {
         originalTransform = g.getTransform();
         g.translate((Screen.width/2), (Screen.height/2));
-
+        
         if(sprite == null || sprite.image == null)
             return;
         
-        int x = (int)((transform.position.x /*- Camera.transform.position.x*/ - sprite.width/2) + Screen.width/2);
-        int y = (int)((transform.position.y /*- Camera.transform.position.y*/ - sprite.height/2) + Screen.height/2);
+        int x = (int)((transform.position.x/*- Camera.transform.position.x*/ - sprite.width/2));
+        int y = (int)((transform.position.y/*- Camera.transform.position.y*/ - sprite.height/2));
         if(!flipped) {
             g.drawImage(
                 sprite.image,
@@ -36,7 +36,7 @@ public class Renderer {
         } else {
             g.drawImage(
                 sprite.image,
-                x,
+                x, // Somthing here needs to be fixed,
                 y,
                 -sprite.width,
                 sprite.height,

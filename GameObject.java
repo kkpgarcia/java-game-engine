@@ -5,12 +5,13 @@ import java.awt.Color;
 public abstract class GameObject {
 
     public Transform transform;
-    //public BoundingBox2D boundingBox;
     public Renderer renderer;
     public Rigidbody rigidbody;
 
+    //To be omitted
     public Color color;
 
+    //To be omitted
     public boolean isTrigger = false;
 
 	public GameObject() {
