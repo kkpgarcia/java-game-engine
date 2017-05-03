@@ -21,7 +21,7 @@ public class Renderer {
         originalTransform = g.getTransform();
         g.translate((Screen.width/2), (Screen.height/2));
 
-        if(sprite == null)
+        if(sprite == null || sprite.image == null)
             return;
         
         int x = (int)((transform.position.x /*- Camera.transform.position.x*/ - sprite.width/2) + Screen.width/2);

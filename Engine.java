@@ -16,7 +16,7 @@ public abstract class Engine {
         engineThread.start();
     }
     
-    protected void runEngine() {
+    protected synchronized void runEngine() {
         final double GAME_HERTZ = 30;
 		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
 		final int MAX_UPDATES_BEFORE_RENDER = 5;
@@ -32,10 +32,11 @@ public abstract class Engine {
 			int updateCount = 0;
 
 			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                updateCollisionEngine();
+                //Check InvokeLater
                 updateMainEngine();
-                updateUIEngine();
                 updatePhysicsEngine();
+                updateCollisionEngine();
+                updateUIEngine();
                 updateAudioEngine();
 				lastUpdateTime += TIME_BETWEEN_UPDATES;
 				updateCount++;
