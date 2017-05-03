@@ -6,6 +6,10 @@ public class BoundingBox2D {
     public boolean isCollided;
 
     public BoundingBox2D() {
+<<<<<<< HEAD
+=======
+		//Hi Kyle
+>>>>>>> parent of 32582f4... Conflict Demo
         this.min = new Vector2();
         this.max = new Vector2();
         empty();
