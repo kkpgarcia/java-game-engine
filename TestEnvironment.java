@@ -24,6 +24,6 @@ public class TestEnvironment {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
-		game.init();
+		game.start();
     }
 }

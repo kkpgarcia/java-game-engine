@@ -21,6 +21,8 @@ public class Player extends GameObject {
         BufferedImage image = Resources.loadImage("Assets/test.png");
         Sprite newSprite = new Sprite(image);
         this.renderer.sprite = newSprite;
+
+        this.rigidbody = new Rigidbody(new Circle(50), 0,0);
     }
 
     public void bindInput() {
@@ -53,6 +55,8 @@ public class Player extends GameObject {
 
         if(spaceBar.isPressed()) {
             System.out.println("Creating new Object!");
+            Player player2 = new Player();
+            GameEngine.instance.addObject(player2);
         }
     }
 }
