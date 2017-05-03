@@ -5,6 +5,7 @@ import java.awt.Color;
 public abstract class GameObject {
 
     public Transform transform;
+    public BoundingBox2D boundingbox;
     public Renderer renderer;
     public Rigidbody rigidbody;
 
@@ -29,6 +30,18 @@ public abstract class GameObject {
 
     public void reset(Graphics2D g) {
         renderer.reset(g);
+    }
+
+    public void onCollisionEnter(GameObject obj) {
+
+    }
+
+    public void onCollisionStay(GameObject obj) {
+
+    }
+
+    public void onCollisionExit(GameObject obj) {
+
     }
 
     public static void instantiate(GameObject obj) {

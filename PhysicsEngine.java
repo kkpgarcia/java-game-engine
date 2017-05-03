@@ -32,7 +32,7 @@ public class PhysicsEngine extends Engine {
 				{
 					continue;
 				}
-
+				
 				Manifold m = new Manifold( A, B );
 				m.solve();
 
