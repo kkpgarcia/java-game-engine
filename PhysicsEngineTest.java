@@ -15,6 +15,7 @@ public class PhysicsEngineTest {
         player.renderer.sprite = new Sprite();
         Rigidbody rigidbody = new Rigidbody(new Circle(10.0f), 0,0);
         player.rigidbody = rigidbody;
+        //rigidbody.setStatic();
         player.bindInput();
 
         Enemy other = new Enemy();

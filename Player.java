@@ -13,6 +13,7 @@ public class Player extends GameObject {
     private InputAction moveRight;
     public Player() {
         super();
+        //this.rigidbody.setStatic();
     }
     
     public void bindInput() {
@@ -33,25 +34,30 @@ public class Player extends GameObject {
         //Vector2 axis = new Vector2();
 
         if(moveLeft.isPressed()) {
-            //this.rigidbody.position.add(new Vec2(-100,0));
+            this.rigidbody.applyForce(new Vector2(-500, 0));
+            
+            this.rigidbody.position = this.rigidbody.position.add(new Vector2(-5,0));
             //this.normalDirection.x = -1;
         } //else if(!moveLeft.isPressed() && !moveRight.isPressed()) {
            // this.normalDirection.x = 0;
         //}//
         if(moveRight.isPressed()) {
-            //this.rigidbody.translate(new Vec2(100,0));
+            this.rigidbody.applyForce(new Vector2(500, 0));
+            this.rigidbody.position = this.rigidbody.position.add(new Vector2(5,0));
          //   this.normalDirection.x = 1;
         } //else if(!moveLeft.isPressed() && !moveRight.isPressed()){
           //  this.normalDirection.x = 0;
        // }
         if(moveUp.isPressed()) {
-            //this.rigidbody.position.add(new Vec2(0, -100));
+            this.rigidbody.applyForce(new Vector2(0, -500));
+            this.rigidbody.position = this.rigidbody.position.add(new Vector2(0, -5));
            // this.normalDirection.y = -1;
         }// else if(!moveUp.isPressed() && !moveDown.isPressed()){
            // this.normalDirection.y = 0;
         //}
         if(moveDown.isPressed()) {
-            //this.rigidbody.position.add(new Vec2(0, 100));
+            this.rigidbody.applyForce(new Vector2(0, 500));
+           this.rigidbody.position =  this.rigidbody.position.add(new Vector2(0, 5));
           //  this.normalDirection.y = 1;
         } //else if(!moveUp.isPressed() && !moveDown.isPressed()){
             //this.normalDirection.y = 0;

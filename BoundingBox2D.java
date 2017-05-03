@@ -63,10 +63,10 @@ public class BoundingBox2D {
     }
 
     public boolean contains(Vector2 v) {
-        return Comparison.tolerantLesserThanOrEquals(min.x, v.x)
-        && Comparison.tolerantLesserThanOrEquals(v.x, max.x)
-        && Comparison.tolerantLesserThanOrEquals(min.y, v.y)
-        && Comparison.tolerantLesserThanOrEquals(v.y, max.y);
+        return MathEx.tolerantLesserThanOrEquals(min.x, v.x)
+        && MathEx.tolerantLesserThanOrEquals(v.x, max.x)
+        && MathEx.tolerantLesserThanOrEquals(min.y, v.y)
+        && MathEx.tolerantLesserThanOrEquals(v.y, max.y);
     }
 
     public boolean isOverlapping(BoundingBox2D otherBox) {

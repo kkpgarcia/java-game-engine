@@ -19,7 +19,7 @@ public class Rigidbody {
 		velocity.set( 0, 0 );
 		angularVelocity = 0;
 		torque = 0;
-		orient = ImpulseMath.random( -ImpulseMath.PI, ImpulseMath.PI );
+		orient = MathEx.random( -MathEx.PI, MathEx.PI );
 		force.set( 0, 0 );
 		staticFriction = 0.5f;
 		dynamicFriction = 0.3f;
@@ -32,7 +32,6 @@ public class Rigidbody {
 	public void applyForce( Vector2 f ) {
 		//force.addi( f );
 		force = force.add(f);
-		
 	}
 
 	public void applyImpulse( Vector2 impulse, Vector2 contactVector ) {
