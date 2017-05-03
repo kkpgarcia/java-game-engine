@@ -7,6 +7,7 @@ public class BoundingBox2D {
 
     public BoundingBox2D() {
 		//Hi Kyle
+		//Boo
         this.min = new Vector2();
         this.max = new Vector2();
         empty();
