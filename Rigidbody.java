@@ -1,5 +1,7 @@
 public class Rigidbody {
 	public Vector2 position = new Vector2();
+	public Vector2 prevPosition = new Vector2();
+	public Vector2 deltaPosition = new Vector2();
 	public Vector2 velocity = new Vector2();
 	public Vector2 force = new Vector2();
 	public float angularVelocity;
@@ -11,11 +13,11 @@ public class Rigidbody {
 	public float restitution;
 	public Shape shape;
 
-	public Rigidbody( Shape shape, int x, int y )
-	{
+	public Rigidbody( Shape shape, int x, int y ) {
 		this.shape = shape;
 
 		position.set( x, y );
+		deltaPosition.set(x, y);
 		velocity.set( 0, 0 );
 		angularVelocity = 0;
 		torque = 0;
@@ -28,7 +30,6 @@ public class Rigidbody {
 		shape.body = this;
 		shape.initialize();
 	}
-
 	public void applyForce( Vector2 f ) {
 		//force.addi( f );
 		force = force.add(f);
@@ -45,6 +46,16 @@ public class Rigidbody {
 		invInertia = 0.0f;
 		mass = 0.0f;
 		invMass = 0.0f;
+	}
+
+	public void clearForces() {
+		force.set( 0, 0 );
+		torque = 0;
+	}
+
+	public void clearVelocity() {
+		//clearForces();
+		velocity.set(0,0);
 	}
 
 	public void setOrient( float radians ) {
