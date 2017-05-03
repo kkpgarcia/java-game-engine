@@ -30,4 +30,12 @@ public abstract class GameObject {
     public void reset(Graphics2D g) {
         renderer.reset(g);
     }
+
+    public static void instantiate(GameObject obj) {
+        GameEngine.instance.addObject(obj);
+    }
+    
+    public static void destroy(GameObject obj) {
+        GameEngine.instance.removeObject(obj);
+    }
 }

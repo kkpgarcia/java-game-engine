@@ -23,8 +23,17 @@ public class GameEngine extends Engine {
 		
 		renderEngine.addObject(obj);
 		
-		if(obj.renderer != null);
+		if(obj.rigidbody != null);
 			physicsEngine.addObject(obj);
+	}
+
+	public void removeObject(GameObject obj) {
+		super.removeObject(obj);
+
+		renderEngine.removeObject(obj);
+
+		if(obj.rigidbody != null)
+			physicsEngine.removeObject(obj);
 	}
 
 	public void start() {

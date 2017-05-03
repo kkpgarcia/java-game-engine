@@ -29,6 +29,10 @@ public class Screen extends JPanel {
 		objects.add(dc);
 	}
 
+	public void removeDrawingComponents(GameObject obj) {
+		objects.remove(obj);
+	}
+
 	public void update() {
         width = getSize().width;
         height = getSize().height;

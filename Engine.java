@@ -27,13 +27,26 @@ public abstract class Engine implements Runnable {
 
     public void addObject(GameObject obj) {
         lock.lock();
-        System.out.println(this.getClass().getSimpleName() + " added object");
+        
         try {
             GameObject[] elements = objects;
             int length = elements.length;
             GameObject[] newElements = Arrays.copyOf(elements, length+1);
             newElements[length] = obj;
             objects = newElements;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void removeObject(GameObject obj) {
+        lock.lock();
+        
+        try {
+            GameObject[] elements = objects;
+            ArrayList<GameObject> newElements = new ArrayList<GameObject>(Arrays.asList(elements));
+            newElements.remove(obj);
+            objects = newElements.toArray(new GameObject[elements.length-1]);
         } finally {
             lock.unlock();
         }
@@ -79,7 +92,7 @@ public abstract class Engine implements Runnable {
 			int thisSecond = (int) (lastUpdateTime / 1000000000);
 
 			if(thisSecond > lastSecondTime) {
-				System.out.println(this.getClass().getSimpleName() + " " + thisSecond);
+				//System.out.println(this.getClass().getSimpleName() + " " + thisSecond);
 				lastSecondTime = thisSecond;
 			}
 

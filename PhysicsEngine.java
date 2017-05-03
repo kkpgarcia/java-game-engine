@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class PhysicsEngine extends Engine {
     public float dt;
     public int iterations;
-    //public ArrayList<Rigidbody> bodies = new ArrayList<Rigidbody>();
     public ArrayList<Manifold> contacts = new ArrayList<Manifold>();
 
     public PhysicsEngine(float dt, int iterations) {
@@ -11,10 +10,6 @@ public class PhysicsEngine extends Engine {
         this.dt = dt;
         this.iterations = iterations;
     }
-
-    /*public void addRigidbody(GameObject object) {
-        bodies.add(object.rigidbody);
-    }*/
 
     public void updatePhysicsEngine() {
         contacts.clear();
