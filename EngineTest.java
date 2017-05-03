@@ -17,6 +17,11 @@ public class EngineTest {
         GameEngine game = new GameEngine(screen);
 
         Alien alien = new Alien();
+        alien.input = input;
+        alien.bindInput();
+        PinkAlien pink = new PinkAlien();
+
+        game.addObject(pink);
         game.addObject(alien);
 
         window.add(screen);
@@ -26,11 +31,12 @@ public class EngineTest {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
-        game.init();
+        game.start();
     }
 
     class Alien extends GameObject {
         public Input input;
+        private float movementSpeed = 5;
 
         private InputAction rightArrow = new InputAction("right");
         private InputAction leftArrow  = new InputAction("left");
@@ -44,8 +50,9 @@ public class EngineTest {
 
         public void initialize() {
             this.transform.scale.set(4,4);
-            BufferedImage image = Resources.loadImage("Assets/green-alien.png");
+            BufferedImage image = Resources.loadImage("Assets/green-alien-2.png");
             this.renderer.sprite = new Sprite(image);
+            this.rigidbody = new Rigidbody(new Circle(50), 0,0);
         }
 
         public void bindInput() {
@@ -56,11 +63,33 @@ public class EngineTest {
         }
 
         public void update() {
-            if(rightArrow.isPressed()) this.transform.position.x += 1;
-            if(leftArrow.isPressed()) this.transform.position.x -= 1;
-            if(upArrow.isPressed()) this.transform.position.y -= 1;
-            if(downArrow.isPressed()) this.transform.position.y += 1;
-        
+            if(rightArrow.isPressed()) {
+                if(this.renderer.flipped)
+                    this.renderer.flipped = !this.renderer.flipped;
+                this.transform.position.x += movementSpeed;
+            }
+            if(leftArrow.isPressed()) {
+                if(!this.renderer.flipped)
+                    this.renderer.flipped = !this.renderer.flipped;
+
+                this.transform.position.x -= movementSpeed;
+            }
+            if(upArrow.isPressed()) this.transform.position.y -= movementSpeed;
+            if(downArrow.isPressed()) this.transform.position.y += movementSpeed;
+        }
+    }
+
+    class PinkAlien extends GameObject {
+        public PinkAlien() {
+            super();
+            initialize();
+        }
+
+        public void initialize() {
+            this.transform.scale.set(4,4);
+            BufferedImage image = Resources.loadImage("Assets/pink-alien.png");
+            this.renderer.sprite = new Sprite(image);
+            this.rigidbody = new Rigidbody(new Circle(50), 0,0);
         }
     }
 }

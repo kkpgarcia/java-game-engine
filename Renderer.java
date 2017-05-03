@@ -21,30 +21,35 @@ public class Renderer {
         originalTransform = g.getTransform();
         g.translate((Screen.width/2), (Screen.height/2));
         
-        if(sprite == null || sprite.image == null)
+        if(sprite == null || sprite.image == null) {
+            reset(g);
             return;
+        }
+        int width = sprite.width * (int)transform.scale.x;
+        int height = sprite.height * (int)transform.scale.y;
         
-        int x = (int)((transform.position.x/*- Camera.transform.position.x*/ - (sprite.width * (int)transform.scale.x)/2));
-        int y = (int)((transform.position.y/*- Camera.transform.position.y*/ - (sprite.height * (int)transform.scale.y)/2));
+        int x = (int)((transform.position.x/*- Camera.transform.position.x*/ - (width)/2));
+        int y = (int)((transform.position.y/*- Camera.transform.position.y*/ - (height)/2));
         if(!flipped) {
             g.drawImage(
                 sprite.image,
                 x,
                 y,
-                sprite.width * (int)transform.scale.x,
-                sprite.height * (int)transform.scale.y,
+                width,
+                height,
                 null
             );
         } else {
             g.drawImage(
                 sprite.image,
-                x, // Somthing here needs to be fixed,
+                x + width,
                 y,
-                -sprite.width * (int)transform.scale.x,
-                sprite.height * (int)transform.scale.y,
+                -width,
+                height,
                 null
             );
         }
+        reset(g);
     }
 
     public void reset(Graphics2D g) {
