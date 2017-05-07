@@ -7,17 +7,12 @@ public class CollisionCircleCircle implements CollisionCallback {
 		Circle B = (Circle)b.shape;
 
 		// Calculate translational vector, which is normal
-		// Vec2 normal = b->position - a->position;
 		Vector2 normal = b.position.subtract( a.position );
-
-		// real dist_sqr = normal.LenSqr( );
-		// real radius = A->radius + B->radius;
 		float dist_sqr = normal.lengthSq();
 		float radius = A.radius + B.radius;
 
 		// Not in contact
-		if (dist_sqr >= radius * radius)
-		{
+		if (dist_sqr >= radius * radius) {
 			m.contactCount = 0;
 			return;
 		}
@@ -26,21 +21,11 @@ public class CollisionCircleCircle implements CollisionCallback {
 
 		m.contactCount = 1;
 
-		if (distance == 0.0f)
-		{
-			// m->penetration = A->radius;
-			// m->normal = Vec2( 1, 0 );
-			// m->contacts [0] = a->position;
+		if (distance == 0.0f) {
 			m.penetration = A.radius;
 			m.normal.set( 1.0f, 0.0f );
 			m.contacts[0].set( a.position );
-		}
-		else
-		{
-			// m->penetration = radius - distance;
-			// m->normal = normal / distance; // Faster than using Normalized since
-			// we already performed sqrt
-			// m->contacts[0] = m->normal * A->radius + a->position;
+		} else {
 			m.penetration = radius - distance;
 			m.normal.set( normal ).dividei( distance );
 			m.contacts[0].set( m.normal ).multiplyi( A.radius ).addi( a.position );
