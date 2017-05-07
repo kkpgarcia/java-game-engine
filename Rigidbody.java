@@ -21,7 +21,8 @@ public class Rigidbody {
 		velocity.set( 0, 0 );
 		angularVelocity = 0;
 		torque = 0;
-		orient = MathEx.random( -MathEx.PI, MathEx.PI );
+		orient = 0;
+		//orient = MathEx.random( -MathEx.PI, MathEx.PI );
 		force.set( 0, 0 );
 		staticFriction = 0.5f;
 		dynamicFriction = 0.3f;

@@ -15,11 +15,11 @@ public abstract class GameObject {
 	}
 
 	public void update() {
-        this.transform.position = this.rigidbody.position;//this.transform.position.add(rigidbody.deltaPosition);
+        this.transform.position = this.rigidbody.position;
     }
 
 	public void render(Graphics2D g) {
-		renderer.render(transform, g, boundingbox);
+		renderer.render(transform, g);
 	}
 
     public void reset(Graphics2D g) {

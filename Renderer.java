@@ -16,15 +16,9 @@ public class Renderer {
         this.flipped = false;
     }
 
-    public void render(Transform transform, Graphics2D g, BoundingBox2D bb) {
+    public void render(Transform transform, Graphics2D g) {
         originalTransform = g.getTransform();
         g.translate((Screen.width/2), (Screen.height/2));
-        
-        g.setColor(java.awt.Color.RED);
-        g.drawRect((int)((bb.min.x + bb.max.x)/2) - 50, (int)((bb.min.y + bb.max.y)/2) - 50, 100,100);
-        
-        /*g.setColor(java.awt.Color.BLUE);
-        g.drawRect((int)bb.min.y, (int)bb.max.y, 40,40);*/
 
         if(sprite == null || sprite.image == null) {
             reset(g);

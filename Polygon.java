@@ -23,6 +23,16 @@ public class Polygon extends Shape {
 	@Override
 	public Shape clone()
 	{
+//		PolygonShape *poly = new PolygonShape( );
+//	    poly->u = u;
+//	    for(uint32 i = 0; i < m_vertexCount; ++i)
+//	    {
+//	      poly->m_vertices[i] = m_vertices[i];
+//	      poly->m_normals[i] = m_normals[i];
+//	    }
+//	    poly->m_vertexCount = m_vertexCount;
+//	    return poly;
+
 		Polygon p = new Polygon();
 		p.u.set( u );
 		for (int i = 0; i < vertexCount; i++)
@@ -63,25 +73,22 @@ public class Polygon extends Shape {
 
 			// Use area to weight the centroid average, not just vertex position
 			float weight = triangleArea * k_inv3;
-			//c = c.add( p1).multiply( weight );
-			//c = c.add( p2).multiply( weight );
-			c.addscalei(p1, weight);
-			c.addscalei(p2, weight);
-
+			c.addscalei( p1, weight );
+			c.addscalei( p2, weight );
 
 			float intx2 = p1.x * p1.x + p2.x * p1.x + p2.x * p2.x;
 			float inty2 = p1.y * p1.y + p2.y * p1.y + p2.y * p2.y;
 			I += (0.25f * k_inv3 * D) * (intx2 + inty2);
 		}
 
-		c = c.multiplyi( 1.0f / area );
+		c.multiplyi( 1.0f / area );
 
 		// Translate vertices to centroid (make the centroid (0, 0)
 		// for the polygon in model space)
 		// Not really necessary, but I like doing this anyway
 		for (int i = 0; i < vertexCount; ++i)
 		{
-			vertices[i] = vertices[i].subtract( c );
+			vertices[i].subtracti( c );
 		}
 
 		body.mass = density * area;
@@ -120,16 +127,20 @@ public class Polygon extends Shape {
 		// Find the right most point on the hull
 		int rightMost = 0;
 		float highestXCoord = verts[0].x;
-		for (int i = 1; i < verts.length; ++i){
+		for (int i = 1; i < verts.length; ++i)
+		{
 			float x = verts[i].x;
 
-			if (x > highestXCoord) {
+			if (x > highestXCoord)
+			{
 				highestXCoord = x;
 				rightMost = i;
 			}
 			// If matching x then take farthest negative y
-			else if (x == highestXCoord) {
-				if (verts[i].y < verts[rightMost].y) {
+			else if (x == highestXCoord)
+			{
+				if (verts[i].y < verts[rightMost].y)
+				{
 					rightMost = i;
 				}
 			}
@@ -139,17 +150,20 @@ public class Polygon extends Shape {
 		int outCount = 0;
 		int indexHull = rightMost;
 
-		for (;;) {
+		for (;;)
+		{
 			hull[outCount] = indexHull;
 
 			// Search for next index that wraps around the hull
 			// by computing cross products to find the most counter-clockwise
 			// vertex in the set, given the previos hull index
 			int nextHullIndex = 0;
-			for (int i = 1; i < verts.length; ++i) {
+			for (int i = 1; i < verts.length; ++i)
+			{
 				// Skip if same coordinate as we need three unique
 				// points in the set to perform a cross product
-				if (nextHullIndex == indexHull) {
+				if (nextHullIndex == indexHull)
+				{
 					nextHullIndex = i;
 					continue;
 				}
@@ -157,16 +171,19 @@ public class Polygon extends Shape {
 				// Cross every set of three unique vertices
 				// Record each counter clockwise third vertex and add
 				// to the output hull
+				// See : http://www.oocities.org/pcgpe/math2d.html
 				Vector2 e1 = verts[nextHullIndex].subtract( verts[hull[outCount]] );
 				Vector2 e2 = verts[i].subtract( verts[hull[outCount]] );
 				float c = Vector2.cross( e1, e2 );
-				if (c < 0.0f) {
+				if (c < 0.0f)
+				{
 					nextHullIndex = i;
 				}
 
 				// Cross product is zero then e vectors are on same line
 				// therefore want to record vertex farthest along that line
-				if (c == 0.0f && e2.lengthSq() > e1.lengthSq()) {
+				if (c == 0.0f && e2.lengthSq() > e1.lengthSq())
+				{
 					nextHullIndex = i;
 				}
 			}

@@ -115,8 +115,8 @@ public class PhysicsEngine extends Engine {
 		//b.position.addi( b.velocity.multiply( dt ) );
 		//b.deltaPosition = b.position.subtract(b.prevPosition);
 		b.position.addscalei(b.velocity, dt);
-		//b.orient += b.angularVelocity * dt;
-		//b.setOrient( b.orient );
+		b.orient += b.angularVelocity * dt;
+		b.setOrient( 0 );
 
 		//System.out.println(b.deltaPosition.toString());
 

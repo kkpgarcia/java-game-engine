@@ -61,7 +61,7 @@ public class EngineTest {
             this.transform.scale.set(4,4);
             BufferedImage image = Resources.loadImage("Assets/green-alien-2.png");
             this.renderer.sprite = new Sprite(image);
-            this.rigidbody = new Rigidbody(new Circle(40), 0,0);
+            this.rigidbody = new Rigidbody(new Polygon(40,40), 0,0);
             this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
         }
 
@@ -144,7 +144,7 @@ public class EngineTest {
             this.transform.scale.set(4,4);
             BufferedImage image = Resources.loadImage("Assets/pink-alien.png");
             this.renderer.sprite = new Sprite(image);
-            this.rigidbody = new Rigidbody(new Circle(40), 0,0);
+            this.rigidbody = new Rigidbody(new Polygon(40,40), 0,0);
             this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
             //this.rigidbody.setStatic();
         }
