@@ -3,33 +3,35 @@ import java.util.ArrayList;
 public class PhysicsEngine extends Engine {
     public float dt;
     public int iterations;
-    public ArrayList<Rigidbody> bodies = new ArrayList<Rigidbody>();
     public ArrayList<Manifold> contacts = new ArrayList<Manifold>();
 
     public PhysicsEngine(float dt, int iterations) {
+		super();
         this.dt = dt;
         this.iterations = iterations;
     }
 
-    public void addRigidbody(GameObject object) {
-        bodies.add(object.rigidbody);
-    }
-
     public void updatePhysicsEngine() {
         contacts.clear();
-		for (int i = 0; i < bodies.size(); ++i)
+
+		for (int i = 0; i < objects.length; ++i)
 		{
-			Rigidbody A = bodies.get( i );
+			Rigidbody A = objects[i].rigidbody;
 
-			for (int j = i + 1; j < bodies.size(); ++j)
+			if(A == null)
+				continue;
+
+			for (int j = i + 1; j < objects.length; ++j)
 			{
-				Rigidbody B = bodies.get( j );
+				Rigidbody B = objects[j].rigidbody;
 
-				if (A.invMass == 0 && B.invMass == 0)
-				{
+				if(B == null)
+					continue;
+
+				if (A.invMass == 0 && B.invMass == 0) {
 					continue;
 				}
-
+				
 				Manifold m = new Manifold( A, B );
 				m.solve();
 
@@ -41,51 +43,46 @@ public class PhysicsEngine extends Engine {
 		}
 
 		// Integrate forces
-		for (int i = 0; i < bodies.size(); ++i)
-		{
-			integrateForces( bodies.get( i ), dt );
+		for (int i = 0; i < objects.length; ++i) {
+			integrateForces( objects[i].rigidbody, dt );
 		}
 
 		// Initialize collision
-		for (int i = 0; i < contacts.size(); ++i)
-		{
-			contacts.get( i ).initialize();
+		for (int i = 0; i < contacts.size(); ++i) {
+			contacts.get(i).initialize();
 		}
 
 		// Solve collisions
-		for (int j = 0; j < iterations; ++j)
-		{
-			for (int i = 0; i < contacts.size(); ++i)
-			{
-				contacts.get( i ).applyImpulse();
+		for (int j = 0; j < iterations; ++j) {
+			for (int i = 0; i < contacts.size(); ++i){
+				contacts.get(i).applyImpulse();
 			}
 		}
 
 		// Integrate velocities
-		for (int i = 0; i < bodies.size(); ++i)
+		for (int i = 0; i < objects.length; ++i)
 		{
-			integrateVelocity( bodies.get( i ), dt );
+			integrateVelocity( objects[i].rigidbody, dt );
 		}
 
 		// Correct positions
 		for (int i = 0; i < contacts.size(); ++i)
 		{
-			contacts.get( i ).positionalCorrection();
+			contacts.get(i).positionalCorrection();
 		}
 
 		// Clear all forces
-		for (int i = 0; i < bodies.size(); ++i)
+		for (int i = 0; i < objects.length; ++i)
 		{
-			Rigidbody b = bodies.get( i );
-			b.force.set( 0, 0 );
-			b.torque = 0;
+			if(objects[i].rigidbody != null)
+				objects[i].rigidbody.clearForces();
 		}
     }
 
     public void clear()
 	{
 		contacts.clear();
-		bodies.clear();
+		//objects.clear();
 	}
 
 	// Acceleration
@@ -101,25 +98,31 @@ public class PhysicsEngine extends Engine {
 	// x += v * dt
 	public void integrateForces( Rigidbody b, float dt )
 	{
+		if(b == null)
+			return;
+
 		if (b.invMass == 0.0f) {
 			return;
 		}
 
 		float dts = dt * 0.5f;
-		b.velocity = b.velocity.add(b.force.multiply(b.invMass * dts ));
-		b.velocity = b.velocity.add(MathEx.GRAVITY.multiply(dts));
-		b.angularVelocity += b.torque * b.invInertia * dts;
+		b.velocity.addscalei(b.force, b.invMass * dt);
+		b.velocity.addscalei(MathEx.GRAVITY, dt);
+		b.angularVelocity += b.torque * b.invInertia * dt;
 	}
 
 	public void integrateVelocity( Rigidbody b, float dt ) {
-        if (b.invMass == 0.0f)
-		{
+		
+		if(b == null)
+			return;
+
+        if (b.invMass == 0.0f) {
 			return;
 		}
 
-		b.position = b.position.add( b.velocity.multiply( dt ) );
+		b.position.addscalei(b.velocity, dt);
 		b.orient += b.angularVelocity * dt;
-		b.setOrient( b.orient );
+		b.setOrient( 0 );
 
 		integrateForces( b, dt );
 	}

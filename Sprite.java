@@ -30,9 +30,9 @@ public class Sprite {
     * @param image image to be contained
     */
     public Sprite(BufferedImage image) {
-        image = image;
-        width = image.getWidth();
-        height = image.getHeight();
+        this.image = image;
+        this.width = image.getWidth();
+        this.height = image.getHeight();
     }
 
     /**

@@ -1,87 +1,73 @@
-import java.awt.Graphics2D;
-import java.awt.Color;
 import java.awt.event.KeyEvent;
-//import org.magnos.impulse;
+import java.awt.image.BufferedImage;
+
 
 public class Player extends GameObject {
-   
-    Input input;
 
-    private InputAction moveUp;
-    private InputAction moveDown;
-    private InputAction moveLeft;
-    private InputAction moveRight;
+    public Input input;
+
+    private InputAction rightArrow = new InputAction("right");
+    private InputAction leftArrow  = new InputAction("left");
+    private InputAction upArrow = new InputAction("up");
+    private InputAction downArrow = new InputAction("down");
+    private InputAction spaceBar = new InputAction("space", InputAction.ON_PRESS);
+    private InputAction backSpace = new InputAction("backSpace", InputAction.ON_PRESS);
+
+    private Player p2;
+
     public Player() {
         super();
-        //this.rigidbody.setStatic();
+        initialize();
     }
-    
+
+    public void initialize() {
+        this.transform.scale.set(4,4);
+
+        BufferedImage image = Resources.loadImage("Assets/green-alien.png");
+        Sprite newSprite = new Sprite(image);
+        this.renderer.sprite = newSprite;
+
+        //this.rigidbody = new Rigidbody(new Circle(50), 0,0);
+    }
+
     public void bindInput() {
-        moveUp = new InputAction("up");
-        moveDown = new InputAction("down");
-        moveLeft = new InputAction("left");
-        moveRight = new InputAction("right");
-
-        input.mapToKey(moveUp, KeyEvent.VK_UP);
-        input.mapToKey(moveDown, KeyEvent.VK_DOWN);
-        input.mapToKey(moveLeft, KeyEvent.VK_LEFT);
-        input.mapToKey(moveRight, KeyEvent.VK_RIGHT);
+        input.mapToKey(rightArrow, KeyEvent.VK_RIGHT);
+        input.mapToKey(leftArrow, KeyEvent.VK_LEFT);
+        input.mapToKey(upArrow, KeyEvent.VK_UP);
+        input.mapToKey(downArrow, KeyEvent.VK_DOWN);
+        input.mapToKey(spaceBar, KeyEvent.VK_SPACE);
+        input.mapToKey(backSpace, KeyEvent.VK_BACK_SPACE);
     }
 
-	public void update() {
-        super.update();
-        
-        //Vector2 axis = new Vector2();
+    public void update() {
+        //this.transform.position.x += 1;
+        //this.transform.position.y += 1;
 
-        if(moveLeft.isPressed()) {
-            this.rigidbody.applyForce(new Vector2(-500, 0));
-            
-            this.rigidbody.position = this.rigidbody.position.add(new Vector2(-5,0));
-            //this.normalDirection.x = -1;
-        } //else if(!moveLeft.isPressed() && !moveRight.isPressed()) {
-           // this.normalDirection.x = 0;
-        //}//
-        if(moveRight.isPressed()) {
-            this.rigidbody.applyForce(new Vector2(500, 0));
-            this.rigidbody.position = this.rigidbody.position.add(new Vector2(5,0));
-         //   this.normalDirection.x = 1;
-        } //else if(!moveLeft.isPressed() && !moveRight.isPressed()){
-          //  this.normalDirection.x = 0;
-       // }
-        if(moveUp.isPressed()) {
-            this.rigidbody.applyForce(new Vector2(0, -500));
-            this.rigidbody.position = this.rigidbody.position.add(new Vector2(0, -5));
-           // this.normalDirection.y = -1;
-        }// else if(!moveUp.isPressed() && !moveDown.isPressed()){
-           // this.normalDirection.y = 0;
-        //}
-        if(moveDown.isPressed()) {
-            this.rigidbody.applyForce(new Vector2(0, 500));
-           this.rigidbody.position =  this.rigidbody.position.add(new Vector2(0, 5));
-          //  this.normalDirection.y = 1;
-        } //else if(!moveUp.isPressed() && !moveDown.isPressed()){
-            //this.normalDirection.y = 0;
-        //}
-        
-		//this.transform.translate(this.velocity);
-	}
-
-    
-
-	public void render(Graphics2D g) {
-		super.render(g);
-
-        g.setColor(Color.RED);
-        g.translate(this.rigidbody.position.x, this.rigidbody.position.y);
-        g.drawOval((int)(-this.renderer.sprite.width/2),(int)(-this.renderer.sprite.height/2),(int)(this.renderer.sprite.width),(int)(this.renderer.sprite.height));
-
-        if(color == null) {
-            g.setColor(Color.BLACK);
-        } else {
-            g.setColor(color);
+        if(rightArrow.isPressed()) {
+            this.transform.position.x += 1;
         }
-		g.translate(this.transform.position.x, this.transform.position.y);
-		g.fillOval((int)(-this.renderer.sprite.width/2),(int)(-this.renderer.sprite.height/2),(int)(this.renderer.sprite.width),(int)(this.renderer.sprite.height));
-        super.reset(g);
-	}
+
+        if(leftArrow.isPressed()) {
+            this.transform.position.x -= 1;
+        }
+
+        if(upArrow.isPressed()) {
+            this.transform.position.y -= 1;
+        }
+
+        if(downArrow.isPressed()) {
+            this.transform.position.y += 1;
+        }
+
+        if(spaceBar.isPressed()) {
+            System.out.println("Creating new Object!");
+            p2 = new Player();
+            GameObject.instantiate(p2);
+        }
+
+        if(backSpace.isPressed()) {
+            System.out.println("Removing object");
+            GameObject.destroy(p2);
+        }
+    }
 }

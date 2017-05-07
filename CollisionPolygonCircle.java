@@ -7,7 +7,7 @@ public class CollisionPolygonCircle implements CollisionCallback {
 		CollisionCirclePolygon.instance.handleCollision(m, b, a); 
 		
 		if ( m.contactCount > 0 ) {
-			m.normal.negate();
+			m.normal.negatei();
 		}
 	}
 }

@@ -34,17 +34,17 @@ public class BoundingBox2D {
     public Vector2 getCenter() {
         Vector2 min = new Vector2(this.min.x, this.min.y);
         Vector2 max = new Vector2(this.max.x, this.max.y);
-        return min.add(max).multiply(0.5f);
+        return min.addi(max).multiplyi(0.5f);
     }
 
     public Vector2 getSize() {
         Vector2 min = new Vector2(this.min.x, this.min.y);
         Vector2 max = new Vector2(this.max.x, this.max.y);
-        return max.subtract(min);
+        return max.subtracti(min);
     }
 
     public Vector2 getRadiusVector() {
-        return getSize().multiply(0.5f);
+        return getSize().multiplyi(0.5f);
     }
 
     public float getRadius() {
@@ -81,10 +81,16 @@ public class BoundingBox2D {
             return;
 
         Vector2 center = getCenter();
-        min = min.subtract(center);
+        /*min = min.subtract(center);
         max = max.subtract(center);
         min = min.add(translation);
-        max = max.add(translation);
+        max = max.add(translation);*/
+
+        min.subtracti(center);
+        max.subtracti(center);
+        
+        min.addi(translation);
+        max.addi(translation);
     }
 
     public Vector2 getTopLeft() {
