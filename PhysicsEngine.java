@@ -18,9 +18,15 @@ public class PhysicsEngine extends Engine {
 		{
 			Rigidbody A = objects[i].rigidbody;
 
+			if(A == null)
+				continue;
+
 			for (int j = i + 1; j < objects.length; ++j)
 			{
 				Rigidbody B = objects[j].rigidbody;
+
+				if(B == null)
+					continue;
 
 				if (A.invMass == 0 && B.invMass == 0) {
 					continue;
@@ -71,7 +77,8 @@ public class PhysicsEngine extends Engine {
 			//Rigidbody b = objects[i].rigidbody;
 			//b.force.set( 0, 0 );
 			//b.torque = 0;
-			objects[i].rigidbody.clearForces();
+			if(objects[i].rigidbody != null)
+				objects[i].rigidbody.clearForces();
 		}
     }
 
@@ -94,6 +101,9 @@ public class PhysicsEngine extends Engine {
 	// x += v * dt
 	public void integrateForces( Rigidbody b, float dt )
 	{
+		if(b == null)
+			return;
+
 		if (b.invMass == 0.0f) {
 			return;
 		}
@@ -101,13 +111,16 @@ public class PhysicsEngine extends Engine {
 		float dts = dt * 0.5f;
 		//b.velocity.addi(b.force.multiply(b.invMass * dts ));
 		//b.velocity.addi(MathEx.GRAVITY.multiply(dts));
-		b.velocity.addscalei(b.force, b.invMass * dts);
-		b.velocity.addscalei(MathEx.GRAVITY, dts);
-		b.angularVelocity += b.torque * b.invInertia * dts;
+		b.velocity.addscalei(b.force, b.invMass * dt);
+		b.velocity.addscalei(MathEx.GRAVITY, dt);
+		b.angularVelocity += b.torque * b.invInertia * dt;
 	}
 
 	public void integrateVelocity( Rigidbody b, float dt ) {
 		
+		if(b == null)
+			return;
+
         if (b.invMass == 0.0f) {
 			return;
 		}

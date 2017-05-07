@@ -15,11 +15,12 @@ public abstract class GameObject {
 	}
 
 	public void update() {
-        this.transform.position = this.rigidbody.position;
+        if(this.rigidbody != null)
+            this.transform.position = this.rigidbody.position;
     }
 
 	public void render(Graphics2D g) {
-		renderer.render(transform, g);
+		renderer.render(transform, g, rigidbody);
 	}
 
     public void reset(Graphics2D g) {

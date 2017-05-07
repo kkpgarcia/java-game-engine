@@ -26,10 +26,10 @@ public class EngineTest {
         pink.input = input;
         pink.bindInput();
 
-        
-        /*for(int i = 0; i < platform.platforms.length; ++i) {
+        game.addObject(platform);
+        for(int i = 0; i < platform.platforms.length; ++i) {
             game.addObject(platform.platforms[i]);
-        }*/
+        }
         game.addObject(pink);
         game.addObject(alien);
 
@@ -51,6 +51,7 @@ public class EngineTest {
         private InputAction leftArrow  = new InputAction("left");
         private InputAction upArrow = new InputAction("up");
         private InputAction downArrow = new InputAction("down");
+        private InputAction spaceBar = new InputAction("space", InputAction.ON_PRESS);
 
         public Alien() {
             super();
@@ -70,59 +71,54 @@ public class EngineTest {
             input.mapToKey(leftArrow, KeyEvent.VK_LEFT);
             input.mapToKey(upArrow, KeyEvent.VK_UP);
             input.mapToKey(downArrow, KeyEvent.VK_DOWN);
+            input.mapToKey(spaceBar, KeyEvent.VK_SPACE);
         }
 
         @Override
         public void update() {
             super.update();
-            /*System.out.println("Position: " + this.transform.position);
-            System.out.println("Velocity: " + this.rigidbody.velocity);
-            System.out.println("Force: " + this.rigidbody.force);
-            System.out.println("A Velocity: " + this.rigidbody.angularVelocity);
-            System.out.println("Torque: " + this.rigidbody.torque);
-            System.out.println("Orient: " + this.rigidbody.orient);
-            System.out.println("Mass: " + this.rigidbody.mass);
-            System.out.println("InvMass: " + this.rigidbody.invMass);
-            System.out.println("Inertia: " + this.rigidbody.inertia);
-            System.out.println("invInertia: " + this.rigidbody.invInertia);
-            System.out.println("S Fric: " + this.rigidbody.staticFriction);
-            System.out.println("D Fric: " + this.rigidbody.dynamicFriction);
-            System.out.println("Restitution: " + this.rigidbody.restitution);*/
            
             if(rightArrow.isPressed()) {
                 if(this.renderer.flipped)
                     this.renderer.flipped = !this.renderer.flipped;
-                this.rigidbody.clearVelocity();
+                //this.rigidbody.clearVelocity();
                 this.rigidbody.position.x += movementSpeed;
             }
             if(leftArrow.isPressed()) {
                 if(!this.renderer.flipped)
                     this.renderer.flipped = !this.renderer.flipped;
-                this.rigidbody.clearVelocity();
+                //this.rigidbody.clearVelocity();
                 this.rigidbody.position.x -= movementSpeed;
             }
             if(upArrow.isPressed()) {
-                this.rigidbody.clearVelocity();
+                //this.rigidbody.clearVelocity();
                 this.rigidbody.position.y -= movementSpeed;
             }
             if(downArrow.isPressed()) {
-                this.rigidbody.clearVelocity();
+                //this.rigidbody.clearVelocity();
                 this.rigidbody.position.y += movementSpeed;
+            }
+
+            if(spaceBar.isPressed()) {
+                this.rigidbody.velocity.addscalei(new Vector2(0,-100), 5);
+                this.rigidbody.force.addscalei(new Vector2(0,-5000), 10);
+                this.rigidbody.angularVelocity += this.rigidbody.torque * this.rigidbody.invInertia * 1;
+               // this.rigidbody.force.y -= 100;
             }
             
             this.boundingbox.translate(this.transform.position);
         }
 
         public void onCollisionEnter(GameObject other) {
-            System.out.println("Collision Enter!");
+            //System.out.println("Collision Enter!");
         }
 
         public void onCollisionStay(GameObject other) {
-            System.out.println("Collision Stay!");
+            //System.out.println("Collision Stay!");
         }
 
         public void onCollisionExit(GameObject other) {
-            System.out.println("Collision Exit!");
+            //System.out.println("Collision Exit!");
         } 
     }
 
@@ -203,6 +199,13 @@ public class EngineTest {
                 Brick brick = new Brick(position, sprite);
                 platforms[i] = brick;
             }
+
+            this.rigidbody = new Rigidbody(new Polygon(400,40), 0, 200);
+            this.rigidbody.setStatic();
+        }
+
+        public void update() {
+            super.update();
         }
     }
 
@@ -216,8 +219,7 @@ public class EngineTest {
             this.transform.scale.set(3,3);
             this.transform.position = position;
             this.renderer.sprite = sprite;
-            this.rigidbody = new Rigidbody(new Circle(69), (int)position.x, (int)position.y);
-            this.rigidbody.setStatic();
+            this.rigidbody = null;
         }
     }
 }

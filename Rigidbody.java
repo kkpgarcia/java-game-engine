@@ -48,6 +48,7 @@ public class Rigidbody {
 		invInertia = 0.0f;
 		mass = 0.0f;
 		invMass = 0.0f;
+		setOrient(0);
 	}
 
 	public void clearForces() {
