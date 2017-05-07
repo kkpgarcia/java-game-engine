@@ -113,16 +113,17 @@ public class EngineTest {
             this.boundingbox.translate(this.transform.position);
         }
 
-        public void onCollisionStay(GameObject other) {
-            if(other != null) {
-                //System.out.println("Collision Success!");
-                return;
-            }
-
-            System.out.println("Not Colliding");
+        public void onCollisionEnter(GameObject other) {
+            System.out.println("Collision Enter!");
         }
 
-        
+        public void onCollisionStay(GameObject other) {
+            System.out.println("Collision Stay!");
+        }
+
+        public void onCollisionExit(GameObject other) {
+            System.out.println("Collision Exit!");
+        } 
     }
 
     class PinkAlien extends GameObject {

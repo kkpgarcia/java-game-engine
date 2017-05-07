@@ -10,46 +10,30 @@ public class CollisionEngine extends Engine {
             for(GameObject other : objects) {
                 if(!obj.equals(other)) {
                     if(obj.boundingbox.isOverlapping(other.boundingbox)) {
-                        if(!obj.boundingbox.isCollided) {
-                            resolveCollisionEnter(obj, other);
-                            resolveCollisionEnter(other, obj);
-                        } else {
-                            resolveCollisionStay(obj, other);
-                            resolveCollisionStay(other, obj);
-                        }
+                        resolveCollisionStay(obj, other);
+                        resolveCollisionStay(other, obj);
                     } else {
-                        if(obj.boundingbox.isCollided) {
-                            resolveCollisionExit(obj, other);
-                            resolveCollisionExit(other, obj);
-                        }
+                        resolveCollisionExit(obj, other);
+                        resolveCollisionExit(other, obj);
                     }
                 }
             }
         }
     }
 
-    private void resolveCollisionEnter(GameObject main, GameObject other) {
-        //if(!main.isTrigger)
-            main.onCollisionEnter(other);
-        //else
-        //    main.onTriggerEnter(other);
-
-        main.boundingbox.isCollided = true;
-    }
-
     private void resolveCollisionStay(GameObject main, GameObject other) {
-        //if(!main.isTrigger)
+        if(main.boundingbox.isCollided) {
             main.onCollisionStay(other);
-        //else
-       //     main.onTriggerStay(other);
+        } else {
+            main.onCollisionEnter(other);
+            main.boundingbox.isCollided = true;
+        }
     }
 
     private void resolveCollisionExit(GameObject main, GameObject other) {
-        //if(!main.isTrigger)
+        if(main.boundingbox.isCollided) {
             main.onCollisionExit(other);
-        //else
-        //   main.onTriggerExit(other);
-
-        main.boundingbox.isCollided = false;
+            main.boundingbox.isCollided = false;
+        }   
     }
 }
