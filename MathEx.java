@@ -11,7 +11,7 @@ public class MathEx {
 	public static final float PENETRATION_CORRECTION = 0.4f;
 
     public static boolean tolerantEquals(float a, float b) {
-        return ((Math.abs(a - b)) <= EPSILON);
+        return ((StrictMath.abs(a - b)) <= EPSILON);
     }
 
     public static boolean tolerantGreaterThanOrEquals(float a, float b) {

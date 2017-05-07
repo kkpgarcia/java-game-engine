@@ -19,7 +19,7 @@ public abstract class GameObject {
     }
 
 	public void render(Graphics2D g) {
-		renderer.render(transform, g);
+		renderer.render(transform, g, boundingbox);
 	}
 
     public void reset(Graphics2D g) {

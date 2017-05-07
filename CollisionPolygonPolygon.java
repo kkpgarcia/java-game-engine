@@ -52,8 +52,8 @@ public class CollisionPolygonPolygon implements CollisionCallback {
 		Vector2 v2 = RefPoly.vertices[referenceIndex];
 
 		// Transform vertices to world space
-		v1 = RefPoly.u.mul( v1 ).add( RefPoly.body.position );
-		v2 = RefPoly.u.mul( v2 ).add( RefPoly.body.position );
+		v1 = RefPoly.u.mul( v1 ).addi( RefPoly.body.position );
+		v2 = RefPoly.u.mul( v2 ).addi( RefPoly.body.position );
 
 		// Calculate reference face side normal in world space
 		Vector2 sidePlaneNormal = v2.subtract( v1 );
@@ -192,8 +192,7 @@ public class CollisionPolygonPolygon implements CollisionCallback {
 			// Push intersection point 
 			float alpha = d1 / (d1 - d2);
 
-			out[sp].set( face[1] );
-			out[sp] = out[sp++].subtract( face[0] ).multiply( alpha ).add( face[0] );
+			out[sp++].set( face[1] ).subtracti( face[0] ).multiplyi( alpha ).addi( face[0] );
 		}
 
 		// Assign our new converted values

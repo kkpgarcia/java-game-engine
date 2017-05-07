@@ -39,8 +39,8 @@ public class CollisionCirclePolygon implements CollisionCallback {
 		if (separation < MathEx.EPSILON) {
 			m.contactCount = 1;
 			B.u.mul( B.normals[faceNormal], m.normal ).negate();
-			m.contacts[0].set( m.normal );
-			m.contacts[0] = m.contacts[0].multiply( A.radius ).add( a.position );
+			//m.contacts[0];
+			m.contacts[0].set( m.normal ).multiplyi( A.radius ).addi( a.position );
 			m.penetration = A.radius;
 			return;
 		}
@@ -81,9 +81,8 @@ public class CollisionCirclePolygon implements CollisionCallback {
 			}
 
 			m.contactCount = 1;
-			B.u.mul( n, m.normal ).negate();
-			m.contacts[0].set( a.position );
-			m.contacts[0] = m.contacts[0].add( m.normal).multiply( A.radius );
+			B.u.mul( n, m.normal ).negatei();
+			m.contacts[0].set( a.position ).addscalei( m.normal, A.radius );
 		}
 	}
 

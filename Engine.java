@@ -60,7 +60,7 @@ public abstract class Engine implements Runnable {
     public void run() {
         final double GAME_HERTZ = 30;
 		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
-		final int MAX_UPDATES_BEFORE_RENDER = 5;
+		final int MAX_UPDATES_BEFORE_RENDER = 1;
 		double lastUpdateTime = System.nanoTime();
 		double lastRenderTime = System.nanoTime();
 		final double TARGET_FPS = 30;
@@ -74,17 +74,20 @@ public abstract class Engine implements Runnable {
 
 			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
                 updateMainEngine();
+                updateUIEngine();
                 updateCollisionEngine();
                 updatePhysicsEngine();
-                updateUIEngine();
 				lastUpdateTime += TIME_BETWEEN_UPDATES;
 				updateCount++;
 			}
 
 			if(now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
+                
 				lastUpdateTime = now - TIME_BETWEEN_UPDATES;
 			}
 
+            
+            updateRenderEngine();
 			lastRenderTime = now;
 
 			int thisSecond = (int) (lastUpdateTime / 1000000000);
@@ -96,7 +99,7 @@ public abstract class Engine implements Runnable {
 
 			while(now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
 				Thread.yield();
-				updateRenderEngine();
+				
 				try {
 					Thread.sleep(1);
 				} catch (Exception e) {

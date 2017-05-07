@@ -32,12 +32,13 @@ public class Rigidbody {
 	}
 	public void applyForce( Vector2 f ) {
 		//force.addi( f );
-		force = force.add(f);
+		force.addi(f);
 	}
 
 	public void applyImpulse( Vector2 impulse, Vector2 contactVector ) {
 		//velocity.addsi( impulse, invMass );
-		velocity = velocity.add(impulse.multiply(invMass));
+		//velocity = velocity.add(impulse.multiply(invMass));
+		velocity.addscalei(impulse, invMass);
 		angularVelocity += invInertia * Vector2.cross( contactVector, impulse );
 	}
 

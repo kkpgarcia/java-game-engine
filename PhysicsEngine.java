@@ -98,25 +98,25 @@ public class PhysicsEngine extends Engine {
 			return;
 		}
 
-		
-
 		float dts = dt * 0.5f;
-		b.velocity = b.velocity.add(b.force.multiply(b.invMass * dts ));
-		b.velocity = b.velocity.add(MathEx.GRAVITY.multiply(dts));
+		//b.velocity.addi(b.force.multiply(b.invMass * dts ));
+		//b.velocity.addi(MathEx.GRAVITY.multiply(dts));
+		b.velocity.addscalei(b.force, b.invMass * dts);
+		b.velocity.addscalei(MathEx.GRAVITY, dts);
 		b.angularVelocity += b.torque * b.invInertia * dts;
 	}
 
 	public void integrateVelocity( Rigidbody b, float dt ) {
 		
-        if (b.invMass == 0.0f)
-		{
+        if (b.invMass == 0.0f) {
 			return;
 		}
-		b.prevPosition = b.position;
-		b.position = b.position.add( b.velocity.multiply( dt ) );
-		b.deltaPosition = b.position.subtract(b.prevPosition);
-		b.orient += b.angularVelocity * dt;
-		b.setOrient( b.orient );
+		//b.prevPosition = b.position;
+		//b.position.addi( b.velocity.multiply( dt ) );
+		//b.deltaPosition = b.position.subtract(b.prevPosition);
+		b.position.addscalei(b.velocity, dt);
+		//b.orient += b.angularVelocity * dt;
+		//b.setOrient( b.orient );
 
 		//System.out.println(b.deltaPosition.toString());
 

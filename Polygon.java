@@ -63,15 +63,18 @@ public class Polygon extends Shape {
 
 			// Use area to weight the centroid average, not just vertex position
 			float weight = triangleArea * k_inv3;
-			c = c.add( p1).multiply( weight );
-			c = c.add( p2).multiply( weight );
+			//c = c.add( p1).multiply( weight );
+			//c = c.add( p2).multiply( weight );
+			c.addscalei(p1, weight);
+			c.addscalei(p2, weight);
+
 
 			float intx2 = p1.x * p1.x + p2.x * p1.x + p2.x * p2.x;
 			float inty2 = p1.y * p1.y + p2.y * p1.y + p2.y * p2.y;
 			I += (0.25f * k_inv3 * D) * (intx2 + inty2);
 		}
 
-		c = c.multiply( 1.0f / area );
+		c = c.multiplyi( 1.0f / area );
 
 		// Translate vertices to centroid (make the centroid (0, 0)
 		// for the polygon in model space)
