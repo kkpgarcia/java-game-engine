@@ -23,16 +23,6 @@ public class Polygon extends Shape {
 	@Override
 	public Shape clone()
 	{
-//		PolygonShape *poly = new PolygonShape( );
-//	    poly->u = u;
-//	    for(uint32 i = 0; i < m_vertexCount; ++i)
-//	    {
-//	      poly->m_vertices[i] = m_vertices[i];
-//	      poly->m_normals[i] = m_normals[i];
-//	    }
-//	    poly->m_vertexCount = m_vertexCount;
-//	    return poly;
-
 		Polygon p = new Polygon();
 		p.u.set( u );
 		for (int i = 0; i < vertexCount; i++)
@@ -171,7 +161,6 @@ public class Polygon extends Shape {
 				// Cross every set of three unique vertices
 				// Record each counter clockwise third vertex and add
 				// to the output hull
-				// See : http://www.oocities.org/pcgpe/math2d.html
 				Vector2 e1 = verts[nextHullIndex].subtract( verts[hull[outCount]] );
 				Vector2 e2 = verts[i].subtract( verts[hull[outCount]] );
 				float c = Vector2.cross( e1, e2 );

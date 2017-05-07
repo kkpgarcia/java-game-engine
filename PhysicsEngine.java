@@ -74,9 +74,6 @@ public class PhysicsEngine extends Engine {
 		// Clear all forces
 		for (int i = 0; i < objects.length; ++i)
 		{
-			//Rigidbody b = objects[i].rigidbody;
-			//b.force.set( 0, 0 );
-			//b.torque = 0;
 			if(objects[i].rigidbody != null)
 				objects[i].rigidbody.clearForces();
 		}
@@ -109,8 +106,6 @@ public class PhysicsEngine extends Engine {
 		}
 
 		float dts = dt * 0.5f;
-		//b.velocity.addi(b.force.multiply(b.invMass * dts ));
-		//b.velocity.addi(MathEx.GRAVITY.multiply(dts));
 		b.velocity.addscalei(b.force, b.invMass * dt);
 		b.velocity.addscalei(MathEx.GRAVITY, dt);
 		b.angularVelocity += b.torque * b.invInertia * dt;
@@ -124,14 +119,10 @@ public class PhysicsEngine extends Engine {
         if (b.invMass == 0.0f) {
 			return;
 		}
-		//b.prevPosition = b.position;
-		//b.position.addi( b.velocity.multiply( dt ) );
-		//b.deltaPosition = b.position.subtract(b.prevPosition);
+
 		b.position.addscalei(b.velocity, dt);
 		b.orient += b.angularVelocity * dt;
 		b.setOrient( 0 );
-
-		//System.out.println(b.deltaPosition.toString());
 
 		integrateForces( b, dt );
 	}
