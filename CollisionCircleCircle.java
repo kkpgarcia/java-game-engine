@@ -11,13 +11,14 @@ public class CollisionCircleCircle implements CollisionCallback {
 		float dist_sqr = normal.lengthSq();
 		float radius = A.radius + B.radius;
 
-		// If not in contact
+		// Not in contact
 		if (dist_sqr >= radius * radius) {
 			m.contactCount = 0;
 			return;
 		}
 
 		float distance = (float)StrictMath.sqrt( dist_sqr );
+
 		m.contactCount = 1;
 
 		if (distance == 0.0f) {
@@ -26,10 +27,8 @@ public class CollisionCircleCircle implements CollisionCallback {
 			m.contacts[0].set( a.position );
 		} else {
 			m.penetration = radius - distance;
-			m.normal.set( normal.divide(distance) );
-			//m.normal.divide( distance );
-			m.contacts[0].set( m.normal.multiply( A.radius ).add(a.position) );
-			//m.contacts[0] = m.contacts[0].multiply( A.radius ).add(a.position);
+			m.normal.set( normal ).dividei( distance );
+			m.contacts[0].set( m.normal ).multiplyi( A.radius ).addi( a.position );
 		}
 	}
 

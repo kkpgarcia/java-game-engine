@@ -27,9 +27,7 @@ public class Resources {
     public static BufferedImage loadImage(String name) {
         BufferedImage image = null;
         try {
-            System.out.println(getMain() + "/" + name);
             image = ImageIO.read(new File(getMain() + "/" + name));
-            
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -39,11 +37,5 @@ public class Resources {
 
     private static String getMain() {
         return Paths.get(".").toAbsolutePath().normalize().toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Resource Test " + getMain());
-        BufferedImage image = loadImage("test.png");
-        System.out.println("Is image null " + (image == null));
     }
 }

@@ -21,7 +21,9 @@ public class Player extends GameObject {
     }
 
     public void initialize() {
-        BufferedImage image = Resources.loadImage("Assets/test.png");
+        this.transform.scale.set(4,4);
+
+        BufferedImage image = Resources.loadImage("Assets/green-alien.png");
         Sprite newSprite = new Sprite(image);
         this.renderer.sprite = newSprite;
 

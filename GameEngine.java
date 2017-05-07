@@ -16,7 +16,7 @@ public class GameEngine extends Engine {
 		super();
 		instance = this;
 		renderEngine = new RenderEngine(screen);
-		physicsEngine = new PhysicsEngine(MathEx.DT, 10);
+		physicsEngine = new PhysicsEngine(MathEx.DT, 1);
 		collisionEngine = new CollisionEngine();
 	}
 
@@ -46,7 +46,6 @@ public class GameEngine extends Engine {
 
 	public void start() {
 		super.start();
-		collisionEngine.start();
 		collisionEngine.start();
 		physicsEngine.start();
 		renderEngine.start();

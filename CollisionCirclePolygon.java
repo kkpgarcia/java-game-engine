@@ -17,14 +17,16 @@ public class CollisionCirclePolygon implements CollisionCallback {
 		// Exact concept as using support points in Polygon vs Polygon
 		float separation = -Float.MAX_VALUE;
 		int faceNormal = 0;
-		for (int i = 0; i < B.vertexCount; ++i) {
+		for (int i = 0; i < B.vertexCount; ++i) { 
 			float s = Vector2.dot( B.normals[i], center.subtract( B.vertices[i] ) );
 
-			if (s > A.radius){
+			if (s > A.radius)
+			{
 				return;
 			}
 
-			if (s > separation){
+			if (s > separation)
+			{
 				separation = s;
 				faceNormal = i;
 			}
@@ -38,9 +40,8 @@ public class CollisionCirclePolygon implements CollisionCallback {
 		// Check to see if center is within polygon
 		if (separation < MathEx.EPSILON) {
 			m.contactCount = 1;
-			B.u.mul( B.normals[faceNormal], m.normal ).negate();
-			m.contacts[0].set( m.normal );
-			m.contacts[0] = m.contacts[0].multiply( A.radius ).add( a.position );
+			B.u.mul( B.normals[faceNormal], m.normal ).negatei();
+			m.contacts[0].set( m.normal ).multiplyi( A.radius ).addi( a.position );
 			m.penetration = A.radius;
 			return;
 		}
@@ -57,23 +58,16 @@ public class CollisionCirclePolygon implements CollisionCallback {
 			}
 
 			m.contactCount = 1;
-			B.u.muli( m.normal.set( v1 )).subtract( center ).normalize();
-			B.u.mul( v1, m.contacts[0] ).add( b.position );
-		}
-
-		// Closest to v2
-		else if (dot2 <= 0.0f) {
+			B.u.muli( m.normal.set( v1 ).subtracti( center ) ).normalize();
+			B.u.mul( v1, m.contacts[0] ).addi( b.position );
+		} else if (dot2 <= 0.0f) {
 			if (Vector2.distanceSq( center, v2 ) > A.radius * A.radius) {
 				return;
 			}
-
 			m.contactCount = 1;
-			B.u.muli( m.normal.set( v2 )).subtract( center ).normalize();
-			B.u.mul( v2, m.contacts[0] ).add( b.position );
-		}
-
-		// Closest to face
-		else {
+			B.u.muli( m.normal.set( v2 ).subtracti( center ) ).normalize();
+			B.u.mul( v2, m.contacts[0] ).addi( b.position );
+		} else {
 			Vector2 n = B.normals[faceNormal];
 
 			if (Vector2.dot( center.subtract( v1 ), n ) > A.radius) {
@@ -81,10 +75,8 @@ public class CollisionCirclePolygon implements CollisionCallback {
 			}
 
 			m.contactCount = 1;
-			B.u.mul( n, m.normal ).negate();
-			m.contacts[0].set( a.position );
-			m.contacts[0] = m.contacts[0].add( m.normal).multiply( A.radius );
+			B.u.mul( n, m.normal ).negatei();
+			m.contacts[0].set( a.position ).addscalei( m.normal, A.radius );
 		}
 	}
-
 }

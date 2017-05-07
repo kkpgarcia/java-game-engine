@@ -19,17 +19,16 @@ public class PhysicsEngine extends Engine {
 			Rigidbody A = objects[i].rigidbody;
 
 			if(A == null)
-				return;
+				continue;
 
 			for (int j = i + 1; j < objects.length; ++j)
 			{
 				Rigidbody B = objects[j].rigidbody;
 
 				if(B == null)
-					return;
+					continue;
 
-				if (A.invMass == 0 && B.invMass == 0)
-				{
+				if (A.invMass == 0 && B.invMass == 0) {
 					continue;
 				}
 				
@@ -44,22 +43,18 @@ public class PhysicsEngine extends Engine {
 		}
 
 		// Integrate forces
-		for (int i = 0; i < objects.length; ++i)
-		{
+		for (int i = 0; i < objects.length; ++i) {
 			integrateForces( objects[i].rigidbody, dt );
 		}
 
 		// Initialize collision
-		for (int i = 0; i < contacts.size(); ++i)
-		{
+		for (int i = 0; i < contacts.size(); ++i) {
 			contacts.get(i).initialize();
 		}
 
 		// Solve collisions
-		for (int j = 0; j < iterations; ++j)
-		{
-			for (int i = 0; i < contacts.size(); ++i)
-			{
+		for (int j = 0; j < iterations; ++j) {
+			for (int i = 0; i < contacts.size(); ++i){
 				contacts.get(i).applyImpulse();
 			}
 		}
@@ -79,12 +74,11 @@ public class PhysicsEngine extends Engine {
 		// Clear all forces
 		for (int i = 0; i < objects.length; ++i)
 		{
-			if(objects[i].rigidbody == null)
-				return;
-
-			Rigidbody b = objects[i].rigidbody;
-			b.force.set( 0, 0 );
-			b.torque = 0;
+			//Rigidbody b = objects[i].rigidbody;
+			//b.force.set( 0, 0 );
+			//b.torque = 0;
+			if(objects[i].rigidbody != null)
+				objects[i].rigidbody.clearForces();
 		}
     }
 
@@ -107,33 +101,37 @@ public class PhysicsEngine extends Engine {
 	// x += v * dt
 	public void integrateForces( Rigidbody b, float dt )
 	{
-		if(b == null) {
+		if(b == null)
 			return;
-		}
 
 		if (b.invMass == 0.0f) {
 			return;
 		}
 
 		float dts = dt * 0.5f;
-		b.velocity = b.velocity.add(b.force.multiply(b.invMass * dts ));
-		b.velocity = b.velocity.add(MathEx.GRAVITY.multiply(dts));
-		b.angularVelocity += b.torque * b.invInertia * dts;
+		//b.velocity.addi(b.force.multiply(b.invMass * dts ));
+		//b.velocity.addi(MathEx.GRAVITY.multiply(dts));
+		b.velocity.addscalei(b.force, b.invMass * dt);
+		b.velocity.addscalei(MathEx.GRAVITY, dt);
+		b.angularVelocity += b.torque * b.invInertia * dt;
 	}
 
 	public void integrateVelocity( Rigidbody b, float dt ) {
-		if(b == null) {
+		
+		if(b == null)
+			return;
+
+        if (b.invMass == 0.0f) {
 			return;
 		}
-
-        if (b.invMass == 0.0f)
-		{
-			return;
-		}
-
-		b.position = b.position.add( b.velocity.multiply( dt ) );
+		//b.prevPosition = b.position;
+		//b.position.addi( b.velocity.multiply( dt ) );
+		//b.deltaPosition = b.position.subtract(b.prevPosition);
+		b.position.addscalei(b.velocity, dt);
 		b.orient += b.angularVelocity * dt;
-		b.setOrient( b.orient );
+		b.setOrient( 0 );
+
+		//System.out.println(b.deltaPosition.toString());
 
 		integrateForces( b, dt );
 	}
