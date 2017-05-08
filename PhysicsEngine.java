@@ -106,9 +106,9 @@ public class PhysicsEngine extends Engine {
 		}
 
 		float dts = dt * 0.5f;
-		b.velocity.addscalei(b.force, b.invMass * dt);
-		b.velocity.addscalei(MathEx.GRAVITY, dt);
-		b.angularVelocity += b.torque * b.invInertia * dt;
+		b.velocity.addscalei(b.force, b.invMass * dts);
+		b.velocity.addscalei(MathEx.GRAVITY, dts);
+		b.angularVelocity += b.torque * b.invInertia * dts;
 	}
 
 	public void integrateVelocity( Rigidbody b, float dt ) {

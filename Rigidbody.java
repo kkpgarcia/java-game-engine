@@ -1,7 +1,5 @@
 public class Rigidbody {
 	public Vector2 position = new Vector2();
-	public Vector2 prevPosition = new Vector2();
-	public Vector2 deltaPosition = new Vector2();
 	public Vector2 velocity = new Vector2();
 	public Vector2 force = new Vector2();
 	public float angularVelocity;
@@ -17,7 +15,7 @@ public class Rigidbody {
 		this.shape = shape;
 
 		position.set( x, y );
-		deltaPosition.set(x, y);
+		//deltaPosition.set(x, y);
 		velocity.set( 0, 0 );
 		angularVelocity = 0;
 		torque = 0;

@@ -100,11 +100,15 @@ public class EngineTest {
             }
 
             if(spaceBar.isPressed()) {
-                this.rigidbody.velocity.addscalei(new Vector2(0,-100), 5);
-                this.rigidbody.force.addscalei(new Vector2(0,-5000), 10);
-                this.rigidbody.angularVelocity += this.rigidbody.torque * this.rigidbody.invInertia * 1;
-               // this.rigidbody.force.y -= 100;
+                //this.rigidbody.velocity.addscalei(new Vector2(0,-100), 3);
+                int jumpSpeed = 25;
+                int jumpHeight = 75;
+                int jumpLength = 15;
+                this.rigidbody.velocity.y = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;
+                //this.rigidbody.force.addscalei(new Vector2(0,5000), 100);
             }
+
+            System.out.println(isResting());
             
             this.boundingbox.translate(this.transform.position);
         }
@@ -119,7 +123,11 @@ public class EngineTest {
 
         public void onCollisionExit(GameObject other) {
             //System.out.println("Collision Exit!");
-        } 
+        }
+
+        private boolean isResting() {
+            return MathEx.tolerantEquals(MathEx.RESTING, rigidbody.angularVelocity);
+        }
     }
 
     class PinkAlien extends GameObject {
