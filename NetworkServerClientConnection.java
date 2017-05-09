@@ -13,13 +13,15 @@ public class NetworkServerClientConnection {
         this.server = server;
         dispatcher = new NetworkServerDispatcher(id, socket, this);
         listener = new NetworkServerListener(id, socket, this);
+        
+        //initialize();
     }
 
     public void initialize() {
         Thread dispatcherThread = new Thread(dispatcher);
-        Thread lisenerThread = new Thread(listener);
-
-        lisenerThread.start();
+        Thread listenerThread = new Thread(listener);
+        listenerThread.start();
+        dispatcherThread.start();
     }
 
     public void dispatch(String data) {

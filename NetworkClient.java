@@ -57,15 +57,14 @@ public class NetworkClient {
         
         while(connected) {
             try {
-                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                out.writeUTF("command test hello");
-                dispatcher.dispatch("Hellooooo");
-
-                if(networkActors.size() == 0)
-                    return;
-
                 if(networkTasks.size() == 0)
-                    return;
+                    continue;
+
+                NetworkTask task = networkTasks.dequeue();
+                //System.out.println(task.command);
+                dispatcher.dispatch(task.command);
+
+                //This is where you put apply all the network task to each actors
 
                 Thread.sleep(10);
             } catch (Exception e) {

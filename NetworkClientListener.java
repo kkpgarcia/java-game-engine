@@ -23,11 +23,11 @@ public class NetworkClientListener implements Runnable {
 
                 NetworkTask networkTask = new NetworkTask();
                 networkTask.command = in;
-                
+
                 if(in != null || !in.equals("")) {
                     NetworkClient.instance.addNetworkTask(networkTask);
                 }
-                Thread.sleep(10);
+                //Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
                 break;

@@ -54,25 +54,33 @@ public class NetworkServer {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+
+            if(running) {
+                for(NetworkServerClientConnection connection : connections) {
+                    connection.initialize();
+                }
+            }
+
             runServer();
         }
     }
 
     public void runServer() {
         while(running) {
+            
             if(connections.size() == 0)
                 break;
+
+            /*for(NetworkServerClientConnection connection : connections) {
+                connection.dispatch("Hellooooooo From Server");
+            }*/
 
             if(networkTasks.size() == 0) 
                 continue;
 
-            NetworkTask task = null;
-
-            task = networkTasks.dequeue();
-            
-            for(int i = 0; i < connections.size(); i++) {
-                NetworkServerClientConnection connection = connections.get(i);
-               
+            NetworkTask task = networkTasks.dequeue();
+        
+            for(NetworkServerClientConnection connection : connections) {
                 connection.dispatch(task.command);
             }
 

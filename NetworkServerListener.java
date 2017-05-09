@@ -28,12 +28,11 @@ public class NetworkServerListener implements Runnable {
                 NetworkTask networkTask = new NetworkTask();
                 networkTask.id = id;
                 networkTask.command = in;
-                
+
                 if(in != null || !in.equals("")) {
                     NetworkServer.instance.addNetworkTask(networkTask);
-                    
                 }
-                Thread.sleep(10);
+                //Thread.sleep(10);
             } catch (Exception e){
                 e.printStackTrace();
                 break;
