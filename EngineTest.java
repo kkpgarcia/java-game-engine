@@ -101,14 +101,14 @@ public class EngineTest {
 
             if(spaceBar.isPressed()) {
                 //this.rigidbody.velocity.addscalei(new Vector2(0,-100), 3);
-                int jumpSpeed = 25;
+                /*int jumpSpeed = 25;
                 int jumpHeight = 75;
                 int jumpLength = 15;
-                this.rigidbody.velocity.y = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;
+                this.rigidbody.velocity.y = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;*/
                 //this.rigidbody.force.addscalei(new Vector2(0,5000), 100);
+            
+                GameObject.instantiate(new Bullet());
             }
-
-            System.out.println(isResting());
             
             this.boundingbox.translate(this.transform.position);
         }
@@ -230,4 +230,32 @@ public class EngineTest {
             this.rigidbody = null;
         }
     }
+
+    public class Bullet extends GameObject {
+
+            public int bulletdirection;
+
+            public Bullet() {
+                super();
+                initialize();
+            }
+
+            public void initialize() {
+                this.transform.scale.set(1, 1);
+                BufferedImage image = Resources.loadImage("Assets/brick.png");
+                Sprite newSprite = new Sprite(image);
+                this.renderer.sprite = newSprite;
+                bulletdirection = 100;
+            }
+
+            public void update() {
+                super.update();
+                //this.rigidbody.position.x += bulletdirection;
+                this.transform.position.x += bulletdirection;
+            }
+            
+            public void onCollisionStay() {
+                System.out.println("HIT!");
+            }
+        }
 }
