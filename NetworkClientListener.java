@@ -22,6 +22,7 @@ public class NetworkClientListener implements Runnable {
                 String in = input.readUTF();
 
                 NetworkTask networkTask = new NetworkTask();
+                networkTask.type = TaskType.IN;
                 networkTask.command = in;
 
                 if(in != null || !in.equals("")) {

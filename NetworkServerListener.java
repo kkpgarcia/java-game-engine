@@ -1,5 +1,6 @@
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.EOFException;
 import java.net.Socket;
 
 public class NetworkServerListener implements Runnable {
@@ -33,8 +34,13 @@ public class NetworkServerListener implements Runnable {
                     NetworkServer.instance.addNetworkTask(networkTask);
                 }
                 //Thread.sleep(10);
-            } catch (Exception e){
-                e.printStackTrace();
+            } catch (EOFException e) {
+                //e.printStackTrace();
+                connected = false;
+                break;
+            } catch (IOException e) {
+                //e.printStackTrace();
+                connected = false;
                 break;
             }
         }

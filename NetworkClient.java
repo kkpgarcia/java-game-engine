@@ -3,6 +3,7 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class NetworkClient {
     public static NetworkClient instance;
@@ -36,6 +37,13 @@ public class NetworkClient {
 
             if(socket != null) {
                 connected = true;
+
+                Thread listenerThread = new Thread(listener);
+                Thread dispatcherThread = new Thread(dispatcher);
+
+                listenerThread.start();
+                dispatcherThread.start();
+
                 update();
             } else {
                 throw new IOException("Failed to create connection.");
@@ -49,22 +57,18 @@ public class NetworkClient {
     }
 
     public void update() {
-        Thread listenerThread = new Thread(listener);
-        Thread dispatcherThread = new Thread(dispatcher);
-
-        listenerThread.start();
-        dispatcherThread.start();
-        
         while(connected) {
             try {
                 if(networkTasks.size() == 0)
                     continue;
 
                 NetworkTask task = networkTasks.dequeue();
-                //System.out.println(task.command);
-                dispatcher.dispatch(task.command);
 
-                //This is where you put apply all the network task to each actors
+                if(task.type == TaskType.OUT) {
+                    dispatcher.dispatch(task.command);
+                } else {
+                    processCommand(task.command);
+                }
 
                 Thread.sleep(10);
             } catch (Exception e) {
@@ -80,6 +84,32 @@ public class NetworkClient {
 
     public void addNetworkTask(NetworkTask networkTask) {
         networkTasks.enqueue(networkTask);
+    }
+
+    public void processCommand(String command) {
+        StringTokenizer st = new StringTokenizer(command);
+        String method;
+
+        //while(st.hasMoreTokens()) {
+        method = st.nextToken();
+
+        switch(method) {
+            case "NEW":
+                NetDummy newAlien = new NetDummy();
+                GameObject.instantiate(newAlien);
+                break;
+            case "UPDATE":
+                String id = st.nextToken();
+                for(NetworkActor actor : networkActors) {
+                    if(actor.objectId.equals(id)) {
+                        String toReplace = "UPDATE " + id;
+                        String processedCommand = command.replace(toReplace, "");
+                        actor.applyActor(processedCommand);
+                    }
+                }
+                break;
+        }
+        //}
     }
 
     public static void main(String[] args) {

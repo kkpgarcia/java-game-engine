@@ -15,6 +15,13 @@ public class NetworkTest {
 
         GameEngine game = new GameEngine(screen);
 
+        NetworkClient networkClient = new NetworkClient();
+        NetAlien netAlien = new NetAlien();
+        netAlien.input = input;
+        netAlien.bindInput();
+        networkClient.addNetworkActors(netAlien.networkActor);
+
+        game.addObject(netAlien);
 
         window.add(screen);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,5 +31,7 @@ public class NetworkTest {
 		window.setVisible(true);
 
         game.start();
+        networkClient.connect();
+        netAlien.networkActor.registerActor();
     }
 }

@@ -1,6 +1,7 @@
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -48,13 +49,15 @@ public class NetworkServerDispatcher implements Runnable {
                 String newCommand = commands.get(0);
                 dequeueTopCommand();
 
-                if(newCommand != null) {
+                if(!newCommand.equals(null)) {
                     output.writeUTF(newCommand);
                     output.flush();
                 }
                 Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
+                connected = false;
+                break;
             }
         }
     }

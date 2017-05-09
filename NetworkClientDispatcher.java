@@ -45,12 +45,13 @@ public class NetworkClientDispatcher implements Runnable {
                 String newCommand = commands.get(0);
                 dequeueTopCommand();
 
-                System.out.println(newCommand);
+                //System.out.println(newCommand);
                 output.writeUTF(newCommand);
                 output.flush();
                 Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
+                break;
             }
         }
     }
