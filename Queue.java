@@ -8,7 +8,7 @@ public class Queue<T> {
     public Queue() {
         first = null;
         last = null;
-        n =0 ;
+        n = 0;
     }
 
     public boolean isEmpty() {
