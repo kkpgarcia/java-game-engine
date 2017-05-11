@@ -24,7 +24,7 @@ public class NetAlien extends GameObject {
         BufferedImage image = Resources.loadImage("Assets/green-alien-2.png");
         this.renderer.sprite = new Sprite(image);
         this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
-        this.networkActor = new NetworkActor(this);
+        //this.networkActor = new NetworkActor(this);
     }
 
     public void bindInput() {
@@ -70,6 +70,6 @@ public class NetAlien extends GameObject {
             this.rigidbody.velocity.x = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;
         }
 
-        networkActor.updateActor(this);
+        networkActor.updateActor();
     }
 }

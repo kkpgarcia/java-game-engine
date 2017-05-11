@@ -1,16 +1,17 @@
-import java.net.Socket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class NetworkClientConnection {
     public String id;
-    public Socket socket;
+    //public Socket socket;
     private NetworkDispatcher dispatcher;
     private NetworkListener listener;
 
-    public NetworkClientConnection(String id, Socket socket) {
+    public NetworkClientConnection(String id, ObjectInputStream input, ObjectOutputStream output) {
         this.id = id;
-        this.socket = socket;
-        dispatcher = new NetworkDispatcher(socket);
-        listener = new NetworkListener(socket);
+        //this.socket = socket;
+        listener = new NetworkListener(input);
+        dispatcher = new NetworkDispatcher(output);
     }
 
     public void initialize() {

@@ -2,8 +2,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -12,13 +12,15 @@ import java.util.UUID;
 public class NetworkServer {
     private ServerSocket server;
     private boolean running;
+    private int numPlayers = 0;
 
     private ArrayList<String> idList;
     private Dictionary<String, NetworkClientConnection> clients;
     private Queue<NetworkTask> networkTasks;
 
     private final int PORT = 8888;
-    private final int SOCKET_TIMEOUT = 1000;
+    private final int SOCKET_TIMEOUT = 10;
+    private final int MAX_PLAYERS = 2;
 
     public NetworkServer() {
         idList = new ArrayList<String>();
@@ -36,7 +38,9 @@ public class NetworkServer {
         running = true;
 
         while(running) {
-            acceptConnections();
+            if(numPlayers != MAX_PLAYERS)
+                acceptConnections();
+
             listenToConnections();
             updateConnections();
         }
@@ -46,7 +50,7 @@ public class NetworkServer {
         try {
             //System.out.println("Waiting for connections...");
             Socket socket = server.accept();
-
+            
             if(!socket.isConnected())
                 return;
 
@@ -61,25 +65,34 @@ public class NetworkServer {
 
     private void createNewClientConnection(Socket socket) {
         String id = UUID.randomUUID().toString();
-        NetworkClientConnection client = new NetworkClientConnection(id, socket);
-        
+    
         try {
+            ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+            NetworkClientConnection client = new NetworkClientConnection(id, input, output);
+            output.writeUTF(id);
             clients.add(id, client);
+            client.initialize();
+            //DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+            output.flush();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        for(String currentId : idList) {
+        for(int i = 0; i < 100; i++) {
             NetworkTask task = new NetworkTask();
             task.id = id;
-            task.type = TaskType.NEW;
-            task.action = "CREATE";
+            task.type = TaskType.UPDATE;
+            task.action = "COMMAND Hello";
+
             addNetworkTask(task);
         }
 
         System.out.println("New Connection added " + id);
-
+        
         idList.add(id);
+        numPlayers++;
     }
 
     private void listenToConnections() {
@@ -104,21 +117,18 @@ public class NetworkServer {
 
         NetworkTask currentTask = networkTasks.dequeue();
 
-        if(currentTask == null || clients.isEmpty())
+        if(clients.isEmpty())
             return;
 
-        if(clients.size() <= 1)
-            return;
+        //if(clients.size() <= 1)
+            //return;
 
         for(String id : idList) {
-            if(id.equals(currentTask.id))
-                continue;
+            //if(id.equals(currentTask.id))
+              //  continue;
 
             NetworkClientConnection client = clients.getValue(currentTask.id);
-
-            if(client == null)
-                continue;
-
+            
             client.dispatch(currentTask);
         }
     }

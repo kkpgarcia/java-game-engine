@@ -1,45 +1,39 @@
-import java.io.DataInputStream;
+import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.io.EOFException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 public class NetworkListener implements Runnable {
-    private DataInputStream input;
+    private ObjectInputStream input;
     private boolean connected;
-    private Queue<NetworkTask> networkTasks;
+    private volatile Queue<NetworkTask> networkTasks;
 
-    public NetworkListener(Socket socket) {
+    private int READ_TIMEOUT = 10;
+
+    public NetworkListener(ObjectInputStream input) {
         networkTasks = new Queue<NetworkTask>();
-
-        try {
-            input = new DataInputStream(socket.getInputStream());
-            if(input != null)
-                connected = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.input = input;
     }
 
     public void run() {
-        while(connected) {
+        connected = true;
             try {
-                NetworkTask task = new NetworkTask();
-                TaskType type = TaskType.fromInt(input.readInt());
-                task.id = input.readUTF();
-                task.x = input.readFloat();
-                task.y = input.readFloat();
-                task.action = input.readUTF();
-
-                networkTasks.enqueue(task);
-            } catch (EOFException e) {
+                 while(connected) { 
+                    NetworkTask task = (NetworkTask)input.readObject();
+                    networkTasks.enqueue(task);
+                    try {
+                        Thread.sleep(100);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        connected = false;
+                    }
+                 }
+            } catch (Exception e) {
+                e.printStackTrace();
                 connected = false;
-                break;
-            } catch (IOException e) {
-                connected = false;
-                break;
             }
-        }
     }
 
     public NetworkTask listen() {

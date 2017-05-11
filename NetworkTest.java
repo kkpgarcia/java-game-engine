@@ -19,7 +19,7 @@ public class NetworkTest {
         NetAlien netAlien = new NetAlien();
         netAlien.input = input;
         netAlien.bindInput();
-        networkClient.addNetworkActors(netAlien.networkActor);
+        netAlien.networkActor = new NetworkActor(netAlien, networkClient);
 
         game.addObject(netAlien);
 
@@ -30,8 +30,7 @@ public class NetworkTest {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
-        game.start();
         networkClient.connect();
-        netAlien.networkActor.registerActor();
+        game.start();
     }
 }
