@@ -83,9 +83,7 @@ public class NetworkClient {
             return;
 
         NetworkTask task = networkTasks.dequeue();
-
-        System.out.println(task.action);
-
+        
         if(task.type == TaskType.IN)
             updateClient(task);
         else
@@ -95,13 +93,14 @@ public class NetworkClient {
     public void updateClient(NetworkTask task) {
         if(task == null)
             return;
-        if(networkActors.size() <= 1)
-            return;
 
         if(task.action.contains("COMMAND")) {
             doClientCommand(task);
             return;
         }
+
+        if(networkActors.size() <= 1)
+            return;
 
         NetworkActor actor = networkActors.getValue(task.actorId);
 
@@ -113,12 +112,13 @@ public class NetworkClient {
 
     private void doClientCommand(NetworkTask task) {
         String command = task.action;
-
+        System.out.println("Hello");
         switch(command) {
             case "COMMAND CREATE":
                 NetDummy dummy = new NetDummy();
                 dummy.networkActor = new NetworkActor(dummy, this);
                 GameObject.instantiate(dummy);
+                System.out.println("Hello");
                 break;
             case "COMMAND REMOVE":
                 break;

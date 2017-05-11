@@ -85,14 +85,14 @@ public class NetworkServer {
             e.printStackTrace();
         }
 
-        for(int i = 0; i < 100; i++) {
-            NetworkTask task = new NetworkTask();
-            task.id = id;
-            task.type = TaskType.UPDATE;
-            task.action = "COMMAND Hello";
+        //for(int i = 0; i < 100; i++) {
+        NetworkTask task = new NetworkTask();
+        task.id = id;
+        task.type = TaskType.UPDATE;
+        task.action = "COMMAND CREATE";
 
-            addNetworkTask(task);
-        }
+        addNetworkTask(task);
+        //}
 
         System.out.println("New Connection added " + id);
         
