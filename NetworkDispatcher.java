@@ -7,6 +7,8 @@ public class NetworkDispatcher implements Runnable {
     private volatile Queue<NetworkTask> networkTasks;
     private boolean connected;
 
+    private final int SLEEP_AMOUNT = 100;
+
     public NetworkDispatcher(ObjectOutputStream output) {
         networkTasks = new Queue<NetworkTask>();
         //try {
@@ -29,7 +31,7 @@ public class NetworkDispatcher implements Runnable {
                     output.writeObject(task);
                     output.flush();
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(SLEEP_AMOUNT);
                     } catch (Exception e) {
                         e.printStackTrace();
                         connected = false;

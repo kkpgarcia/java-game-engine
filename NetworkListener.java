@@ -9,8 +9,8 @@ public class NetworkListener implements Runnable {
     private ObjectInputStream input;
     private boolean connected;
     private volatile Queue<NetworkTask> networkTasks;
-
-    private int READ_TIMEOUT = 100;
+;
+    private final int SLEEP_AMOUNT = 100;
 
     public NetworkListener(ObjectInputStream input) {
         networkTasks = new Queue<NetworkTask>();

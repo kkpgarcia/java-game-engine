@@ -19,8 +19,9 @@ public class NetworkServer {
     private Queue<NetworkTask> networkTasks;
 
     private final int PORT = 8888;
-    private final int SOCKET_TIMEOUT = 3;
+    private final int SOCKET_TIMEOUT = 120;
     private final int MAX_PLAYERS = 2;
+    private final int SLEEP_AMOUNT = 100;
 
     private int it = 0;
 
@@ -47,7 +48,7 @@ public class NetworkServer {
             updateConnections();
 
             try {
-                Thread.sleep(1);
+                Thread.sleep(SLEEP_AMOUNT);
             } catch(Exception e) {
                 e.printStackTrace();
             }
@@ -73,11 +74,11 @@ public class NetworkServer {
 
     private void createNewClientConnection(Socket socket) {
         String id = UUID.randomUUID().toString();
-    
+        NetworkClientConnection client = null;
         try {
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-            NetworkClientConnection client = new NetworkClientConnection(id, input, output);
+            client = new NetworkClientConnection(id, input, output);
             clients.add(id, client);
             client.initialize();
             
@@ -85,19 +86,37 @@ public class NetworkServer {
             e.printStackTrace();
         }
 
-        //for(int i = 0; i < 100; i++) {
-        NetworkTask task = new NetworkTask();
-        task.id = id;
-        task.type = TaskType.UPDATE;
-        task.action = "COMMAND CREATE";
-
-        addNetworkTask(task);
-        //}
-
         System.out.println("New Connection added " + id);
         
-        idList.add(id);
+        //idList.add(id);
+        resolveClients(client);
         numPlayers++;
+    }
+
+    private void resolveClients(NetworkClientConnection newClient) {
+        if(idList.size() == 0) {
+            idList.add(newClient.id);
+            return;
+        }
+
+        if(clients.size() <= 1 || newClient == null)
+            return;
+
+        for(String id : idList) {
+            NetworkClientConnection client = clients.getValue(id);
+            NetworkTask task = new NetworkTask();
+            task.id = id;
+            task.actorId = newClient.id;
+            task.action = "COMMAND CREATE";
+            client.dispatch(task);
+
+            task.id = newClient.id;
+            task.actorId = id;
+            task.action = "COMMAND CREATE";
+            newClient.dispatch(task);
+        }
+
+        idList.add(newClient.id);
     }
 
     private void listenToConnections() {
@@ -125,12 +144,12 @@ public class NetworkServer {
         if(clients.isEmpty())
             return;
 
-        //if(clients.size() <= 1)
-            //return;
+        if(clients.size() <= 1)
+            return;
 
         for(String id : idList) {
-            //if(id.equals(currentTask.id))
-              //  continue;
+            if(id.equals(currentTask.id))
+                continue;
             //System.out.println("Looking for " + currentTask.id + " " + String.valueOf(it++));
             if(currentTask.id == null) {
                 continue;

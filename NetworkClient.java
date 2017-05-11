@@ -20,7 +20,8 @@ public class NetworkClient {
     private volatile Queue<NetworkTask> networkTasks;
 
     private final int port = 8888;
-    private final int SOCKET_TIMEOUT = 3;
+    private final int SOCKET_TIMEOUT = 120;
+    private final int SLEEP_AMOUNT = 100;
 
     public NetworkClient() {
         networkTasks = new Queue<NetworkTask>();
@@ -59,7 +60,7 @@ public class NetworkClient {
                     listenToServer();
                     handleTasks();
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(SLEEP_AMOUNT);
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
