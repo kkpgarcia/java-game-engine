@@ -15,11 +15,12 @@ public class NetworkClient {
     private NetworkDispatcher dispatcher;
     private NetworkListener listener;
 
-    private ArrayList<String> actorId;
-    private Dictionary<String,NetworkActor> networkActors;
-    private Queue<NetworkTask> networkTasks;
+    private volatile ArrayList<String> actorId;
+    private volatile Dictionary<String,NetworkActor> networkActors;
+    private volatile Queue<NetworkTask> networkTasks;
 
     private final int port = 8888;
+    private final int SOCKET_TIMEOUT = 3;
 
     public NetworkClient() {
         networkTasks = new Queue<NetworkTask>();
@@ -31,19 +32,13 @@ public class NetworkClient {
         try {
             System.out.println("Connecting to " + String.valueOf(port));
             socket = new Socket("localhost", port);
+            socket.setSoTimeout(SOCKET_TIMEOUT);
 
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
 
-            id = input.readUTF();
-
             dispatcher = new NetworkDispatcher(output);
             listener = new NetworkListener(input);
-
-            Thread listenerThread = new Thread(listener);
-            listenerThread.start();
-            Thread dispatcherThread = new Thread(dispatcher);
-            dispatcherThread.start();
 
             connected = true;
             runClient();
@@ -54,15 +49,25 @@ public class NetworkClient {
     }
 
     private void runClient() {
-        while(connected) {
-            listenToServer();
-            handleTasks();
-            try {
-                Thread.sleep(100);
-            } catch(Exception e) {
-                e.printStackTrace();
+        Thread listenerThread = new Thread(listener);
+        listenerThread.start();
+        Thread dispatcherThread = new Thread(dispatcher);
+        dispatcherThread.start();
+        Thread clientThread = new Thread() {
+            public void run() {
+                while(true) {
+                    listenToServer();
+                    handleTasks();
+                    try {
+                        Thread.sleep(1);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }
+        };
+
+        clientThread.start();
     }
 
     private void listenToServer() {
@@ -78,6 +83,8 @@ public class NetworkClient {
             return;
 
         NetworkTask task = networkTasks.dequeue();
+
+        System.out.println(task.action);
 
         if(task.type == TaskType.IN)
             updateClient(task);
@@ -122,7 +129,7 @@ public class NetworkClient {
         if(task == null)
             return;
         dispatcher.dispatch(task);
-        System.out.println(task.action);
+        
     }
 
     public void addNetworkTask(NetworkTask task) {

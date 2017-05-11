@@ -10,7 +10,7 @@ public class NetworkListener implements Runnable {
     private boolean connected;
     private volatile Queue<NetworkTask> networkTasks;
 
-    private int READ_TIMEOUT = 10;
+    private int READ_TIMEOUT = 100;
 
     public NetworkListener(ObjectInputStream input) {
         networkTasks = new Queue<NetworkTask>();
@@ -20,14 +20,15 @@ public class NetworkListener implements Runnable {
     public void run() {
         connected = true;
             try {
-                 while(connected) { 
-                    NetworkTask task = (NetworkTask)input.readObject();
-                    networkTasks.enqueue(task);
+                 while(connected) {
                     try {
-                        Thread.sleep(100);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        connected = false;
+                        NetworkTask task = (NetworkTask)input.readObject();
+                        
+                        task.type = TaskType.IN;
+                        networkTasks.enqueue(task);
+                    } catch(SocketTimeoutException se) {
+                    } catch(ClassCastException ce) {
+                        continue;
                     }
                  }
             } catch (Exception e) {

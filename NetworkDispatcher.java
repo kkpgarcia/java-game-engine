@@ -24,17 +24,12 @@ public class NetworkDispatcher implements Runnable {
             while(connected) {
                 if(!networkTasks.isEmpty()) {
                     NetworkTask task = networkTasks.dequeue();
+                    if(task == null)
+                        continue;
                     output.writeObject(task);
-                    //output.writeUTF("Hello");
-                    /*output.writeInt(TaskType.toInt(task.type));
-                    output.writeUTF(task.id);
-                    output.writeUTF(task.actorId);
-                    output.writeFloat(task.x);
-                    output.writeFloat(task.y);
-                    output.writeUTF(task.action);*/
                     output.flush();
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1);
                     } catch (Exception e) {
                         e.printStackTrace();
                         connected = false;
