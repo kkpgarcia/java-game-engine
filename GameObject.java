@@ -9,6 +9,7 @@ public abstract class GameObject {
     public BoundingBox2D boundingbox;
     public Renderer renderer;
     public Rigidbody rigidbody;
+    public Animator animator;
 
 	public GameObject() {
 		this.transform = new Transform();

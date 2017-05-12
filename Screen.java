@@ -25,15 +25,9 @@ public class Screen extends JPanel {
 		requestFocus();
 		lock = new ReentrantLock();
 		objects = new GameObject[0];
-		//objects = new ArrayList<>();
-
 	}
 
 	public void addDrawingComponents(GameObject obj) {
-		/*if(objects == null) {
-			objects = new ArrayList<>();
-		}
-		objects.add(dc);*/
 		lock.lock();
 
 		try {
@@ -70,10 +64,13 @@ public class Screen extends JPanel {
 		super.paint(g);
 		Graphics2D screen2D = (Graphics2D) g;
 
-        RenderingHints renderingHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        screen2D.addRenderingHints(renderingHints);
+        //RenderingHints renderingHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //screen2D.addRenderingHints(renderingHints);
 
 		for(GameObject obj : objects) {
+			if(obj.animator != null)
+				obj.animator.updateAnimator();
+			
 			obj.render(screen2D);
 		}
 	}
