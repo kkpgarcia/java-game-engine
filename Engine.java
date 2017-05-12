@@ -74,9 +74,9 @@ public abstract class Engine implements Runnable {
 
 			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
                 updateMainEngine();
-                updateUIEngine();
                 updateCollisionEngine();
                 updatePhysicsEngine();
+                updateNetworkEngine();
 				lastUpdateTime += TIME_BETWEEN_UPDATES;
 				updateCount++;
 			}
@@ -127,12 +127,13 @@ public abstract class Engine implements Runnable {
     public void updateRenderEngine() {
     }
 
-    public void updateUIEngine() {
-    }
-
     public void updateCollisionEngine() {
     }
 
     public void updatePhysicsEngine() {
+    }
+
+    public void updateNetworkEngine() {
+
     }
 }

@@ -27,31 +27,34 @@ public class EngineTest {
         pink.bindInput();
 
         game.addObject(platform);
-        for(int i = 0; i < platform.platforms.length; ++i) {
+        for (int i = 0; i < platform.platforms.length; ++i) {
             game.addObject(platform.platforms[i]);
         }
         game.addObject(pink);
         game.addObject(alien);
 
         window.add(screen);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(true);
-		window.pack();
-		window.setLocationRelativeTo(null);
-		window.setVisible(true);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(true);
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
 
         game.start();
     }
 
     class Alien extends GameObject {
+
         public Input input;
+        private Bullet bullet;
         private float movementSpeed = 5;
 
         private InputAction rightArrow = new InputAction("right");
-        private InputAction leftArrow  = new InputAction("left");
+        private InputAction leftArrow = new InputAction("left");
         private InputAction upArrow = new InputAction("up");
         private InputAction downArrow = new InputAction("down");
         private InputAction spaceBar = new InputAction("space", InputAction.ON_PRESS);
+        private InputAction x = new InputAction("x", InputAction.ON_PRESS);
 
         public Alien() {
             super();
@@ -59,11 +62,12 @@ public class EngineTest {
         }
 
         public void initialize() {
-            this.transform.scale.set(4,4);
+            this.tag = "player";
+            this.transform.scale.set(4, 4);
             BufferedImage image = Resources.loadImage("Assets/green-alien-2.png");
             this.renderer.sprite = new Sprite(image);
-            this.rigidbody = new Rigidbody(new Circle(40), 0,0);
-            this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
+            this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
+            this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100, 100));
         }
 
         public void bindInput() {
@@ -72,44 +76,84 @@ public class EngineTest {
             input.mapToKey(upArrow, KeyEvent.VK_UP);
             input.mapToKey(downArrow, KeyEvent.VK_DOWN);
             input.mapToKey(spaceBar, KeyEvent.VK_SPACE);
+            input.mapToKey(x, KeyEvent.VK_X);
         }
 
         @Override
         public void update() {
             super.update();
-           
-            if(rightArrow.isPressed()) {
-                if(this.renderer.flipped)
+
+            if (rightArrow.isPressed()) {
+                if (this.renderer.flipped) {
                     this.renderer.flipped = !this.renderer.flipped;
-                //this.rigidbody.clearVelocity();
+                }
+                this.rigidbody.clearVelocity();
                 this.rigidbody.position.x += movementSpeed;
             }
-            if(leftArrow.isPressed()) {
-                if(!this.renderer.flipped)
+            if (leftArrow.isPressed()) {
+                if (!this.renderer.flipped) {
                     this.renderer.flipped = !this.renderer.flipped;
-                //this.rigidbody.clearVelocity();
+                }
+                this.rigidbody.clearVelocity();
                 this.rigidbody.position.x -= movementSpeed;
             }
-            if(upArrow.isPressed()) {
+            if (upArrow.isPressed()) {
                 //this.rigidbody.clearVelocity();
                 this.rigidbody.position.y -= movementSpeed;
             }
-            if(downArrow.isPressed()) {
+            if (downArrow.isPressed()) {
                 //this.rigidbody.clearVelocity();
                 this.rigidbody.position.y += movementSpeed;
             }
 
-            if(spaceBar.isPressed()) {
+            if (x.isPressed()) {
+                if (this.renderer.flipped == false) {
+                    bullet = new Bullet();
+                    bullet.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100, 100));
+                    bullet.transform.position.set(this.transform.position.x, this.transform.position.y);
+                    //bullet.rigidbody = new Rigidbody(new Polygon(10, 10), (int)this.transform.position.x, (int)this.transform.position.y);
+                    //bullet.boundingbox.translate(bullet.transform.position);
+                    GameObject.instantiate(bullet);
+                } else {
+                    bullet = new Bullet();
+                    bullet.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100, 100));
+                    bullet.transform.position.set(this.transform.position.x, this.transform.position.y);
+                    //bullet.rigidbody = new Rigidbody(new Polygon(10, 10), (int)this.transform.position.x, (int)this.transform.position.y);
+                    //bullet.boundingbox.translate(bullet.transform.position);
+                    bullet.bulletdirection *= -1;
+                    GameObject.instantiate(bullet);
+                }
+            }
+
+            if (spaceBar.isPressed()) {
                 //this.rigidbody.velocity.addscalei(new Vector2(0,-100), 3);
-                int jumpSpeed = 25;
+                /*int jumpSpeed = 25;
                 int jumpHeight = 75;
                 int jumpLength = 15;
-                this.rigidbody.velocity.y = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;
+                this.rigidbody.velocity.x = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;*/
+                if (this.renderer.flipped) {
+                    this.rigidbody.velocity.x = -1000;
+                    if (upArrow.isPressed()) {
+                        this.rigidbody.velocity.y = -500;
+                    }
+                    if (downArrow.isPressed()) {
+                        this.rigidbody.velocity.y = 500;
+                    }
+                } else {
+                    this.rigidbody.velocity.x = 1000;
+                    if (upArrow.isPressed()) {
+                        this.rigidbody.velocity.y = -500;
+                    }
+                    if (downArrow.isPressed()) {
+                        this.rigidbody.velocity.y = 500;
+                    }
+
+                }
+
                 //this.rigidbody.force.addscalei(new Vector2(0,5000), 100);
             }
 
-            System.out.println(isResting());
-            
+
             this.boundingbox.translate(this.transform.position);
         }
 
@@ -128,28 +172,63 @@ public class EngineTest {
         private boolean isResting() {
             return MathEx.tolerantEquals(MathEx.RESTING, rigidbody.angularVelocity);
         }
+
+        public class Bullet extends GameObject {
+
+            public int bulletdirection;
+
+            public Bullet() {
+                super();
+                initialize();
+            }
+
+            public void initialize() {
+                this.tag = "";
+                this.transform.scale.set(1, 1);
+                BufferedImage image = Resources.loadImage("Assets/brick.png");
+                Sprite newSprite = new Sprite(image);
+                this.renderer.sprite = newSprite;
+                bulletdirection = 100;
+            }
+
+            public void update() {
+                //this.rigidbody.position.x += bulletdirection;
+                this.transform.position.x += bulletdirection;
+                this.boundingbox.translate(this.transform.position);
+            }
+            
+            public void onCollisionExit(GameObject other) {
+                if(other.tag.equals("enemy")) {
+                    System.out.println("HIT!");
+                }
+            }
+        }
+
     }
 
     class PinkAlien extends GameObject {
+
         public Input input;
         private float movementSpeed = 5;
 
         private InputAction rightArrow = new InputAction("right");
-        private InputAction leftArrow  = new InputAction("left");
+        private InputAction leftArrow = new InputAction("left");
         private InputAction upArrow = new InputAction("up");
         private InputAction downArrow = new InputAction("down");
+
         public PinkAlien() {
             super();
             initialize();
         }
 
         public void initialize() {
+            this.tag = "enemy";
             this.transform.position.set(0, 0);
-            this.transform.scale.set(4,4);
+            this.transform.scale.set(4, 4);
             BufferedImage image = Resources.loadImage("Assets/pink-alien.png");
             this.renderer.sprite = new Sprite(image);
-            this.rigidbody = new Rigidbody(new Polygon(40,40), 0,0);
-            this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
+            this.rigidbody = new Rigidbody(new Polygon(40, 40), 0, 0);
+            this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100, 100));
             //this.rigidbody.setStatic();
         }
 
@@ -164,23 +243,25 @@ public class EngineTest {
         public void update() {
             super.update();
 
-            if(rightArrow.isPressed()) {
-                if(this.renderer.flipped)
+            if (rightArrow.isPressed()) {
+                if (this.renderer.flipped) {
                     this.renderer.flipped = !this.renderer.flipped;
+                }
                 this.rigidbody.clearVelocity();
                 this.rigidbody.position.x += movementSpeed;
             }
-            if(leftArrow.isPressed()) {
-                if(!this.renderer.flipped)
+            if (leftArrow.isPressed()) {
+                if (!this.renderer.flipped) {
                     this.renderer.flipped = !this.renderer.flipped;
+                }
                 this.rigidbody.clearVelocity();
                 this.rigidbody.position.x -= movementSpeed;
             }
-            if(upArrow.isPressed()) {
+            if (upArrow.isPressed()) {
                 this.rigidbody.clearVelocity();
                 this.rigidbody.position.y -= movementSpeed;
             }
-            if(downArrow.isPressed()) {
+            if (downArrow.isPressed()) {
                 this.rigidbody.clearVelocity();
                 this.rigidbody.position.y += movementSpeed;
             }
@@ -190,6 +271,7 @@ public class EngineTest {
     }
 
     public class Platform extends GameObject {
+
         public Brick[] platforms;
 
         public Platform() {
@@ -202,13 +284,13 @@ public class EngineTest {
             Sprite sprite = new Sprite(image);
             platforms = new Brick[10];
 
-            for(int i = 0; i < platforms.length; ++i) {
+            for (int i = 0; i < platforms.length; ++i) {
                 Vector2 position = new Vector2(60 * i, 200);
                 Brick brick = new Brick(position, sprite);
                 platforms[i] = brick;
             }
 
-            this.rigidbody = new Rigidbody(new Polygon(400,40), 0, 200);
+            this.rigidbody = new Rigidbody(new Polygon(300, 35), 275, 200);
             this.rigidbody.setStatic();
         }
 
@@ -218,13 +300,14 @@ public class EngineTest {
     }
 
     public class Brick extends GameObject {
+
         public Brick(Vector2 position, Sprite sprite) {
             super();
             initialize(position, sprite);
         }
 
         public void initialize(Vector2 position, Sprite sprite) {
-            this.transform.scale.set(3,3);
+            this.transform.scale.set(3, 3);
             this.transform.position = position;
             this.renderer.sprite = sprite;
             this.rigidbody = null;

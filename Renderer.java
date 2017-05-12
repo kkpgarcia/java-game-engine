@@ -24,7 +24,7 @@ public class Renderer {
         this.flipped = false;
     }
 
-    public void render(Transform transform, Graphics2D g, Rigidbody rigidbody) {
+    public void render(Transform transform, Graphics2D g, BoundingBox2D bb, Rigidbody rigidbody) {
         originalTransform = g.getTransform();
         g.translate((Screen.width/2), (Screen.height/2));
 
@@ -65,6 +65,11 @@ public class Renderer {
                 g.setColor( Color.blue );
                 g.draw( path );
             }
+        }
+
+        if(bb != null) {
+            g.setColor (Color.BLACK);
+            g.drawRect((int)(bb.min.x + bb.max.x)/2 - 50, (int)(bb.min.y + bb.max.y)/2 - 50, 100, 100);
         }
 
         if(sprite == null || sprite.image == null) {
