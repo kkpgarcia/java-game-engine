@@ -13,13 +13,16 @@ public class NetworkTest {
         Input input = new Input(screen);
 
         GameEngine game = new GameEngine(screen);
+        Camera camera = new Camera();
 
         NetworkClient networkClient = new NetworkClient();
         NetAlien netAlien = new NetAlien();
         netAlien.input = input;
         netAlien.bindInput();
         netAlien.networkActor = new NetworkActor("main", netAlien, networkClient);
-       
+        camera.follow(netAlien);
+
+        game.addObject(camera);
         game.addObject(netAlien);
 
         networkClient.connect();

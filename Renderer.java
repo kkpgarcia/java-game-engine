@@ -37,8 +37,8 @@ public class Renderer {
                 float ry = (float)StrictMath.sin( rigidbody.orient ) * c.radius;
 
                 g.setColor( Color.red );
-                g.draw( new Ellipse2D.Float( rigidbody.position.x - c.radius, rigidbody.position.y - c.radius, c.radius * 2, c.radius * 2 ) );
-                g.draw( new Line2D.Float( rigidbody.position.x, rigidbody.position.y, rigidbody.position.x + rx, rigidbody.position.y + ry ) );
+                g.draw( new Ellipse2D.Float( rigidbody.position.x - c.radius - Camera.x , rigidbody.position.y - c.radius - Camera.y, c.radius * 2, c.radius * 2 ) );
+                g.draw( new Line2D.Float( rigidbody.position.x- Camera.x , rigidbody.position.y- Camera.y, rigidbody.position.x- Camera.x  + rx, rigidbody.position.y- Camera.y + ry ) );
             }
             else if (rigidbody.shape instanceof Polygon)
             {
@@ -53,11 +53,11 @@ public class Renderer {
 
                     if (i == 0)
                     {
-                        path.moveTo( v.x, v.y );
+                        path.moveTo( v.x- Camera.x , v.y - Camera.y);
                     }
                     else
                     {
-                        path.lineTo( v.x, v.y );
+                        path.lineTo( v.x- Camera.x, v.y- Camera.y);
                     }
                 }
                 path.closePath();
@@ -80,8 +80,8 @@ public class Renderer {
         int width = sprite.width * (int)transform.scale.x;
         int height = sprite.height * (int)transform.scale.y;
         
-        int x = (int)((transform.position.x/*- Camera.transform.position.x*/ - (width)/2));
-        int y = (int)((transform.position.y/*- Camera.transform.position.y*/ - (height)/2));
+        int x = (int)((transform.position.x - Camera.x - (width)/2));
+        int y = (int)((transform.position.y - Camera.y - (height)/2));
         if(!flipped) {
             g.drawImage(
                 sprite.image,
