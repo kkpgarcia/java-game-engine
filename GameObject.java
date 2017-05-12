@@ -4,6 +4,7 @@ import java.awt.Color;
 
 public abstract class GameObject {
 
+    public String tag;
     public Transform transform;
     public BoundingBox2D boundingbox;
     public Renderer renderer;
@@ -20,7 +21,7 @@ public abstract class GameObject {
     }
 
 	public void render(Graphics2D g) {
-		renderer.render(transform, g, rigidbody);
+		renderer.render(transform, g,boundingbox, rigidbody);
 	}
 
     public void reset(Graphics2D g) {
@@ -37,6 +38,10 @@ public abstract class GameObject {
 
     public void onCollisionExit(GameObject obj) {
 
+    }
+
+    public void onNetworkEvent(String string) {
+        
     }
 
     public static void instantiate(GameObject obj) {
