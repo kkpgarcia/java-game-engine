@@ -31,7 +31,7 @@ public class NetworkClient {
 
     public void connect() {
         try {
-            System.out.println("Connecting to " + String.valueOf(port));
+            System.out.println("Connected to " + String.valueOf(port));
             socket = new Socket("localhost", port);
             socket.setSoTimeout(SOCKET_TIMEOUT);
 
@@ -99,19 +99,15 @@ public class NetworkClient {
     }
 
     private void doClientCommand(NetworkTask task) {
-        String command = task.action;
-        System.out.println("DOING NETWORK TASK: \n" + task.toString());
-       
+        String command = task.command;
+        
         switch(command) {
             case "COMMAND_UPDATE":
                 if(networkActors.size() <= 1)
                     return;
                 NetworkActor actor = networkActors.getValue(task.id);
-                System.out.println(task.id);
                 if(actor == null)
                     return;
-                System.out.println("Applying to actor");
-                System.out.println(task.x);
                 actor.applyActor(task);
                 break;
             case "COMMAND_CREATE":
@@ -126,8 +122,6 @@ public class NetworkClient {
                 this.id = task.id;
                 break;
         }
-
-         System.out.println("ACTOR DICTIONARY: \n" + networkActors.toString());
     }
 
     private void updateServer(NetworkTask task) {

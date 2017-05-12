@@ -46,6 +46,7 @@ public class NetworkListener implements Runnable {
             return null;
 
         newTask.type = TaskType.fromInt(Integer.parseInt(token.nextToken()));
+        newTask.command = token.nextToken();
         newTask.id = token.nextToken();
         newTask.actorId = token.nextToken();
         newTask.x = Float.parseFloat(token.nextToken());

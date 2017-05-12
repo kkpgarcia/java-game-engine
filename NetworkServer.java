@@ -108,14 +108,14 @@ public class NetworkServer {
             NetworkTask task = new NetworkTask();
             //task.id = client.id;
             task.actorId = newClient.id;
-            task.action = "COMMAND_CREATE";
+            task.command = "COMMAND_CREATE";
             System.out.println("SENDING COMMAND_CREATE TO: " + id);
             client.dispatch(task);
 
             NetworkTask task2 = new NetworkTask();
             //task.id = newClient.id;
             task2.actorId = id;
-            task2.action = "COMMAND_CREATE";
+            task2.command = "COMMAND_CREATE";
             newClient.dispatch(task2);
             System.out.println("SENDING COMMAND_CREATE TO: " + newClient.id);
         }

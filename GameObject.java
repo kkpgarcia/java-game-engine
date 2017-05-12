@@ -40,6 +40,10 @@ public abstract class GameObject {
 
     }
 
+    public void onNetworkEvent(String string) {
+        
+    }
+
     public static void instantiate(GameObject obj) {
         GameEngine.instance.addObject(obj);
     }

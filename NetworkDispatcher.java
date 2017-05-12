@@ -43,6 +43,7 @@ public class NetworkDispatcher implements Runnable {
     private String createTask(NetworkTask task) {
         StringBuilder builder = new StringBuilder();
         builder.append(TaskType.toInt(task.type)).append(" ");
+        builder.append(task.command).append(" ");
         builder.append(task.id).append(" ");
         builder.append(task.actorId).append(" ");
         builder.append(task.x).append(" ");

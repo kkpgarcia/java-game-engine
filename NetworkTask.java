@@ -2,6 +2,7 @@ import java.io.Serializable;
 
 public class NetworkTask implements Serializable{
     public TaskType type;
+    public String command;
     public String id;
     public String actorId;
     public float x;
@@ -17,6 +18,7 @@ public class NetworkTask implements Serializable{
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("    TYPE: ").append(type).append("\n");
+        builder.append("    COMMAND: ").append(command).append("\n");
         builder.append("    ID: ").append(id).append("\n");
         builder.append("    ACTOR ID: ").append(actorId).append("\n");
         builder.append("    X: ").append(x).append("\n");

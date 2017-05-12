@@ -64,10 +64,11 @@ public class NetAlien extends GameObject {
 
         if (spaceBar.isPressed()) {
             //this.rigidbody.velocity.addscalei(new Vector2(0,-100), 3);
-            int jumpSpeed = 25;
+            /*int jumpSpeed = 25;
             int jumpHeight = 75;
             int jumpLength = 15;
-            this.rigidbody.velocity.x = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;
+            this.rigidbody.velocity.x = -(jumpSpeed - jumpLength/2)*(jumpSpeed - jumpLength/2) * 4 * jumpHeight/(jumpLength * jumpLength) + jumpHeight;*/
+            networkActor.action = "DO_SOMETHING";
         }
 
         networkActor.updateActor();
