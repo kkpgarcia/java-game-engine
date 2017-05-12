@@ -1,6 +1,6 @@
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 import java.net.Socket;
 
@@ -20,8 +20,8 @@ public class NetworkClient {
     private volatile Queue<NetworkTask> networkTasks;
 
     private final int port = 8888;
-    private final int SOCKET_TIMEOUT = 120;
-    private final int SLEEP_AMOUNT = 100;
+    private final int SOCKET_TIMEOUT = 15;
+    private final int SLEEP_AMOUNT = 1;
 
     public NetworkClient() {
         networkTasks = new Queue<NetworkTask>();
@@ -35,8 +35,8 @@ public class NetworkClient {
             socket = new Socket("localhost", port);
             socket.setSoTimeout(SOCKET_TIMEOUT);
 
-            ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+            DataInputStream input = new DataInputStream(socket.getInputStream());
 
             dispatcher = new NetworkDispatcher(output);
             listener = new NetworkListener(input);
@@ -95,59 +95,61 @@ public class NetworkClient {
         if(task == null)
             return;
 
-        if(task.action.contains("COMMAND")) {
-            doClientCommand(task);
-            return;
-        }
-
-        if(networkActors.size() <= 1)
-            return;
-
-        NetworkActor actor = networkActors.getValue(task.actorId);
-
-        if(actor == null)
-            return;
-        
-        actor.applyActor(task);
+        doClientCommand(task);
     }
 
     private void doClientCommand(NetworkTask task) {
         String command = task.action;
-        System.out.println("Hello");
+        System.out.println("DOING NETWORK TASK: \n" + task.toString());
+       
         switch(command) {
-            case "COMMAND CREATE":
-                NetDummy dummy = new NetDummy();
-                dummy.networkActor = new NetworkActor(dummy, this);
-                GameObject.instantiate(dummy);
-                System.out.println("Hello");
+            case "COMMAND_UPDATE":
+                if(networkActors.size() <= 1)
+                    return;
+                NetworkActor actor = networkActors.getValue(task.id);
+                System.out.println(task.id);
+                if(actor == null)
+                    return;
+                System.out.println("Applying to actor");
+                System.out.println(task.x);
+                actor.applyActor(task);
                 break;
-            case "COMMAND REMOVE":
+            case "COMMAND_CREATE":
+                System.out.println("ADDING NEW CLIENT: " + task.actorId);
+                NetDummy dummy = new NetDummy();
+                dummy.networkActor = new NetworkActor(task.actorId, dummy, this);
+                GameObject.instantiate(dummy);
+                break;
+            case "COMMAND_REMOVE":
+                break;
+            case "COMMAND_ON_CONNECT":
+                this.id = task.id;
                 break;
         }
+
+         System.out.println("ACTOR DICTIONARY: \n" + networkActors.toString());
     }
 
     private void updateServer(NetworkTask task) {
         if(task == null)
             return;
+
         dispatcher.dispatch(task);
-        
     }
 
     public void addNetworkTask(NetworkTask task) {
-        task.id = id;
+        //task.id = id;
         networkTasks.enqueue(task);
     }
 
     public void addNetworkActor(NetworkActor actor) {
-        String id = UUID.randomUUID().toString();
-
         try {
-            networkActors.add(id, actor);
+            networkActors.add(actor.id, actor);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        actor.id = id;
+        //actor.id = id;
         actorId.add(id);
     }
 

@@ -1,15 +1,13 @@
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 public class NetworkClientConnection {
     public String id;
-    //public Socket socket;
     private NetworkDispatcher dispatcher;
     private NetworkListener listener;
 
-    public NetworkClientConnection(String id, ObjectInputStream input, ObjectOutputStream output) {
+    public NetworkClientConnection(String id, DataInputStream input, DataOutputStream output) {
         this.id = id;
-        //this.socket = socket;
         listener = new NetworkListener(input);
         dispatcher = new NetworkDispatcher(output);
     }
@@ -26,6 +24,9 @@ public class NetworkClientConnection {
     }
 
     public NetworkTask listen() {
-        return listener.listen();
+        NetworkTask task = listener.listen();
+        if(task != null)
+            task.id = id;
+        return task;
     }
 }

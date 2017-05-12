@@ -1,23 +1,17 @@
-import java.io.ObjectOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
 public class NetworkDispatcher implements Runnable {
-    private ObjectOutputStream output;
+    private DataOutputStream output;
     private volatile Queue<NetworkTask> networkTasks;
     private boolean connected;
 
-    private final int SLEEP_AMOUNT = 100;
+    private final int SLEEP_AMOUNT = 1;
 
-    public NetworkDispatcher(ObjectOutputStream output) {
+    public NetworkDispatcher(DataOutputStream output) {
         networkTasks = new Queue<NetworkTask>();
-        //try {
-            this.output = output;//new ObjectOutputStream(socket.getOutputStream());
-            //if(output != null)
-              //  connected = true;
-        //} catch (IOException e) {
-          //  e.printStackTrace();
-        //}
+        this.output = output;
     }
     
     public void run() {
@@ -28,10 +22,12 @@ public class NetworkDispatcher implements Runnable {
                     NetworkTask task = networkTasks.dequeue();
                     if(task == null)
                         continue;
-                    output.writeObject(task);
-                    output.flush();
                     try {
+                        String taskString = createTask(task);
+                        output.writeUTF(taskString);
+                        output.flush();
                         Thread.sleep(SLEEP_AMOUNT);
+                    } catch(NullPointerException ne) {
                     } catch (Exception e) {
                         e.printStackTrace();
                         connected = false;
@@ -42,6 +38,17 @@ public class NetworkDispatcher implements Runnable {
             e.printStackTrace();
             connected = false;
         }
+    }
+
+    private String createTask(NetworkTask task) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(TaskType.toInt(task.type)).append(" ");
+        builder.append(task.id).append(" ");
+        builder.append(task.actorId).append(" ");
+        builder.append(task.x).append(" ");
+        builder.append(task.y).append(" ");
+        builder.append(task.action);
+        return builder.toString();
     }
 
     public void dispatch(NetworkTask task) {

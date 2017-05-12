@@ -19,8 +19,8 @@ public class NetworkTest {
         NetAlien netAlien = new NetAlien();
         netAlien.input = input;
         netAlien.bindInput();
-        netAlien.networkActor = new NetworkActor(netAlien, networkClient);
-
+        netAlien.networkActor = new NetworkActor("main", netAlien, networkClient);
+       
         game.addObject(netAlien);
 
         window.add(screen);

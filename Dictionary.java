@@ -223,4 +223,28 @@ public class Dictionary<T extends Comparable<T>,U> {
         KeyValuePair<T,U> temp = find(key);
         return temp != null;
     }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        if(count == 0)
+            builder.append("    ").append("Dictionary is empty.");
+        else {
+            builder.append("    ").append(pairString(root));
+        }
+        return builder.toString();
+    }
+
+    private String pairString(KeyValuePair pair) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(pair.toString() + "\n");
+
+        if(pair.left != null)
+            builder.append("    ").append(pairString(pair.left));
+        if(pair.right != null)
+            builder.append("    ").append(pairString(pair.right));
+        
+        return builder.toString();
+    }
 }

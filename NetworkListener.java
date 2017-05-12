@@ -1,18 +1,20 @@
-import java.io.ObjectInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.EOFException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.util.NoSuchElementException;
 
 public class NetworkListener implements Runnable {
-    private ObjectInputStream input;
+    private DataInputStream input;
     private boolean connected;
     private volatile Queue<NetworkTask> networkTasks;
 ;
-    private final int SLEEP_AMOUNT = 100;
+    private final int SLEEP_AMOUNT = 1;
 
-    public NetworkListener(ObjectInputStream input) {
+    public NetworkListener(DataInputStream input) {
         networkTasks = new Queue<NetworkTask>();
         this.input = input;
     }
@@ -22,11 +24,10 @@ public class NetworkListener implements Runnable {
             try {
                  while(connected) {
                     try {
-                        NetworkTask task = (NetworkTask)input.readObject();
-                        
-                        task.type = TaskType.IN;
-                        networkTasks.enqueue(task);
+                        String task = input.readUTF();
+                        networkTasks.enqueue(parseTask(task));
                     } catch(SocketTimeoutException se) {
+                    } catch(EOFException ee) {
                     } catch(ClassCastException ce) {
                         continue;
                     }
@@ -35,6 +36,27 @@ public class NetworkListener implements Runnable {
                 e.printStackTrace();
                 connected = false;
             }
+    }
+
+    private NetworkTask parseTask(String task) {
+        NetworkTask newTask = new NetworkTask();
+        StringTokenizer token = new StringTokenizer(task);
+
+        if(!token.hasMoreTokens())
+            return null;
+
+        newTask.type = TaskType.fromInt(Integer.parseInt(token.nextToken()));
+        newTask.id = token.nextToken();
+        newTask.actorId = token.nextToken();
+        newTask.x = Float.parseFloat(token.nextToken());
+        newTask.y = Float.parseFloat(token.nextToken());
+        try {
+            newTask.action = token.nextToken();
+        } catch (NoSuchElementException ne) {
+            //System.out.println("No action parsed");
+        }
+
+        return newTask;
     }
 
     public NetworkTask listen() {

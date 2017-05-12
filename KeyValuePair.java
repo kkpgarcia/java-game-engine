@@ -9,4 +9,20 @@ public class KeyValuePair<T extends Comparable<T>,U> {
         this.key = key;
         this.value = value;
     }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        if(key == null)
+            builder.append("NULL ");
+        else
+            builder.append(key).append(" ");
+
+        if(value == null)
+            builder.append("NULL ");
+        else
+            builder.append(value).append(" ");
+        
+        return builder.toString();
+    }
 }
