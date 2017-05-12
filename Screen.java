@@ -1,13 +1,13 @@
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 import java.awt.RenderingHints;
 import java.awt.Dimension;
-
-import java.util.Arrays;
-import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Screen extends JPanel {
@@ -17,7 +17,8 @@ public class Screen extends JPanel {
 	private GameObject[] objects;
 	private ReentrantLock lock;
 
-	public Screen(int width, int height) {
+	public Screen(String frameName, int width, int height) {
+		JFrame window = new JFrame(frameName);
 		this.setPreferredSize(new Dimension(width, height));
         this.width = width;
         this.height = height;
@@ -25,6 +26,13 @@ public class Screen extends JPanel {
 		requestFocus();
 		lock = new ReentrantLock();
 		objects = new GameObject[0];
+
+		window.add(this);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(true);
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
 	}
 
 	public void addDrawingComponents(GameObject obj) {
