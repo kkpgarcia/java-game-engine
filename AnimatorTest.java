@@ -17,8 +17,13 @@ public class AnimatorTest {
         Bee bee = new Bee();
         bee.input = input;
         bee.bindInput();
+
+        Bee bee2 = new Bee();
+        bee2.rigidbody.position = new Vector2(150,150);
+        bee2.transform.setParent(bee);
         
         game.addObject(bee);
+        game.addObject(bee2);
 
         window.add(screen);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

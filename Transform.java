@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+
 public class Transform {
     public Vector2 position;
     public Vector2 rotation;
     public Vector2 scale;
     public Vector2 prevPosition;
+
+    private GameObject parent;
 
     public Transform() {
         this.position = new Vector2();
@@ -42,6 +46,14 @@ public class Transform {
 
     public void scale(Vector2 scale) {
         this.scale = this.scale.add(scale);
+    }
+
+    public GameObject getParent() {
+        return parent;
+    }
+
+    public void setParent(GameObject parent) {
+        this.parent = parent;
     }
 
     public String toString() {

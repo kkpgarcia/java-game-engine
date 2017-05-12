@@ -1,6 +1,7 @@
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.Color;
+import java.util.UUID;
 
 public abstract class GameObject {
 
@@ -17,8 +18,11 @@ public abstract class GameObject {
 	}
 
 	public void update() {
-        if(this.rigidbody != null)
+        if(this.rigidbody != null && this.transform.getParent() != null) {
+            this.transform.position = this.transform.getParent().transform.position.add(this.rigidbody.position);
+        } else if(this.rigidbody != null && this.transform.getParent() == null) {
             this.transform.position = this.rigidbody.position;
+        }
     }
 
 	public void render(Graphics2D g) {
