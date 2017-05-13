@@ -12,6 +12,8 @@ import SKEngine.Animation.AnimationCallback;
 import SKEngine.Collision.BoundingBox2D;
 import SKEngine.Collision.Circle;
 import SKEngine.Physics.Rigidbody;
+import SKEngine.Network.NetworkActor;
+
 import SKEngine.Collections.Dictionary;
 import SKEngine.Utility.Resources;
 
@@ -20,6 +22,8 @@ import java.awt.event.KeyEvent;
 
 public class Alien extends GameObject {
     public Input input;
+    public NetworkActor networkActor;
+
     private float movementSpeed = 5;
     private String currentState = "IDLE_STATE";
 
@@ -86,6 +90,8 @@ public class Alien extends GameObject {
         }
 
         this.boundingbox.translate(this.transform.position);
+        if(networkActor != null)
+            networkActor.updateActor();
     }
 
     private Animator createAnimator() {

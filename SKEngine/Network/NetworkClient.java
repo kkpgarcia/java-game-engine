@@ -114,7 +114,7 @@ public class NetworkClient {
             case "COMMAND_UPDATE":
                 if(onUpdateActions != null) {
                     for(NetworkClientCallback callback : onUpdateActions)
-                        callback.onExecute();
+                        callback.onExecute(task, this);
                 }
 
                 if(networkActors.size() <= 1)
@@ -127,13 +127,13 @@ public class NetworkClient {
             case "COMMAND_CREATE":
                 if(onNewClientActions != null) {
                     for(NetworkClientCallback callback : onNewClientActions)
-                        callback.onExecute();
+                        callback.onExecute(task, this);
                 }
                 break;
             case "COMMAND_REMOVE":
                 if(onClientDisconnectActions != null) {
                     for(NetworkClientCallback callback : onClientDisconnectActions)
-                        callback.onExecute();
+                        callback.onExecute(task, this);
                 }
                 break;
             case "COMMAND_ON_CONNECT":
