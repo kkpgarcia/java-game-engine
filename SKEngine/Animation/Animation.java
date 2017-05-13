@@ -4,63 +4,47 @@ import SKEngine.Core.Renderer;
 import SKEngine.Core.Sprite;
 
 public class Animation {
-    public Sprite[] sprites;
-    public float[] interval;
-    public AnimationCallback[] callbacks;
+    public Frame[] frame;
     public Renderer renderer;
     public boolean onPlay = false;
-    public boolean onLoop = false;;
-    public int frames = 0;
+    public boolean onLoop = false;
 
-    private int currentFrame = 0;
+    private int currentIndex = 0;
     private float currentTime = 0;
-    private final float incremental = 0.1f;
+    private final float INCREMENTAL = 0.1f;
 
     public Animation() {
-        this.sprites = null;
-        this.interval = null;
-        this.frames = 0;
-        this.callbacks = null;
+        this.frame = null;
     }
 
-    public Animation(Sprite[] sprites, float[] interval, AnimationCallback[] callbacks, int frames) {
-        this.sprites = sprites;
-        this.interval = interval;
-        this.frames = frames;
-        this.callbacks = callbacks;
+    public Animation(Frame[] frame) {
+        this.frame = frame;
     }
 
     public void updateAnimation() {
-        if(!onPlay || sprites == null || sprites.length <= 0 
-        || interval == null || interval.length <= 0
-        || frames == 0) {
+        if(!onPlay || frame == null || frame.length <= 0) {
             return;
         }
 
         if(renderer.sprite == null) {
-            renderer.sprite = sprites[currentFrame];
+            renderer.sprite = frame[currentIndex].sprite;
         }
 
-        if(currentTime < interval[currentFrame]) {
-            currentTime += incremental;
+        if(currentTime < frame[currentIndex].interval) {
+            currentTime += INCREMENTAL;
         } else {
-            if(currentFrame < sprites.length - 1) {
-                currentFrame++;
-            } else {
-                currentFrame = 0;
-            }
+            if(currentIndex < frame.length - 1)
+                currentIndex++;
+            else
+                currentIndex = 0;
 
             currentTime = 0;
 
-            Sprite currentSprite = sprites[currentFrame];
-            renderer.sprite = currentSprite;
+            Frame currentFrame = frame[currentIndex];
+            renderer.sprite = currentFrame.sprite;
 
-            if(callbacks != null) {
-                AnimationCallback callback = callbacks[currentFrame];
-                
-                if(callback != null)
-                    callback.onExecute();
-            }
+            if(currentFrame.callback != null)
+                currentFrame.callback.onExecute();
         }
     }
 }
