@@ -10,8 +10,7 @@ public class EngineTest {
     }
 
     public void runTest() {
-        JFrame window = new JFrame("Physics Test");
-        Screen screen = new Screen(1280, 720);
+        Screen screen = new Screen("Engine Test",1280, 720);
         Input input = new Input(screen);
 
         GameEngine game = new GameEngine(screen);
@@ -32,13 +31,6 @@ public class EngineTest {
         }
         game.addObject(pink);
         game.addObject(alien);
-
-        window.add(screen);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(true);
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
 
         game.start();
     }

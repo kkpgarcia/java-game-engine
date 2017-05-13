@@ -9,26 +9,21 @@ public class NetworkTest {
     }
 
     public void runTest() {
-        JFrame window = new JFrame("Network Test");
-        Screen screen = new Screen(500,500);
+        Screen screen = new Screen("Network Test",500,500);
         Input input = new Input(screen);
 
         GameEngine game = new GameEngine(screen);
+        Camera camera = new Camera();
 
         NetworkClient networkClient = new NetworkClient();
         NetAlien netAlien = new NetAlien();
         netAlien.input = input;
         netAlien.bindInput();
         netAlien.networkActor = new NetworkActor("main", netAlien, networkClient);
-       
-        game.addObject(netAlien);
+        camera.follow(netAlien);
 
-        window.add(screen);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(true);
-		window.pack();
-		window.setLocationRelativeTo(null);
-		window.setVisible(true);
+        game.addObject(camera);
+        game.addObject(netAlien);
 
         networkClient.connect();
         game.start();
