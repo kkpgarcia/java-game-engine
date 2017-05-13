@@ -39,7 +39,7 @@ public class Alien extends GameObject {
         this.tag = "player";
         this.transform.scale.set(4,4);
         this.animator = createAnimator();
-        this.rigidbody = new Rigidbody(new Circle(20), 0, 0);
+        this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
         this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(20,20));
         
         this.animator.play(currentState);
@@ -70,21 +70,14 @@ public class Alien extends GameObject {
             this.currentState = "WALKING_STATE";
             this.rigidbody.position.x -= movementSpeed;
         }
-        if (upArrow.isPressed()) {
-            this.currentState = "WALKING_STATE";
-            this.rigidbody.position.y -= movementSpeed;
-        }
-        if (downArrow.isPressed()) {
-            this.currentState = "WALKING_STATE";
-            this.rigidbody.position.y += movementSpeed;
-        }
+        
         if(spacebar.isPressed()) {
             this.currentState = "ACTION_STATE";
         }
 
         if(!rightArrow.isPressed() && !leftArrow.isPressed()
         && !upArrow.isPressed() && !downArrow.isPressed()
-        && !spacebar.isPressed() && !currentState.equals("IDLE_STATE")) {
+        && !spacebar.isPressed() && !currentState.equals("ACTION_STATE")) {
             this.currentState = "IDLE_STATE";
         }
 
@@ -180,5 +173,6 @@ public class Alien extends GameObject {
 
     private void onAction() {
         System.out.println("Doing Action");
+        this.currentState = "IDLE_STATE";
     }
 }

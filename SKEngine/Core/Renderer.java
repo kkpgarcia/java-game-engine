@@ -74,10 +74,10 @@ public class Renderer {
             }
         }
 
-        if(bb != null) {
+        /*if(bb != null) {
             g.setColor (Color.BLACK);
             g.drawRect((int)(bb.min.x + bb.max.x)/2 - 50, (int)(bb.min.y + bb.max.y)/2 - 50, 100, 100);
-        }
+        }*/
 
         if(sprite == null || sprite.image == null) {
             reset(g);

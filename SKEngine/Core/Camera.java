@@ -14,7 +14,5 @@ public class Camera extends GameObject {
             this.x = target.transform.position.x;
             this.y = target.transform.position.y;
         }
-
-        System.out.println(x);
     }
 }

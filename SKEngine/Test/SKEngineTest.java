@@ -1,10 +1,12 @@
 package SKEngine.Test;
 
+import SKEngine.Core.Camera;
 import SKEngine.Core.GameEngine;
 import SKEngine.Core.Screen;
-import SKEngine.Core.Camera;
 import SKEngine.Core.Input;
 import SKEngine.Core.GameObject;
+
+import java.util.ArrayList;
 
 public class SKEngineTest {
     public static void main(String[] args) {
@@ -19,7 +21,8 @@ public class SKEngineTest {
 
         Scene scene = new Scene();
         scene.input = input;
-        scene.createScene();
+        //scene.camera = ;
+        scene.createScene(camera);
 
         game.addObject(camera);
         for(GameObject object : scene.objects) {
