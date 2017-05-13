@@ -5,10 +5,20 @@ import SKEngine.Physics.Manifold;
 import SKEngine.Physics.Rigidbody;
 import SKEngine.Calculations.MathEx;
 
+/**
+ * <h2>Collision Circle vs. Polygon</h2>
+ * Collision handler between circle and a polygon.
+ * <p>
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-01-05
+ * */
 public class CollisionCirclePolygon implements CollisionCallback {
 
 	public static final CollisionCirclePolygon instance = new CollisionCirclePolygon();
 
+	/**
+	 * {@inheritDoc}
+	 * */
 	@Override
 	public void handleCollision( Manifold m, Rigidbody a, Rigidbody b )
 	{

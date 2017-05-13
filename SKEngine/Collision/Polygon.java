@@ -2,6 +2,14 @@ package SKEngine.Collision;
 
 import SKEngine.Core.Vector2;
 
+/**
+ * <h2>Polygon</h2>
+ * Polygon structure for the Rigidbody, and Physics calculations.
+ * <p>
+ * @see Rigidbody - SKEngine.Physics
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-01-05
+ * */
 public class Polygon extends Shape {
 
 	public static final int MAX_POLY_VERTEX_COUNT = 64;
@@ -10,20 +18,35 @@ public class Polygon extends Shape {
 	public Vector2[] vertices = Vector2.arrayOf( MAX_POLY_VERTEX_COUNT );
 	public Vector2[] normals = Vector2.arrayOf( MAX_POLY_VERTEX_COUNT );
 
+	/**
+	 * Creates a polygon with empty vertices
+	 * */
 	public Polygon()
 	{
 	}
 	
+	/**
+	 * Creates a polygon with the given vertices
+	 * @param Vector2[] vertices
+	 * */
 	public Polygon( Vector2 ... verts)
 	{
 		set( verts );
 	}
 	
+	/**
+	 * Creates a box with the given width and height
+	 * @param float width
+	 * @param float height
+	 * */
 	public Polygon( float hw, float hh )
 	{
 		setBox( hw, hh );
 	}
 	
+	/**
+	 * 	{@inheritDoc}
+	 * */
 	@Override
 	public Shape clone()
 	{
@@ -38,13 +61,18 @@ public class Polygon extends Shape {
 
 		return p;
 	}
-
+	/**
+	 * {@inheritDoc}
+	 * */
 	@Override
 	public void initialize()
 	{
 		computeMass( 1.0f );
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * */
 	@Override
 	public void computeMass( float density )
 	{
@@ -91,18 +119,29 @@ public class Polygon extends Shape {
 		body.invInertia = (body.inertia != 0.0f) ? 1.0f / body.inertia : 0.0f;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * */
 	@Override
 	public void setOrient( float radians )
 	{
 		u.set( radians );
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * */
 	@Override
 	public Type getType()
 	{
 		return Type.Poly;
 	}
 
+	/**
+	 * Creates a box polygon with the given width, and height.
+	 * @param float width
+	 * @param float height
+	 * */
 	public void setBox( float hw, float hh )
 	{
 		vertexCount = 4;
@@ -116,6 +155,10 @@ public class Polygon extends Shape {
 		normals[3].set( -1.0f, 0.0f );
 	}
 
+	/**
+	 * Sets a polygon with the given vertices
+	 * @param Vector2[] vertices
+	 * */
 	public void set( Vector2... verts )
 	{
 		// Find the right most point on the hull
@@ -209,6 +252,11 @@ public class Polygon extends Shape {
 		}
 	}
 
+	/**
+	 * Gets the best support vector of a given direction
+	 * @param Vector2 direction
+	 * @return Vector2 best vertex
+	 * */
 	public Vector2 getSupport( Vector2 dir )
 	{
 		float bestProjection = -Float.MAX_VALUE;
