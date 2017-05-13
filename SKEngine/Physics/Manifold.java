@@ -4,6 +4,14 @@ import SKEngine.Core.Vector2;
 import SKEngine.Collision.Collisions;
 import SKEngine.Calculations.MathEx;
 
+/**
+ * <h2>Manifold</h2>
+ * A collision manifold is a small bit of information about the nature of the collision.
+ * <p>
+ * @see Rigidbody - SKEngine.Physics
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-01-05
+ * */
 public class Manifold {
 	public Rigidbody A;
 	public Rigidbody B;
@@ -15,12 +23,22 @@ public class Manifold {
 	public float df;
 	public float sf;
 
+	/**
+	 * Creates a manifold for the collision solution between two Rigidbodies.
+	 * @param Rigidbody from
+	 * @param Rigidbody against
+	 * */
 	public Manifold( Rigidbody a, Rigidbody b )
 	{
 		A = a;
 		B = b;
 	}
 
+	/**
+	 * Solves the collision between two bodies and map both to be passed to handlers.
+	 * @param Rigidbody from
+	 * @param Rigidbody against
+	 * */
 	public void solve()
 	{
 		int ia = A.shape.getType().ordinal();
@@ -29,6 +47,10 @@ public class Manifold {
 		Collisions.dispatch[ia][ib].handleCollision( this, A, B );
 	}
 
+	/**
+	 * Initializes the manifolld and see if the bodies are at rest,
+	 * and see if the bodies needs restitution
+	 * */
 	public void initialize()
 	{
 		// Calculate average restitution
@@ -55,6 +77,9 @@ public class Manifold {
 		}
 	}
 
+	/**
+	 * Applies the impulse to both rigid bodies.
+	 * */
 	public void applyImpulse()
 	{
 		// Early out and positional correct if both objects have infinite mass
@@ -128,6 +153,9 @@ public class Manifold {
 		}
 	}
 
+	/**
+	 * Corrects the position of the rigid bodies
+	 * */
 	public void positionalCorrection()
 	{
 		float correction = StrictMath.max( penetration - MathEx.PENETRATION_ALLOWANCE, 0.0f ) / (A.invMass + B.invMass) * MathEx.PENETRATION_CORRECTION;
@@ -136,6 +164,9 @@ public class Manifold {
 		B.position.addscalei( normal, B.invMass * correction );
 	}
 
+	/**
+	 * Corrects the position of the rigid bodies if it reaches infinite velocity
+	 * */
 	public void infiniteMassCorrection()
 	{
 		A.velocity.set( 0, 0 );
