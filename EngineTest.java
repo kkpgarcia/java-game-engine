@@ -14,18 +14,21 @@ public class EngineTest {
         Input input = new Input(screen);
 
         GameEngine game = new GameEngine(screen);
+        Camera camera new Camera();
 
         Platform platform = new Platform();
 
         Alien alien = new Alien();
         alien.input = input;
         alien.bindInput();
+        camera.foollow(alien);
 
         PinkAlien pink = new PinkAlien();
         pink.input = input;
         pink.bindInput();
 
         game.addObject(platform);
+        game.addObject(camera);
         for (int i = 0; i < platform.platforms.length; ++i) {
             game.addObject(platform.platforms[i]);
         }

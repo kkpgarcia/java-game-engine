@@ -11,6 +11,7 @@ public class AnimatorTest {
         Screen screen = new Screen("Animator Test",500,500);
         Input input = new Input(screen);
         GameEngine game = new GameEngine(screen);
+        Camera camera = new Camera();
 
         Bee bee = new Bee();
         bee.input = input;
@@ -19,9 +20,12 @@ public class AnimatorTest {
         Bee bee2 = new Bee();
         bee2.rigidbody.position = new Vector2(150,150);
         bee2.transform.setParent(bee);
+
+        camera.follow(bee);
         
         game.addObject(bee);
         game.addObject(bee2);
+        game.addObject(camera);
 
         game.start();
     }
