@@ -6,6 +6,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * <h2>Network Dispatcher</h2>
+ * This class handles all the outgoing messages of the server/client.
+ * It composes the network task to a string, and sends it out. This class
+ * inherits runnable so that it would run on a thread.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-09-05
+ * */
 public class NetworkDispatcher implements Runnable {
     private DataOutputStream output;
     private volatile Queue<NetworkTask> networkTasks;
@@ -13,11 +23,21 @@ public class NetworkDispatcher implements Runnable {
 
     private final int SLEEP_AMOUNT = 1;
 
+    /**
+     * Constructs and initializes the dispatcher class
+     * @param DataOutputStream output stream of a socket
+     * */
     public NetworkDispatcher(DataOutputStream output) {
         networkTasks = new Queue<NetworkTask>();
         this.output = output;
     }
     
+    /**
+     * This function is implemented from the runnable implementations.
+     * It checks if the dispatcher queue is empty. If its not, it dequeues
+     * a task, composes it to string, and sends it out to its corresponding 
+     * server/client socket.
+     * */
     public void run() {
         connected = true;
         try {
@@ -44,6 +64,11 @@ public class NetworkDispatcher implements Runnable {
         }
     }
 
+    /**
+     * Simple straightforward task composition to string.
+     * @param NetworkTask task to be composed
+     * @return String composed task
+     * */
     private String createTask(NetworkTask task) {
         StringBuilder builder = new StringBuilder();
         builder.append(TaskType.toInt(task.type)).append(" ");
@@ -56,6 +81,10 @@ public class NetworkDispatcher implements Runnable {
         return builder.toString();
     }
 
+    /**
+     * This function simply enqueues task to the dispatcher queue.
+     * @param NetworkTask task to be enqueued.
+     * */
     public void dispatch(NetworkTask task) {
         networkTasks.enqueue(task);
     }

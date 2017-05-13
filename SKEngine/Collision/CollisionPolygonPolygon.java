@@ -6,10 +6,20 @@ import SKEngine.Physics.Rigidbody;
 import SKEngine.Physics.Manifold;
 import SKEngine.Calculations.MathEx;
 
+/**
+ * <h2>Collision Polygon vs. Polygon</h2>
+ * Collision handler between a polygon and another polygon.
+ * <p>
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-01-05
+ * */
 public class CollisionPolygonPolygon implements CollisionCallback {
 
 	public static final CollisionPolygonPolygon instance = new CollisionPolygonPolygon();
 
+	/**
+	 * {@inheritDoc}
+	 * */
 	@Override
 	public void handleCollision( Manifold m, Rigidbody a, Rigidbody b ) {
 		Polygon A = (Polygon)a.shape;
@@ -126,7 +136,14 @@ public class CollisionPolygonPolygon implements CollisionCallback {
 
 		m.contactCount = cp;
 	}
-
+	
+	/**
+	 * Gets the axis with the smallest penetration value
+	 * @param int[] index of faces/edges
+	 * @param Polygon from
+	 * @param Polygon against
+	 * @return float returns the smallest distance
+	 * */
 	public float findAxisLeastPenetration( int[] faceIndex, Polygon A, Polygon B )
 	{
 		float bestDistance = -Float.MAX_VALUE;
@@ -155,6 +172,13 @@ public class CollisionPolygonPolygon implements CollisionCallback {
 		return bestDistance;
 	}
 
+	/**
+	 * Allocates the incident face to a polygon
+	 * @param Vector2[] vectors
+	 * @param Polygon reference polygon
+	 * @param Polygon polygon to apply the incident
+	 * @param int[] reference index
+	 * */
 	public void findIncidentFace( Vector2[] v, Polygon RefPoly, Polygon IncPoly, int referenceIndex )
 	{
 		Vector2 referenceNormal = RefPoly.normals[referenceIndex];
@@ -182,6 +206,7 @@ public class CollisionPolygonPolygon implements CollisionCallback {
 		v[1] = IncPoly.u.mul( IncPoly.vertices[incidentFace] ).addi( IncPoly.body.position );
 	}
 
+	
 	public int clip( Vector2 n, float c, Vector2[] face )
 	{
 		int sp = 0;

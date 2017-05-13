@@ -5,11 +5,22 @@ import SKEngine.Core.GameObject;
 
 import java.util.ArrayList;
 
+/**
+ * <h2>Collision Engine</h2>
+ * This is the engine that handles all the collisions in the
+ * game.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-02-02
+ * */
 public class CollisionEngine extends Engine {
     public CollisionEngine() {
         super();
     }
-
+    /**
+     * {@inheritDoc}
+     * */
     public void updateCollisionEngine() {
         for(GameObject obj : objects) {
             for(GameObject other : objects) {

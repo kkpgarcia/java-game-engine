@@ -4,9 +4,19 @@ import SKEngine.Core.Vector2;
 import SKEngine.Physics.Manifold;
 import SKEngine.Physics.Rigidbody;
 
+/**
+ * <h2>Collision Circle vs. Circle</h2>
+ * Collision handler between circle and another circle.
+ * <p>
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-01-05
+ * */
 public class CollisionCircleCircle implements CollisionCallback {
 	public static final CollisionCircleCircle instance = new CollisionCircleCircle();
 
+	/**
+	 * {@inheritDoc}
+	 * */
 	@Override
 	public void handleCollision( Manifold m, Rigidbody a, Rigidbody b ) {
 		Circle A = (Circle)a.shape;

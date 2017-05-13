@@ -17,14 +17,33 @@ public abstract class Shape {
 	{
 	}
 
+	/**
+	 * Clones this shape
+	 * @return Shape cloned shape
+	 * */
 	public abstract Shape clone();
 
+	/**
+	 * Computes the mass of this shape
+	 * */
 	public abstract void initialize();
 
+	/**
+	 * Computes the mass of this shape
+	 * @param float density
+	 * */
 	public abstract void computeMass( float density );
 
+	/**
+	 * Sets the orientation of this shape
+	 * @param float radians
+	 * */
 	public abstract void setOrient( float radians );
 
+	/**
+	 * Gets the type of this shape
+	 * @return Type shape
+	 * */
 	public abstract Type getType();
 
 }

@@ -5,17 +5,35 @@ import SKEngine.Calculations.MathEx;
 
 import java.util.ArrayList;
 
+/**
+ * <h2>Physics Engine</h2>
+ * Engine responsible for the physics handlers, and complex calculations.
+ * <p>
+ * @see Manifold - SKEngine.Physics
+ * @see Rigidbody - SKEngine.Physics
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-01-05
+ * */
 public class PhysicsEngine extends Engine {
     public float dt;
     public int iterations;
     public ArrayList<Manifold> contacts = new ArrayList<Manifold>();
 
+	/**
+	 * Creates, and initializes a Physics engine with the given delta time, and
+	 * number of collision iterations.
+	 * @param float delta time
+	 * @param int collision iteration count
+	 * */
     public PhysicsEngine(float dt, int iterations) {
 		super();
         this.dt = dt;
         this.iterations = iterations;
     }
 
+	/**
+	 * Updates the physics engine.
+	 * */
     public void updatePhysicsEngine() {
         contacts.clear();
 
@@ -84,12 +102,6 @@ public class PhysicsEngine extends Engine {
 		}
     }
 
-    public void clear()
-	{
-		contacts.clear();
-		//objects.clear();
-	}
-
 	// Acceleration
 	// F = mA
 	// => A = F * 1/m
@@ -101,6 +113,12 @@ public class PhysicsEngine extends Engine {
 	// Semi-Implicit (Symplectic) Euler
 	// v += (1/m * F) * dt
 	// x += v * dt
+
+	/**
+	 * Integrates the forces on a rigid body
+	 * @param Rigidbody body to integrate to
+	 * @param float delta time
+	 * */
 	public void integrateForces( Rigidbody b, float dt )
 	{
 		if(b == null)
@@ -115,6 +133,12 @@ public class PhysicsEngine extends Engine {
 		b.velocity.addscalei(MathEx.GRAVITY, dts);
 		b.angularVelocity += b.torque * b.invInertia * dts;
 	}
+
+	/**
+	 * Integrates the velocity on a rigid body
+	 * @param Rigidbody body to integrate to
+	 * @param float delta time
+	 * */
 
 	public void integrateVelocity( Rigidbody b, float dt ) {
 		

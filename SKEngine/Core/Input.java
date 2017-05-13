@@ -1,60 +1,85 @@
 package SKEngine.Core;
 
-/**
-* Author: Kyle Kristopher P. Garcia
-* Date: February 2, 2017
-*/
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * <h2>Input</h2>
+ * Camera representation for the game.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-02-02
+ * */
+
 public class Input extends KeyAdapter {
    
     private static final int NUM_KEY_CODES = 600;
-    private InputAction[] m_keyActions = new InputAction[NUM_KEY_CODES];
+    private InputAction[] keyActions = new InputAction[NUM_KEY_CODES];
 
-    private java.awt.Component m_component;
+    private java.awt.Component component;
 
+    /**
+     * Initializes input.
+     * @param java.awt.Component screen
+     * */
     public Input(java.awt.Component comp) {
-        m_component = comp;
-        m_component.addKeyListener(this);
+        component = comp;
+        component.addKeyListener(this);
 
-        m_component.setFocusTraversalKeysEnabled(false);
+        component.setFocusTraversalKeysEnabled(false);
     }
 
+    /**
+     * Maps a key code and input action.
+     * @param InputAction keyboard action
+     * @param int key code/index of the keyboard action
+     * */
     public void mapToKey(InputAction inputAction, int keyCode) {
-        m_keyActions[keyCode] = inputAction;
+        keyActions[keyCode] = inputAction;
     }
 
+    /**
+     * Gets the input action based on the key code provided.
+     * @param KeyEvent key event
+     * */
     private InputAction getKeyAction(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if(keyCode < m_keyActions.length) {
-            return m_keyActions[keyCode];
+        if(keyCode < keyActions.length) {
+            return keyActions[keyCode];
         } else {
             return null;
         }
     }
 
+    /**
+     * Clears all the bindings of the Input.
+     * @param InputAction input to be cleared
+     * */
     public void clearMap(InputAction inputAction) {
-        for(int i = 0; i < m_keyActions.length; i++) {
-            if(m_keyActions[i] == inputAction) {
-                m_keyActions[i] = null;
+        for(int i = 0; i < keyActions.length; i++) {
+            if(keyActions[i] == inputAction) {
+                keyActions[i] = null;
             }
         }
 
         inputAction.reset();
     }
 
+    /**
+     * Clears all input bindings.
+     * */
     public void resetAllGameActions() {
-        for(int i = 0; i < m_keyActions.length; i++) {
-            if(m_keyActions[i] != null) {
-                m_keyActions[i].reset();
+        for(int i = 0; i < keyActions.length; i++) {
+            if(keyActions[i] != null) {
+                keyActions[i].reset();
             }
         }
     }
+
      @Override
     public void keyTyped(KeyEvent e) {
         e.consume();

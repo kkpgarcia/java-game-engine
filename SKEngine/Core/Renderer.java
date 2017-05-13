@@ -16,21 +16,46 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 
+/**
+ * <h2>Renderer</h2>
+ * This is a component of a game object. This handls the drawing of an image to a screen.
+ * <p>
+ * 
+ * @see Sprite - SKEngine.Core
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-02-02
+ * */
 public class Renderer {
     public Sprite sprite;
     public boolean flipped;
 
     private AffineTransform originalTransform;
+    
+    /**
+     * Constructs an empty renderer.
+     * */
     public Renderer() {
         this.sprite = null;
         this.flipped = false;
     }
 
+    /**
+     * Constructs a renderer with a sprite.
+     * @param Sprite sprite to be rendered
+     * */
     public Renderer(Sprite sprite) {
         this.sprite = sprite;
         this.flipped = false;
     }
 
+    /**
+     * Render class called by the game object class.
+     * @param Transform transform information of the game object
+     * @param Graphics2D the screen where this should draw
+     * @param BoundingBox2D for debug purposes
+     * @param Rigidbody for debug purposes
+     * */
     public void render(Transform transform, Graphics2D g, BoundingBox2D bb, Rigidbody rigidbody) {
         originalTransform = g.getTransform();
         g.translate((Screen.width/2), (Screen.height/2));
