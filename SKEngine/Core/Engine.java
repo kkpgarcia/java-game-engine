@@ -4,6 +4,16 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * <h2>Engine</h2>
+ * Abstract engine of the game. This is the back bone of the different
+ * engines that do different tasks. This class implements runnable. This
+ * class also handles all the update, and loop time of the whole game.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-02-02
+ * */
 public abstract class Engine implements Runnable {
     protected boolean isRunning;
 
@@ -12,6 +22,9 @@ public abstract class Engine implements Runnable {
     protected Thread engineThread;
     protected ReentrantLock lock;
 
+    /**
+     * Initializes the engine.
+     * */
     public Engine() {
         init();
     }
@@ -27,6 +40,10 @@ public abstract class Engine implements Runnable {
         }
     }
 
+    /**
+     * Adds new object to its object pool.
+     * @param GameObject new object
+     * */
     public void addObject(GameObject obj) {
         lock.lock();
         
@@ -41,6 +58,10 @@ public abstract class Engine implements Runnable {
         }
     }
 
+    /**
+     * Removes a specific object from its object pool
+     * @param GameObject object to be removed
+     * */
     public void removeObject(GameObject obj) {
         lock.lock();
         
@@ -59,6 +80,11 @@ public abstract class Engine implements Runnable {
         engineThread.start();
     }
     
+    /**
+     * This function runs the whole engine on a fixed frame rate to limit
+     * unecessary high updates, and keep the frames to target a specific rate.
+     * This also calls specific funtions for other engines to update to.
+     * */
     public void run() {
         final double GAME_HERTZ = 30;
 		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
@@ -122,16 +148,29 @@ public abstract class Engine implements Runnable {
         }
     }
 
- 
+    /**
+     * Updates the main engine, all the game object updates for the logic.
+     * */
     public void updateMainEngine() {
     }
 
+    /**
+     * Updates the render engine, and just do repaint on the screen.
+     * */
     public void updateRenderEngine() {
     }
 
+    /**
+     * Updates the collision engine, and check all object if there are colliding
+     * objects.
+     * */
     public void updateCollisionEngine() {
     }
 
+    /**
+     * Updates the physics engine, and check for all impulses, and apply proper
+     * force, and velocity to an object.
+     * */
     public void updatePhysicsEngine() {
     }
 

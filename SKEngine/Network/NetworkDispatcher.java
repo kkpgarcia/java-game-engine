@@ -9,7 +9,7 @@ import java.net.Socket;
 /**
  * <h2>Network Dispatcher</h2>
  * This class handles all the outgoing messages of the server/client.
- * It parses the network task to a string, and sends it out. This class
+ * It composes the network task to a string, and sends it out. This class
  * inherits runnable so that it would run on a thread.
  * <p>
  * 
@@ -35,7 +35,7 @@ public class NetworkDispatcher implements Runnable {
     /**
      * This function is implemented from the runnable implementations.
      * It checks if the dispatcher queue is empty. If its not, it dequeues
-     * a task, parse it to string, and sends it out to its corresponding 
+     * a task, composes it to string, and sends it out to its corresponding 
      * server/client socket.
      * */
     public void run() {
@@ -65,9 +65,9 @@ public class NetworkDispatcher implements Runnable {
     }
 
     /**
-     * Simple straightforward task parse to string.
-     * @param NetworkTask task to be parsed
-     * @return String parsed task
+     * Simple straightforward task composition to string.
+     * @param NetworkTask task to be composed
+     * @return String composed task
      * */
     private String createTask(NetworkTask task) {
         StringBuilder builder = new StringBuilder();
