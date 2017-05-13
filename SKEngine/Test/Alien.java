@@ -179,6 +179,7 @@ public class Alien extends GameObject {
 
     private void onAction() {
         System.out.println("Doing Action");
+        this.networkActor.action = "DO_SOMETHING";
         this.currentState = "IDLE_STATE";
     }
 }

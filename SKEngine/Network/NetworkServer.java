@@ -14,6 +14,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * <h2>Network Server</h2>
+ * A server implementation that accepts more than one client.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-09-05
+ * */
 public class NetworkServer {
     private ServerSocket server;
     private boolean running;
@@ -30,6 +38,9 @@ public class NetworkServer {
 
     private int it = 0;
 
+    /**
+     * Creates and initializes the Server.
+     * */
     public NetworkServer() {
         idList = new ArrayList<String>();
         networkTasks = new Queue<NetworkTask>();
@@ -42,6 +53,9 @@ public class NetworkServer {
         }
     }
 
+    /**
+     * Runs the server.
+     * */
     public void runServer() {
         running = true;
 
@@ -60,6 +74,9 @@ public class NetworkServer {
         }
     }
 
+    /**
+     * Accepts connections when ever it is available.
+     * */
     private void acceptConnections() {
         try {
             //System.out.println("Waiting for connections...");
@@ -77,6 +94,12 @@ public class NetworkServer {
         }
     }
 
+    /**
+     * Creates a new client connection, creates a listener, and a dispatcher 
+     * and maps the connection to a dictionary with a unique identification string.
+     * @param Socket socket of the client.
+     * @see NetworkClientConnection - SKEngine.Network
+     * */
     private void createNewClientConnection(Socket socket) {
         String id = UUID.randomUUID().toString();
         NetworkClientConnection client = null;
@@ -99,6 +122,13 @@ public class NetworkServer {
         resolveClients(client);
     }
 
+    /**
+     * Resolves the client connections to each other. This function sends new information to
+     * existing clients, and sends the information of the existing clients to the new client.
+     * @param NetworkClientConnection new client
+     * @see NetworkClientConnection - SKEngine.Network
+     * @see NetworkTask - SKEngine.Network
+     * */
     private void resolveClients(NetworkClientConnection newClient) {
         if(idList.size() == 0) {
             idList.add(newClient.id);
@@ -128,6 +158,12 @@ public class NetworkServer {
         idList.add(newClient.id);
     }
 
+    /**
+     * Checks if a network task exists on the listener queue. If
+     * its not empty, it drags out of the listener, and put it in the
+     * main server task queue.
+     * @see NetworkClientConnection - SKEngine.Network
+     * */
     private void listenToConnections() {
         if(clients.size() == 0)
             return;
@@ -143,6 +179,12 @@ public class NetworkServer {
         }
     }
 
+    /**
+     * Updates the connection if the network task queue is not empty.
+     * Checks the appropriate id for the update, and sends the task through
+     * the network client connection.
+     * @see NetworkClientConnection - SKEngine.Network
+     * */
     private void updateConnections() {
         if(networkTasks.isEmpty())
             return;
@@ -168,12 +210,11 @@ public class NetworkServer {
         }
     }
 
+    /**
+     * Enqueues a task on the server task queue.
+     * @param NetworkTask task
+     * */
     public void addNetworkTask(NetworkTask task) {
         networkTasks.enqueue(task);
-    }
-
-    public static void main(String[] args) {
-        NetworkServer networkServer = new NetworkServer();
-        networkServer.runServer();
     }
 }

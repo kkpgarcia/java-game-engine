@@ -2,6 +2,15 @@ package SKEngine.Network;
 
 import java.io.Serializable;
 
+/**
+ * <h2>Network Task</h2>
+ * A command/message container to be passed along the network client
+ * or network server.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-09-05
+ * */
 public class NetworkTask implements Serializable{
     public TaskType type;
     public String command;
@@ -11,6 +20,9 @@ public class NetworkTask implements Serializable{
     public float y;
     public String action;
 
+    /**
+     * Constructs and initializes the network task
+     * */
     public NetworkTask() {
         id = "null";
         actorId = "null";

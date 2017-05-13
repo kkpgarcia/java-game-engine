@@ -1,29 +1,25 @@
 package SKEngine.Utility;
 
-/**
-* Author: Kyle Kristopher P. Garcia
-* Date: February 2, 2017
-*/
-
 import java.io.File;
 import java.nio.file.Paths;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
 /**
-* This class is a utility class that helps the user
-* obtain resources from the resource folder
-*/
+ * <h2>Resources</h2>
+ * This class is a utility class that helps the user
+ * obtain resources from the resource folder
+ * @author Kyle Kristopher P. Garcia
+ * @since 2017-02-02
+ */
 public class Resources {
-    public static void loadText(String name) {
 
-    }
-
+    /**
+     * Loads an image with the given directory
+     * @param String directory
+     * @return BufferedImage image loaded
+     * */
     public static BufferedImage loadImage(String name) {
         BufferedImage image = null;
         try {
@@ -35,6 +31,10 @@ public class Resources {
         return image;
     }
 
+    /**
+     * Get the absolute file path of the project
+     * @return String absolute file path
+     * */
     private static String getMain() {
         return Paths.get(".").toAbsolutePath().normalize().toString();
     }

@@ -12,6 +12,14 @@ import java.net.Socket;
 import java.util.UUID;
 import java.util.ArrayList;
 
+/**
+ * <h2>Network Server</h2>
+ * A client implementation for multiplayer games.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-09-05
+ * */
 public class NetworkClient {
     private String id;
     private Socket socket;
@@ -32,12 +40,18 @@ public class NetworkClient {
     private final int SOCKET_TIMEOUT = 15;
     private final int SLEEP_AMOUNT = 1;
 
+    /**
+     * Creates and initializes the client.
+     * */
     public NetworkClient() {
         networkTasks = new Queue<NetworkTask>();
         actorId = new ArrayList<String>();
         networkActors = new Dictionary<String, NetworkActor>();
     }
 
+    /**
+     * Connects the client to an available server.
+     * */
     public void connect() {
         try {
             System.out.println("Connected to " + String.valueOf(port));
@@ -58,6 +72,10 @@ public class NetworkClient {
         }
     }
 
+    /**
+     * Creates threads for the listener, and the dispatcher, and runs
+     * the client update via thread.
+     * */
     private void runClient() {
         Thread listenerThread = new Thread(listener);
         listenerThread.start();
@@ -80,6 +98,12 @@ public class NetworkClient {
         clientThread.start();
     }
 
+    /**
+     * Check if a network task exists on the listener queue.
+     * If its not empty, it drags out of the listener, and put the
+     * task to the main client task queue.
+     * @see NetworkListener - SKEngine.Network
+     * */
     private void listenToServer() {
         NetworkTask task = listener.listen();
         if(task != null) {
@@ -88,6 +112,12 @@ public class NetworkClient {
         }
     }
 
+    /**
+     * Handles all the tasks given by the server, and the client
+     * itself. It segregates all the network from IN, and OUT.
+     * @see TaskType - SKEngine.Network
+     * @see NetworkListener -SKEngine.Network
+     * */
     private void handleTasks() {
         if(networkTasks.isEmpty())
             return;
@@ -100,6 +130,10 @@ public class NetworkClient {
             updateServer(task);
     }
 
+    /**
+     * Update the client by doing a client command.
+     * @param NetworkTask task to be accomplished
+     * */
     public void updateClient(NetworkTask task) {
         if(task == null)
             return;
@@ -107,6 +141,18 @@ public class NetworkClient {
         doClientCommand(task);
     }
 
+    /**
+     * Checks if the command is the ff:
+     * <p>
+     * <b>COMMAND_UPDATE</b> - update command to update specific actors
+     * <p>
+     * <b>COMMAND_CREATE</b> - when a new client is connected
+     * <p>
+     * <b>COMMAND_REMOVE</b> - when a client disconnects
+     * <p>
+     * <b>COMMAND_ON_CONNECT</b> - when this client connects to a server
+     * @param NetworkTask current task
+     * */
     private void doClientCommand(NetworkTask task) {
         String command = task.command;
         
@@ -142,6 +188,10 @@ public class NetworkClient {
         }
     }
 
+    /**
+     * Sends a task to a the dispatcher.
+     * @param NetworkTask task to be sent out
+     * */
     private void updateServer(NetworkTask task) {
         if(task == null)
             return;
@@ -149,10 +199,18 @@ public class NetworkClient {
         dispatcher.dispatch(task);
     }
 
+    /**
+     * Enqueues a network task to the client task queue
+     * @param NetworkTask new task
+     * */
     public void addNetworkTask(NetworkTask task) {
         networkTasks.enqueue(task);
     }
 
+    /**
+     * Add actions when the client recieves updates
+     * @param NetworkClientCallback action to be executed
+     * */
     public void addOnUpdateActions(NetworkClientCallback callback) {
         if(onUpdateActions != null) {
             onUpdateActions.add(callback);
@@ -164,6 +222,10 @@ public class NetworkClient {
         }
     }
 
+    /**
+     * Add actions when the client recieves new client information
+     * @param NetworkClientCallback action to be executed
+     * */
     public void addNewClientConnectionAction(NetworkClientCallback callback) {
         if(onNewClientActions != null) {
             onNewClientActions.add(callback);
@@ -175,6 +237,10 @@ public class NetworkClient {
         }
     }
 
+    /**
+     * Add actions when the client recieve other client disconnection
+     * @param NetworkClientCallback action to be executed
+     * */
     public void addClientDisconnectAction(NetworkClientCallback callback) {
         if(onClientDisconnectActions != null) {
             onClientDisconnectActions.add(callback);
@@ -186,6 +252,11 @@ public class NetworkClient {
         }
     }
 
+    /**
+     * Add network actors to be updated to the server/client
+     * @param NetworkActor new network actor
+     * @see NetworkActor - SKEngine.Network
+     * */
     public void addNetworkActor(NetworkActor actor) {
         try {
             networkActors.add(actor.id, actor);

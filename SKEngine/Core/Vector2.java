@@ -2,27 +2,54 @@ package SKEngine.Core;
 
 import SKEngine.Calculations.MathEx;
 
+/**
+ * <h2>Vector2</h2>
+ * This is a basic primitive of the game engine.
+ * <p>
+ * 
+ * @author  Kyle Kristopher P. Garcia
+ * @since   2017-02-02
+ * */
 public class Vector2 {
 	public float x;
 	public float y;
 
+	/**
+	 * Constructs an empty vector.
+	 * */
 	public Vector2(){
 		this(0,0);
 	}
 
+	/**
+	 * Constructs an empty vector, and sets an x, and y value.
+	 * */
 	public Vector2( float x, float y ) {
 		set( x, y );
 	}
 
+	/**
+	 * Constructs an empty vector, and sets an x, and y value from
+	 * another vector.
+	 * */
 	public Vector2( Vector2 v ) {
 		set( v );
 	}
 
+	/**
+	 * Sets the vector.
+	 * @param float x
+	 * @param float y
+	 * */
 	public void set( float x, float y ) {
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Sets the vector.
+	 * @param Vector2 vecotr
+	 * */
 	public Vector2 set( Vector2 v ) {
 		x = v.x;
 		y = v.y;
@@ -31,6 +58,7 @@ public class Vector2 {
 
 	/**
 	 * Adds s to this vector and returns this. 
+	 * @param float to be added
 	 */
 	public Vector2 addi( float s ) {
 		return add( s, this );
@@ -38,6 +66,8 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the sum of this vector and s and returns out.
+	 * @param float to be added
+	 * @param Vector2 output
 	 */
 	public Vector2 add( float s, Vector2 out ) {
 		out.x = x + s;
@@ -47,6 +77,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is the sum between this vector and s.
+	 * @param float to be added
 	 */
 	public Vector2 add( float s ) {
 		return add( s, new Vector2() );
@@ -54,6 +85,7 @@ public class Vector2 {
 
 	/**
 	 * Multiplies this vector by s and returns this.
+	 * @param float to be scaled
 	 */
 	public Vector2 multiplyi( float s ) {
 		return multiply( s, this );
@@ -61,6 +93,8 @@ public class Vector2 {
 
 	/**
 	 * Sets out to this vector multiplied by s and returns out.
+	 * @param float to be scaled
+	 * @param Vector2 output
 	 */
 	public Vector2 multiply( float s, Vector2 out ) {
 		out.x = s * x;
@@ -70,6 +104,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is a multiplication of this vector and s.
+	 * @param float to be scaled
 	 */
 	public Vector2 multiply( float s ) {
 		return multiply( s, new Vector2() );
@@ -77,6 +112,7 @@ public class Vector2 {
 
 	/**
 	 * Divides this vector by s and returns this.
+	 * @param float to be scaled
 	 */
 	public Vector2 dividei( float s ) {
 		return divide( s, this );
@@ -84,6 +120,8 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the division of this vector and s and returns out.
+	 * @param float to be scaled
+	 * @param Vector2 output
 	 */
 	public Vector2 divide( float s, Vector2 out ) {
 		out.x = x / s;
@@ -93,6 +131,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is a division between this vector and s.
+	 * @param float to be scaled
 	 */
 	public Vector2 divide( float s ) {
 		return divide( s, new Vector2() );
@@ -100,6 +139,7 @@ public class Vector2 {
 
 	/**
 	 * Multiplies this vector by v and returns this.
+	 * @param Vector2 vector scale
 	 */
 	public Vector2 multiplyi( Vector2 v ) {
 		return multiply( v, this );
@@ -107,6 +147,8 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the product of this vector and v and returns out.
+	 * @param Vector2 vector scale
+	 * @param Vector2 output
 	 */
 	public Vector2 multiply( Vector2 v, Vector2 out ) {
 		out.x = x * v.x;
@@ -116,6 +158,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is the product of this vector and v.
+	 * @param Vector2 vector scale
 	 */
 	public Vector2 multiply( Vector2 v ) {
 		return multiply( v, new Vector2() );
@@ -123,6 +166,7 @@ public class Vector2 {
 
 	/**
 	 * Divides this vector by v and returns this.
+	 * @param Vector2 vector scale
 	 */
 	public Vector2 dividei( Vector2 v ) {
 		return divide( v, this );
@@ -130,6 +174,8 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the division of this vector and v and returns out.
+	 * @param Vector2 vector scale
+	 * @param Vector2 output
 	 */
 	public Vector2 divide( Vector2 v, Vector2 out ) {
 		out.x = x / v.x;
@@ -139,6 +185,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is the division of this vector by v.
+	 * @param Vector2 vector scale
 	 */
 	public Vector2 divide( Vector2 v ) {
 		return divide( v, new Vector2() );
@@ -146,6 +193,7 @@ public class Vector2 {
 
 	/**
 	 * Adds v to this vector and returns this.
+	 * @param Vector2 vector addition
 	 */
 	public Vector2 addi( Vector2 v ) {
 		return add( v, this );
@@ -153,6 +201,8 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the addition of this vector and v and returns out.
+	 * @param Vector2 vector addition
+	 * @param Vector2 output
 	 */
 	public Vector2 add( Vector2 v, Vector2 out ) {
 		out.x = x + v.x;
@@ -162,6 +212,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is the addition of this vector and v.
+	 * @param Vector2 vector addition
 	 */
 	public Vector2 add( Vector2 v ) {
 		return add( v, new Vector2() );
@@ -169,6 +220,8 @@ public class Vector2 {
 
 	/**
 	 * Adds v * s to this vector and returns this.
+	 * @param Vector2 vector addition
+	 * @param float scale value
 	 */
 	public Vector2 addscalei( Vector2 v, float s ) {
 		return addscale( v, s, this );
@@ -176,6 +229,9 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the addition of this vector and v * s and returns out.
+	 * @param Vector2 vector addition
+	 * @param float scale value
+	 * @param Vector2 output
 	 */
 	public Vector2 addscale( Vector2 v, float s, Vector2 out ) {
 		out.x = x + v.x * s;
@@ -185,6 +241,8 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is the addition of this vector and v * s.
+	 * @param Vector2 vector addition
+	 * @param float scale value
 	 */
 	public Vector2 addscale( Vector2 v, float s ) {
 		return addscale( v, s, new Vector2() );
@@ -192,6 +250,7 @@ public class Vector2 {
 
 	/**
 	 * Subtracts v from this vector and returns this.
+	 * @param Vector2 to be subtracted
 	 */
 	public Vector2 subtracti( Vector2 v ) {
 		return subtract( v, this );
@@ -199,6 +258,8 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the subtraction of v from this vector and returns out.
+	 * @param Vector2 to be subtracted
+	 * @param Vector2 output
 	 */
 	public Vector2 subtract( Vector2 v, Vector2 out ) {
 		out.x = x - v.x;
@@ -208,6 +269,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is the subtraction of v from this vector.
+	 * @param Vector2 to be subtracted
 	 */
 	public Vector2 subtract( Vector2 v ) {
 		return subtract( v, new Vector2() );
@@ -215,6 +277,7 @@ public class Vector2 {
 
 	/**
 	 * Returns the squared length of this vector.
+	 * @return float squared length
 	 */
 	public float lengthSq() {
 		return x * x + y * y;
@@ -222,6 +285,7 @@ public class Vector2 {
 
 	/**
 	 * Returns the length of this vector.
+	 * @return float length
 	 */
 	public float length() {
 		return (float)StrictMath.sqrt( x * x + y * y );
@@ -261,6 +325,8 @@ public class Vector2 {
 
 	/**
 	 * Sets this vector to the minimum between a and b.
+	 * @param Vector2 a
+	 * @param Vector2 b
 	 */
 	public Vector2 mini( Vector2 a, Vector2 b ) {
 		return min( a, b, this );
@@ -275,6 +341,8 @@ public class Vector2 {
 
 	/**
 	 * Sets this vector to the maximum between a and b.
+	 * @param Vector2 a
+	 * @param Vector2 b
 	 */
 	public Vector2 maxi( Vector2 a, Vector2 b ) {
 		return max( a, b, this );
@@ -288,6 +356,7 @@ public class Vector2 {
 
 	/**
 	 * Returns the dot product between this vector and v.
+	 * @param Vector2 other
 	 */
 	public float dot( Vector2 v ) {
 		return dot( this, v );
@@ -295,6 +364,7 @@ public class Vector2 {
 
 	/**
 	 * Returns the squared distance between this vector and v.
+	 * @param Vector2 other
 	 */
 	public float distanceSq( Vector2 v ) {
 		return distanceSq( this, v );
@@ -302,6 +372,7 @@ public class Vector2 {
 
 	/**
 	 * Returns the distance between this vector and v.
+	 * @param Vector2 other
 	 */
 	public float distance( Vector2 v ) {
 		return distance( this, v );
@@ -309,6 +380,8 @@ public class Vector2 {
 
 	/**
 	 * Sets this vector to the cross between v and a and returns this.
+	 * @param Vector2 other point
+	 * @param float a
 	 */
 	public Vector2 cross( Vector2 v, float a ) {
 		return cross( v, a, this );
@@ -316,6 +389,8 @@ public class Vector2 {
 
 	/**
 	 * Sets this vector to the cross between a and v and returns this.
+	 * @param float a
+	 * @param Vector2 other point
 	 */
 	public Vector2 cross( float a, Vector2 v ) {
 		return cross( a, v, this );
@@ -325,6 +400,7 @@ public class Vector2 {
 	 * Returns the scalar cross between this vector and v. This is essentially
 	 * the length of the cross product if this vector were 3d. This can also
 	 * indicate which way v is facing relative to this vector.
+	 * @param Vector2 other point
 	 */
 	public float cross( Vector2 v ) {
 		return cross( this, v );
@@ -373,6 +449,7 @@ public class Vector2 {
 
 	/**
 	 * Sets out to the negation of this vector and returns out.
+	 * @param Vector2 output
 	 */
 	public Vector2 negate( Vector2 out ) {
 		out.x = -x;
@@ -382,6 +459,7 @@ public class Vector2 {
 
 	/**
 	 * Returns a new vector that is the negation to this vector.
+	 * return Vector2 negated value
 	 */
 	public Vector2 negate() {
 		return negate( new Vector2() );
@@ -389,6 +467,7 @@ public class Vector2 {
 
 	/**
 	 * Returns an array of allocated Vector2 of the requested length.
+	 * @return Vector2[] array
 	 */
 	public static Vector2[] arrayOf( int length ) {
 		Vector2[] array = new Vector2[length];
