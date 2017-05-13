@@ -20,6 +20,10 @@ public class NetworkClient {
     private NetworkDispatcher dispatcher;
     private NetworkListener listener;
 
+    private ArrayList<NetworkClientCallback> onUpdateActions;
+    private ArrayList<NetworkClientCallback> onNewClientActions;
+    private ArrayList<NetworkClientCallback> onClientDisconnectActions;
+
     private volatile ArrayList<String> actorId;
     private volatile Dictionary<String,NetworkActor> networkActors;
     private volatile Queue<NetworkTask> networkTasks;
@@ -108,6 +112,11 @@ public class NetworkClient {
         
         switch(command) {
             case "COMMAND_UPDATE":
+                if(onUpdateActions != null) {
+                    for(NetworkClientCallback callback : onUpdateActions)
+                        callback.onExecute();
+                }
+
                 if(networkActors.size() <= 1)
                     return;
                 NetworkActor actor = networkActors.getValue(task.id);
@@ -116,10 +125,16 @@ public class NetworkClient {
                 actor.applyActor(task);
                 break;
             case "COMMAND_CREATE":
-                System.out.println("ADDING NEW CLIENT: " + task.actorId);
-                
+                if(onNewClientActions != null) {
+                    for(NetworkClientCallback callback : onNewClientActions)
+                        callback.onExecute();
+                }
                 break;
             case "COMMAND_REMOVE":
+                if(onClientDisconnectActions != null) {
+                    for(NetworkClientCallback callback : onClientDisconnectActions)
+                        callback.onExecute();
+                }
                 break;
             case "COMMAND_ON_CONNECT":
                 this.id = task.id;
@@ -136,6 +151,39 @@ public class NetworkClient {
 
     public void addNetworkTask(NetworkTask task) {
         networkTasks.enqueue(task);
+    }
+
+    public void addOnUpdateActions(NetworkClientCallback callback) {
+        if(onUpdateActions != null) {
+            onUpdateActions.add(callback);
+        } else {
+            if(callback != null) {
+                onUpdateActions = new ArrayList<NetworkClientCallback>();
+                onUpdateActions.add(callback);
+            }
+        }
+    }
+
+    public void addNewClientConnectionAction(NetworkClientCallback callback) {
+        if(onNewClientActions != null) {
+            onNewClientActions.add(callback);
+        } else {
+            if(callback != null) {
+                onNewClientActions = new ArrayList<NetworkClientCallback>();
+                onNewClientActions.add(callback);
+            }
+        }
+    }
+
+    public void addClientDisconnectAction(NetworkClientCallback callback) {
+        if(onClientDisconnectActions != null) {
+            onClientDisconnectActions.add(callback);
+        } else {
+            if(callback != null) {
+                onClientDisconnectActions = new ArrayList<NetworkClientCallback>();
+                onClientDisconnectActions.add(callback);
+            }
+        }
     }
 
     public void addNetworkActor(NetworkActor actor) {
