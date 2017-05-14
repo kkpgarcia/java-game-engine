@@ -13,7 +13,7 @@ import SKEngine.Core.Vector2;
  * */
 public class MathEx {
     public static final float PI = (float)StrictMath.PI;
-	public static final float EPSILON = 0.00015f;
+	public static final float EPSILON = 0.0002f;
 	public static final float EPSILON_SQ = EPSILON * EPSILON;
 	public static final float BIAS_RELATIVE = 0.95f;
 	public static final float BIAS_ABSOLUTE = 0.01f;
