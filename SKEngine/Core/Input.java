@@ -1,16 +1,16 @@
 package SKEngine.Core;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
-import java.util.EnumMap;
 import java.util.Map;
 
 /**
  * <h2>Input</h2>
- * Camera representation for the game.
+ * This class handles all keyboard input and maps them
+ * according to their key code provided by the awt library.
  * <p>
- * 
+ * @see InputAction - SKEngine.Core
+ * @see KeyEvent - java.awt.event
  * @author  Kyle Kristopher P. Garcia
  * @since   2017-02-02
  * */

@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 import java.net.Socket;
+import java.net.ConnectException;
 
 import java.util.UUID;
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class NetworkClient {
     private volatile Dictionary<String,NetworkActor> networkActors;
     private volatile Queue<NetworkTask> networkTasks;
 
-    private final int port = 8888;
     private final int SOCKET_TIMEOUT = 15;
     private final int SLEEP_AMOUNT = 1;
 
@@ -52,11 +52,12 @@ public class NetworkClient {
     /**
      * Connects the client to an available server.
      * */
-    public void connect() {
+    public void connect(String networkName, int port) {
         try {
-            System.out.println("Connected to " + String.valueOf(port));
-            socket = new Socket("localhost", port);
+            System.out.println("Connecting to " + String.valueOf(port) + "...");
+            socket = new Socket(networkName, port);
             socket.setSoTimeout(SOCKET_TIMEOUT);
+            System.out.println("Connection success!");
 
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
             DataInputStream input = new DataInputStream(socket.getInputStream());
@@ -66,6 +67,8 @@ public class NetworkClient {
 
             connected = true;
             runClient();
+        } catch(ConnectException ce) {
+            System.out.println("No client available!");
         } catch (IOException e) {
             e.printStackTrace();
             return;

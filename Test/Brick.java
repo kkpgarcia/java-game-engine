@@ -1,4 +1,4 @@
-package SKEngine.Test;
+package Test;
 
 import SKEngine.Core.GameObject;
 import SKEngine.Core.Vector2;

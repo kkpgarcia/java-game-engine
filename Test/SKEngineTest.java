@@ -1,4 +1,4 @@
-package SKEngine.Test;
+package Test;
 
 import SKEngine.Core.Camera;
 import SKEngine.Core.GameEngine;
@@ -21,13 +21,7 @@ public class SKEngineTest {
 
         Scene scene = new Scene();
         scene.input = input;
-        //scene.camera = ;
         scene.createScene(camera);
-
-        game.addObject(camera);
-        for(GameObject object : scene.objects) {
-            game.addObject(object);
-        }
 
         game.start();
     }

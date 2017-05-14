@@ -36,6 +36,7 @@ public abstract class GameObject {
 	public GameObject() {
 		this.transform = new Transform();
         this.renderer = new Renderer();
+        instantiate(this);
 	}
 
     /**
