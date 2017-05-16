@@ -68,7 +68,7 @@ public class NetworkClient {
             connected = true;
             runClient();
         } catch(ConnectException ce) {
-            System.out.println("No client available!");
+            System.out.println("No server available!");
         } catch (IOException e) {
             e.printStackTrace();
             return;

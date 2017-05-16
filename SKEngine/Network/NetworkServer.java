@@ -42,6 +42,7 @@ public class NetworkServer {
      * Creates and initializes the Server.
      * */
     public NetworkServer() {
+        
         idList = new ArrayList<String>();
         networkTasks = new Queue<NetworkTask>();
         clients = new Dictionary<String, NetworkClientConnection>();
@@ -205,7 +206,6 @@ public class NetworkServer {
             }
 
             NetworkClientConnection client = clients.getValue(id);
-            
             client.dispatch(currentTask);
         }
     }
