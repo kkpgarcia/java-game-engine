@@ -34,6 +34,6 @@ public class Scene {
             }
         });
 
-        networkClient.connect("172.20.10.12", 8888);
+        networkClient.connect("localhost", 8888);
     }
 }
