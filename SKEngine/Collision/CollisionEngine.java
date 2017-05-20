@@ -22,7 +22,6 @@ public class CollisionEngine extends Engine {
      * {@inheritDoc}
      * */
     public void updateCollisionEngine() {
-                    System.out.println("HElooo");
         for(GameObject obj : objects) {
             for(GameObject other : objects) {
                 if(!obj.equals(other)) {

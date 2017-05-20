@@ -23,8 +23,8 @@ public class EditorCellGrid extends GameObject {
     public void initialize(int size, Vector2 position) {
         this.transform.position = position;
         this.cellSize = size;
-        this.renderer = new Renderer();
-        this.boundingbox.translate(this.transform.position);
+        Vector2 correctedPos = new Vector2(this.transform.position.x + cellSize/2, this.transform.position.y + cellSize/2);
+        this.boundingbox.translate(correctedPos);
     }
 
 
@@ -37,8 +37,8 @@ public class EditorCellGrid extends GameObject {
             g.drawRect((int)(((this.boundingbox.min.x + this.boundingbox.max.x)/2) - cellSize/2), (int)(((this.boundingbox.min.y + this.boundingbox.max.y)/2) - cellSize/2), (int)cellSize, (int)cellSize);
         }*/
 
-        g.setColor(Color.GRAY);
-        g.drawRect((int)this.transform.position.x,(int)this.transform.position.y, cellSize, cellSize);
+        //g.setColor(Color.GRAY);
+        //g.drawRect((int)this.transform.position.x,(int)this.transform.position.y, cellSize, cellSize);
         g.setTransform(originalTransform);
     }
 }

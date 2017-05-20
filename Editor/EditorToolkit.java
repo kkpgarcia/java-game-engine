@@ -17,15 +17,16 @@ public class EditorToolkit extends JPanel {
     public Sprite previousSprite;
 
     public EditorToolkit() {
-        super(new GridLayout(2,4));
+        super(new GridLayout(3,4));
         JTextField textField = new JTextField();
         JButton brushTool = createButton("Brush", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(currentSprite != null || currentTool.equals("BRUSH"))
+                if(currentTool.equals("BRUSH"))
                     return;
                 
-                currentSprite = previousSprite;
-                previousSprite = null;
+                if(currentSprite != previousSprite)
+                    currentSprite = previousSprite;
+                    
                 currentTool = "BRUSH";
             }
         });
@@ -35,7 +36,6 @@ public class EditorToolkit extends JPanel {
                     return;
 
                 previousSprite = currentSprite;
-                currentSprite = null;
                 currentTool = "ERASER";
             }
         });
@@ -63,10 +63,21 @@ public class EditorToolkit extends JPanel {
             
             }
         });
+        JButton selectionTool = createButton("Selection", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(currentTool.equals("SELECTION"))
+                    return;
+                currentTool = "SELECTION";
+            }
+        });
+
         this.add(brushTool);
         this.add(eraserTool);
         this.add(colliderTool);
         this.add(rbodyTool);
+        this.add(selectionTool);
+        
+
         this.add(export);
         this.add(load);
         this.add(textField);
