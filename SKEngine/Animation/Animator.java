@@ -8,7 +8,7 @@ import SKEngine.Collections.Dictionary;
  * Animations are mapped using <b>Dictionary</b>.
  * <p>
  * @see Animation - SKEngine.Animation
- * @see Dictionary - SKEngine.Collectons
+ * @see Dictionary - SKEngine.Collections
  * @author  Kyle Kristopher P. Garcia
  * @since   2017-05-11
  * */

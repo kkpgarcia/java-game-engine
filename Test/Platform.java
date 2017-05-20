@@ -1,5 +1,6 @@
 package Test;
 
+import SKEngine.Collision.BoundingBox2D;
 import SKEngine.Core.GameObject;
 import SKEngine.Core.Vector2;
 import SKEngine.Core.Sprite;
@@ -18,7 +19,8 @@ public class Platform extends GameObject {
     }
 
     public void initialize(Vector2 position, int amount) {
-        BufferedImage image = Resources.loadImage("Assets/brick.png");
+        this.tag = "platform";
+        BufferedImage image = Resources.loadImage("src\\Assets\\brick.png");
         Sprite sprite = new Sprite(image);
         platforms = new Brick[amount];
 
@@ -32,6 +34,8 @@ public class Platform extends GameObject {
         this.rigidbody = new Rigidbody (new Polygon(500, 35), 0, 200);
         this.rigidbody.setStatic();
         this.transform.position = position;
+        
+        this.boundingbox = new BoundingBox2D(new Vector2(0,400), new Vector2(0,0));
     }
 
     public void update() {

@@ -20,7 +20,7 @@ public class Scene {
         alien.input = input;
         alien.bindInput();
         alien.networkActor = new NetworkActor("main", alien, networkClient);
-
+        
         camera.follow(alien);
 
         int brickAmount = 20;

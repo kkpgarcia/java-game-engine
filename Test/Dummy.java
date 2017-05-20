@@ -15,7 +15,7 @@ public class Dummy extends GameObject {
     public Dummy() {
         super();
         this.transform.scale.set(4,4);
-        BufferedImage image = Resources.loadImage("Assets/pink-alien.png");
+        BufferedImage image = Resources.loadImage("src\\Assets\\pink-alien.png");
         this.renderer.sprite = new Sprite(image);
         this.rigidbody = new Rigidbody(new Circle(40),0,0);
     }
