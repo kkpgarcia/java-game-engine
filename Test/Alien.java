@@ -26,6 +26,9 @@ public class Alien extends GameObject {
 
     private float movementSpeed = 5;
     private String currentState = "IDLE_STATE";
+    private boolean isGrounded;
+    private boolean isJumping;
+    private boolean isFalling;
 
     private Dictionary<String, Sprite> spriteMap = new Dictionary<String, Sprite>();
     private InputAction rightArrow = new InputAction("right");
@@ -45,7 +48,8 @@ public class Alien extends GameObject {
         this.animator = createAnimator();
         this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
         this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(20,20));
-        
+        isGrounded = true;
+        isJumping = false;
         this.animator.play(currentState);
     }
 
@@ -76,9 +80,34 @@ public class Alien extends GameObject {
         }
         
         if(spacebar.isPressed()) {
-            this.currentState = "ACTION_STATE";
+            this.currentState = "JUMP_STATE";
+            this.rigidbody.velocity.y = 100;
         }
-
+        
+        //if(isGrounded){
+        //       if(spacebar.isPressed()) {
+        //        this.currentState = "JUMP_STATE";
+        //        this.rigidbody.velocity.y = -200;
+        //       isGrounded = false;
+        //        isJumping = true;
+        //        System.out.println("I am jumping");
+        //    }   
+        //}
+        
+        //if(isJumping){
+        //    if(this.rigidbody.velocity.y <= 0){
+        //        isFalling = true;
+        //    }
+        //}
+        
+        //if(isFalling) {
+        //    this.rigidbody.velocity.y = 200;
+        //    System.out.println("I am falling");
+        //}
+        
+        System.out.println(this.rigidbody.velocity.y);
+        
+            
         if(!rightArrow.isPressed() && !leftArrow.isPressed()
         && !upArrow.isPressed() && !downArrow.isPressed()
         && !spacebar.isPressed() && !currentState.equals("ACTION_STATE")) {
@@ -88,10 +117,17 @@ public class Alien extends GameObject {
         if(!this.animator.currentState.equals(currentState)) {
             this.animator.play(currentState);
         }
-
+        
         this.boundingbox.translate(this.transform.position);
         if(networkActor != null)
             networkActor.updateActor();
+    }
+    
+    public void onCollisionStay(GameObject obj) {
+        if(obj.tag.equals("platform")){
+            isGrounded = true;
+            System.out.println("is colliding");
+        }
     }
 
     private Animator createAnimator() {
@@ -173,7 +209,7 @@ public class Alien extends GameObject {
     }
 
     private Sprite loadSprite(String name) {
-        BufferedImage image = Resources.loadImage("Assets/" + name + ".png");
+        BufferedImage image = Resources.loadImage("src\\Assets\\" + name + ".png");
         return new Sprite(image);
     }
 
