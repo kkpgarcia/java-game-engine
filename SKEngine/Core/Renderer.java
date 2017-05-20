@@ -100,7 +100,7 @@ public class Renderer {
         }
 
         if(bb != null) {
-            g.setColor (Color.BLACK);
+            g.setColor (Color.BLUE);
             g.drawRect((int)((bb.min.x + bb.max.x)/2 - 50)-(int)Camera.x, (int)((bb.min.y + bb.max.y)/2 - 50)-(int)Camera.y, 100, 100);
         }
 

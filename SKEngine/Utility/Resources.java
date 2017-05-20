@@ -1,6 +1,8 @@
 package SKEngine.Utility;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.nio.file.Paths;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -25,10 +27,41 @@ public class Resources {
         try {
             image = ImageIO.read(new File(getMain() + "/" + name));
         } catch(IOException e) {
+            System.out.println("Error loading: " + name);
             e.printStackTrace();
         }
 
         return image;
+    }
+
+    public static BufferedImage loadImageFull(String name) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File(getMain() + "/Assets/" + name));
+        } catch(IOException e) {
+            System.out.println("Error loading: " + name);
+            //e.printStackTrace();
+        }
+
+        return image;
+    }
+
+    /**
+     *
+     **/
+    public static ArrayList<String> getFileNamesFromAssets() {
+        ArrayList<String> results = new ArrayList<String>();
+        File[] files = new File(getMain() + "/Assets/").listFiles(new FilenameFilter() {
+            @Override public boolean accept(File dir, String name) {
+                return name.endsWith(".png");
+            }
+        });
+        for(File file : files) {
+            if(file.isFile()) {
+                results.add(file.getName());
+            }
+        }
+        return results;
     }
 
     /**

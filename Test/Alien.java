@@ -44,7 +44,7 @@ public class Alien extends GameObject {
         this.transform.scale.set(4,4);
         this.animator = createAnimator();
         this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
-        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(20,20));
+        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
         
         this.animator.play(currentState);
     }

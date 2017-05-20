@@ -22,12 +22,14 @@ public class CollisionEngine extends Engine {
      * {@inheritDoc}
      * */
     public void updateCollisionEngine() {
+                    System.out.println("HElooo");
         for(GameObject obj : objects) {
             for(GameObject other : objects) {
                 if(!obj.equals(other)) {
                     if(obj.boundingbox.isOverlapping(other.boundingbox)) {
                         resolveCollisionStay(obj, other);
                         resolveCollisionStay(other, obj);
+                        
                     } else {
                         resolveCollisionExit(obj, other);
                         resolveCollisionExit(other, obj);
@@ -35,6 +37,7 @@ public class CollisionEngine extends Engine {
                 }
             }
         }
+        
     }
 
     private void resolveCollisionStay(GameObject main, GameObject other) {
