@@ -36,7 +36,7 @@ public abstract class GameObject {
 	public GameObject() {
 		this.transform = new Transform();
         this.renderer = new Renderer();
-        instantiate(this);
+        
 	}
 
     /**
@@ -133,5 +133,9 @@ public abstract class GameObject {
      * */
     public static void destroy(GameObject obj) {
         GameEngine.instance.removeObject(obj);
+    }
+
+    public void registerObject() {
+        instantiate(this);
     }
 }
