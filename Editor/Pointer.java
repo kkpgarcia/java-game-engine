@@ -23,8 +23,10 @@ public class Pointer extends GameObject {
         this.boundingbox.translate(pos);
     }
 
+    @Override
     public void render(Graphics2D g) {
         originalTransform = g.getTransform();
+        g.translate((Screen.width/2), (Screen.height/2));
         if(this.boundingbox != null) {
             g.setColor (Color.BLUE);
             g.drawRect((int)(((this.boundingbox.min.x + this.boundingbox.max.x)/2)), (int)(((this.boundingbox.min.y + this.boundingbox.max.y)/2)), 10, 10);

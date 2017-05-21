@@ -32,9 +32,6 @@ public class Viewport extends GameObject {
         editorObject.transform.position = position;
         editorObject.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(50,50));
         editorObject.boundingbox.translate(position);
-
-        System.out.println(editorObject.boundingbox.min.x + editorObject.boundingbox.max.x);
-        System.out.println(editorObject.boundingbox.min.y + editorObject.boundingbox.max.y);
         editorObject.transform.scale.set(3,3);
         editorObject.transform.setParent(this);
         objects.add(editorObject);
