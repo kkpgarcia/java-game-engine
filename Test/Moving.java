@@ -20,50 +20,35 @@ import SKEngine.Utility.Resources;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 
-public class Enemy extends GameObject{
+public class Moving extends GameObject{
     
-    private float point1;
-    private float point2;
-    private float movespeed;
+    public boolean activate;
     
-    private boolean isFacingLeft;
-    public NetworkActor networkActor;
-    
-    public Enemy(){
+    public Moving(){
         super();
         initialize();
     }
     
     private void initialize() {
-        this.tag = "enemy";
-        isFacingLeft = true;
-        this.transform.scale.set(2,2);
+        this.tag = "switch";
+        this.transform.scale.set(2,10);
         this.rigidbody = new Rigidbody(new Circle(20), 0, 0);
-        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(20,20));
-        BufferedImage image = Resources.loadImage("src\\Assets\\bee-1.png");
+        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
+        BufferedImage image = Resources.loadImage("src\\Assets\\grass-platform.png");
         this.renderer.sprite = new Sprite(image);
+        this.rigidbody.position.x = 150;
     }
     
     public void update(){
         super.update();
         
-        if(isFacingLeft) {
-            this.rigidbody.position.x -= 5;
-            if(this.rigidbody.position.x <= -500) {
-                isFacingLeft = false;
-                this.renderer.flipped = !this.renderer.flipped;
-           }
-        }
-        
-        if(this.isFacingLeft == false) {
-            this.rigidbody.position.x += 5;
-            if(this.rigidbody.position.x >= 500) {
-                isFacingLeft = true;
-                this.renderer.flipped = !this.renderer.flipped;
-            }
+        if(activate)
+        {
+            
         }
         
         this.rigidbody.setStatic();
         this.boundingbox.translate(this.transform.position);
     }
+
 }

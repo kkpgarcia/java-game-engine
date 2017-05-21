@@ -16,6 +16,11 @@ public class Scene {
     public void createScene(Camera camera) {
         NetworkClient networkClient = new NetworkClient();
         
+        
+        int brickAmount = 20;
+        Platform platform = new Platform(new Vector2(0, 200), brickAmount);
+
+        
         Alien alien = new Alien();
         alien.input = input;
         alien.bindInput();
@@ -23,10 +28,9 @@ public class Scene {
         
         Enemy enemy = new Enemy();
         
+        Switch t = new Switch();
+        
         camera.follow(alien);
-
-        int brickAmount = 20;
-        Platform platform = new Platform(new Vector2(0, 200), brickAmount);
 
         networkClient.addNewClientConnectionAction(new NetworkClientCallback() {
             public void onExecute(NetworkTask task, NetworkClient client) {

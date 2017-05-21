@@ -42,12 +42,8 @@ public class GameEngine extends Engine {
 		super.addObject(obj);
 		
 		renderEngine.addObject(obj);
-
-		if(obj.boundingbox != null)
-			collisionEngine.addObject(obj);
-		
-		if(obj.rigidbody != null);
-			physicsEngine.addObject(obj);
+		collisionEngine.addObject(obj);
+		physicsEngine.addObject(obj);
 	}
 
 	/**
@@ -57,12 +53,8 @@ public class GameEngine extends Engine {
 		super.removeObject(obj);
 
 		renderEngine.removeObject(obj);
-
-		if(obj.boundingbox != null)
-			collisionEngine.removeObject(obj);
-
-		if(obj.rigidbody != null)
-			physicsEngine.removeObject(obj);
+		collisionEngine.removeObject(obj);
+		physicsEngine.removeObject(obj);
 	}
 
 	/**

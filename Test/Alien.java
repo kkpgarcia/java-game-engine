@@ -23,7 +23,10 @@ import java.awt.event.KeyEvent;
 public class Alien extends GameObject {
     public Input input;
     public NetworkActor networkActor;
-
+    
+    private int i = 0;
+    private int j = 0;
+    
     private float movementSpeed = 5;
     private String currentState = "IDLE_STATE";
     private boolean isGrounded;
@@ -47,8 +50,7 @@ public class Alien extends GameObject {
         this.transform.scale.set(4,4);
         this.animator = createAnimator();
         this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
-        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(20,20));
-        isGrounded = true;
+        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
         isJumping = false;
         this.animator.play(currentState);
     }
@@ -78,29 +80,19 @@ public class Alien extends GameObject {
             this.currentState = "WALKING_STATE";
             this.rigidbody.position.x -= movementSpeed;
         }
-        
-        //if(spacebar.isPressed()) {
-        //    this.currentState = "JUMP_STATE";
-        //    this.rigidbody.position.y -= 1;
-        //    this.rigidbody.velocity.y = -100;
-        //    System.out.println("trying to jump");
-        //}
-        
-        //if(isGrounded){
+       
+        if(isGrounded){
                if(spacebar.isPressed()) {
                 this.currentState = "JUMP_STATE";
                 this.rigidbody.position.y -= 1;
-                this.rigidbody.velocity.y = -1100;
+                this.rigidbody.velocity.y = -1200;
                isGrounded = false;
                 isJumping = true;
-                System.out.println("I am jumping");
             }   
-        //}
-        
+        }
         
         if(isJumping){
-            this.rigidbody.velocity.y += 70;
-            System.out.println("jump state");
+            this.rigidbody.velocity.y += 80;
             if(this.rigidbody.velocity.y >= 0){
                 isFalling = true;
                 isJumping = false;
@@ -109,10 +101,8 @@ public class Alien extends GameObject {
         
         if(isFalling) {
             this.rigidbody.velocity.y = 400;
-            System.out.println("I am falling");
             isFalling = false;
         }
-        
             
         if(!rightArrow.isPressed() && !leftArrow.isPressed()
         && !upArrow.isPressed() && !downArrow.isPressed()
@@ -129,10 +119,19 @@ public class Alien extends GameObject {
             networkActor.updateActor();
     }
     
-    public void onCollisionStay(GameObject obj) {
-        if(obj.tag.equals("platform")){
+    public void onCollisionEnter(GameObject other) {
+        if(other.tag == null){
+            return;
+        }
+        if(other.tag.equals("platform") || (other.tag.equals("switch"))) {
             isGrounded = true;
-            System.out.println("is colliding");
+            System.out.println("is Staying: " + i);
+            i++;
+        }
+        
+        if(other.tag.equals("enemy")) {
+            System.out.println("HIT: " + j);
+            j++;
         }
     }
 

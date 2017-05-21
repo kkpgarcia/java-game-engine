@@ -5,6 +5,7 @@ import SKEngine.Core.GameObject;
 import SKEngine.Core.Vector2;
 import SKEngine.Core.Sprite;
 import SKEngine.Collision.Polygon;
+import SKEngine.Network.NetworkActor;
 import SKEngine.Physics.Rigidbody;
 import SKEngine.Utility.Resources;
 
@@ -12,7 +13,7 @@ import java.awt.image.BufferedImage;
 
 public class Platform extends GameObject {
     public Brick[] platforms;
-
+    
     public Platform(Vector2 position, int amount) {
         super();
         initialize(position, amount);
@@ -35,10 +36,12 @@ public class Platform extends GameObject {
         this.rigidbody.setStatic();
         this.transform.position = position;
         
-        this.boundingbox = new BoundingBox2D(new Vector2(0,400), new Vector2(0,0));
+        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(1000,50));
     }
 
     public void update() {
         super.update();
+        this.boundingbox.translate(this.transform.position);
+        
     }
 }

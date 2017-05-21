@@ -17,6 +17,11 @@ public class Brick extends GameObject {
         this.transform.position = position;
         this.renderer.sprite = sprite;
         this.rigidbody = null;
-        this.boundingbox = null;
+        //this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(50,50));
+    }
+    
+    public void update() {
+        super.update();
+        //this.boundingbox.translate(this.transform.position);
     }
 }
