@@ -24,7 +24,6 @@ public class Scene {
         camera.follow(alien);
 
         Dummy dummy = new Dummy();
-        
 
         int brickAmount = 20;
         Platform platform = new Platform(new Vector2(0, 200), brickAmount);

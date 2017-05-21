@@ -94,6 +94,10 @@ public class Alien extends GameObject {
             networkActor.updateActor();
     }
 
+    public void onCollisionStay(GameObject other) {
+        System.out.println("Hello");
+    }
+
     private Animator createAnimator() {
         mapSprites();
         Animator animator = new Animator();

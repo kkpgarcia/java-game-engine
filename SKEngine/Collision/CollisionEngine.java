@@ -23,7 +23,11 @@ public class CollisionEngine extends Engine {
      * */
     public void updateCollisionEngine() {
         for(GameObject obj : objects) {
+            if(obj.boundingbox == null)
+                continue;
             for(GameObject other : objects) {
+                if(other.boundingbox == null)
+                    continue;
                 if(!obj.equals(other)) {
                     if(obj.boundingbox.isOverlapping(other.boundingbox)) {
                         resolveCollisionStay(obj, other);
