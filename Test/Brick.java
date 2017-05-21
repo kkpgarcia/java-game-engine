@@ -16,6 +16,5 @@ public class Brick extends GameObject {
         this.renderer.sprite = sprite;
         this.rigidbody = null;
         this.boundingbox = null;
-        super.registerObject();
     }
 }

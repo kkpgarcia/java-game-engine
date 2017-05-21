@@ -21,7 +21,6 @@ public class Dummy extends GameObject {
         this.renderer.sprite = new Sprite(image);
         this.rigidbody = new Rigidbody(new Circle(40),0,0);
         this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
-        super.registerObject();
     }
 
     public void onNetworkEvent(String action) {

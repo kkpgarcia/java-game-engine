@@ -32,7 +32,6 @@ public class Platform extends GameObject {
         this.rigidbody = new Rigidbody (new Polygon(500, 35), 0, 200);
         this.rigidbody.setStatic();
         this.transform.position = position;
-        super.registerObject();
     }
 
     public void update() {

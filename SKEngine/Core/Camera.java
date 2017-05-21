@@ -19,7 +19,6 @@ public class Camera extends GameObject {
      * */
     public void follow(GameObject target) {
         this.target = target;
-        super.registerObject();
     }
 
     /**
