@@ -34,9 +34,9 @@ public abstract class GameObject {
      * <b>NOTE:</b> add super or initialize transform and renderer.
      * */
 	public GameObject() {
-		this.transform = new Transform();
-        this.renderer = new Renderer();
-        instantiate(this);
+            this.transform = new Transform();
+            this.renderer = new Renderer();
+            instantiate(this);
 	}
 
     /**

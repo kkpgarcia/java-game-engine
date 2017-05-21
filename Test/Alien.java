@@ -79,33 +79,39 @@ public class Alien extends GameObject {
             this.rigidbody.position.x -= movementSpeed;
         }
         
-        if(spacebar.isPressed()) {
-            this.currentState = "JUMP_STATE";
-            this.rigidbody.velocity.y = 100;
-        }
+        //if(spacebar.isPressed()) {
+        //    this.currentState = "JUMP_STATE";
+        //    this.rigidbody.position.y -= 1;
+        //    this.rigidbody.velocity.y = -100;
+        //    System.out.println("trying to jump");
+        //}
         
         //if(isGrounded){
-        //       if(spacebar.isPressed()) {
-        //        this.currentState = "JUMP_STATE";
-        //        this.rigidbody.velocity.y = -200;
-        //       isGrounded = false;
-        //        isJumping = true;
-        //        System.out.println("I am jumping");
-        //    }   
+               if(spacebar.isPressed()) {
+                this.currentState = "JUMP_STATE";
+                this.rigidbody.position.y -= 1;
+                this.rigidbody.velocity.y = -1100;
+               isGrounded = false;
+                isJumping = true;
+                System.out.println("I am jumping");
+            }   
         //}
         
-        //if(isJumping){
-        //    if(this.rigidbody.velocity.y <= 0){
-        //        isFalling = true;
-        //    }
-        //}
         
-        //if(isFalling) {
-        //    this.rigidbody.velocity.y = 200;
-        //    System.out.println("I am falling");
-        //}
+        if(isJumping){
+            this.rigidbody.velocity.y += 70;
+            System.out.println("jump state");
+            if(this.rigidbody.velocity.y >= 0){
+                isFalling = true;
+                isJumping = false;
+            }
+        }
         
-        System.out.println(this.rigidbody.velocity.y);
+        if(isFalling) {
+            this.rigidbody.velocity.y = 400;
+            System.out.println("I am falling");
+            isFalling = false;
+        }
         
             
         if(!rightArrow.isPressed() && !leftArrow.isPressed()

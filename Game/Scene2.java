@@ -1,6 +1,9 @@
-package Test;
+package Game;
 
 import SKEngine.Core.Camera;
+import Test.Alien;
+import Test.Platform;
+import Test.Dummy;
 import SKEngine.Core.GameObject;
 import SKEngine.Core.Input;
 import SKEngine.Core.Vector2;
@@ -10,7 +13,7 @@ import SKEngine.Network.NetworkClientCallback;
 import SKEngine.Network.NetworkTask;
 import java.util.ArrayList;
 
-public class Scene {
+public class Scene2 {
     public Input input;
 
     public void createScene(Camera camera) {
@@ -20,8 +23,6 @@ public class Scene {
         alien.input = input;
         alien.bindInput();
         alien.networkActor = new NetworkActor("main", alien, networkClient);
-        
-        Enemy enemy = new Enemy();
         
         camera.follow(alien);
 
