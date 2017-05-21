@@ -3,7 +3,8 @@ package Game;
 import SKEngine.Network.NetworkServer;
 
 public class GameServer {
-    public static void main(String[] args) {
+
+    public void start() {
         NetworkServer server = new NetworkServer();
         server.runServer();
     }
