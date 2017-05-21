@@ -60,7 +60,7 @@ public class Renderer {
         originalTransform = g.getTransform();
         g.translate((Screen.width/2), (Screen.height/2));
 
-        if(rigidbody != null) {
+        /*if(rigidbody != null) {
             if (rigidbody.shape instanceof Circle)
             {
                 Circle c = (Circle)rigidbody.shape;
@@ -102,7 +102,7 @@ public class Renderer {
         if(bb != null) {
             g.setColor (Color.RED);
             g.drawRect((int)((bb.min.x + bb.max.x)/2 - 25)-(int)Camera.x, (int)((bb.min.y + bb.max.y)/2 - 25)-(int)Camera.y, (int)(bb.max.x-bb.min.x), (int)(bb.max.y-bb.min.y));
-        }
+        }*/
 
         if(sprite == null || sprite.image == null) {
             reset(g);

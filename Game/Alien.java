@@ -1,4 +1,4 @@
-package Test;
+package Game;
 
 import SKEngine.Core.Vector2;
 import SKEngine.Core.GameObject;
@@ -47,7 +47,7 @@ public class Alien extends GameObject {
 
     private void initialize() {
         this.tag = "player";
-        this.transform.scale.set(4,4);
+        this.transform.scale.set(3,3);
         this.animator = createAnimator();
         this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
         this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
@@ -125,13 +125,10 @@ public class Alien extends GameObject {
         }
         if(other.tag.equals("platform") || (other.tag.equals("switch"))) {
             isGrounded = true;
-            System.out.println("is Staying: " + i);
-            i++;
         }
-        
-        if(other.tag.equals("enemy")) {
-            System.out.println("HIT: " + j);
-            j++;
+
+        if(other.tag.equals("exit")) {
+            System.exit(0);
         }
     }
 

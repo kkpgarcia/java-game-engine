@@ -60,6 +60,6 @@ public class Level {
     }
 
     public void createMap() {
-        Exporter.load("src\\map.sk");
+        Exporter.load("map.sk");
     }
 }

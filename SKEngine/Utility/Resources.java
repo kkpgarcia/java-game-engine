@@ -37,7 +37,7 @@ public class Resources {
     public static BufferedImage loadImageFull(String name) {
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File(getMain() + "\\src\\Assets\\" + name));
+            image = ImageIO.read(new File(getMain() + "/Assets/" + name));
         } catch(IOException e) {
             System.out.println("Error loading: " + name);
             //e.printStackTrace();
@@ -51,7 +51,7 @@ public class Resources {
      **/
     public static ArrayList<String> getFileNamesFromAssets() {
         ArrayList<String> results = new ArrayList<String>();
-        File[] files = new File(getMain() + "\\src\\Assets\\").listFiles(new FilenameFilter() {
+        File[] files = new File(getMain() + "/Assets/").listFiles(new FilenameFilter() {
             @Override public boolean accept(File dir, String name) {
                 return name.endsWith(".png");
             }

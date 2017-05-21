@@ -25,7 +25,7 @@ public class Scene {
         alien.input = input;
         alien.bindInput();
         alien.networkActor = new NetworkActor("main", alien, networkClient);
-        
+        alien.rigidbody.position = new Vector2(-400, 200);
         Enemy enemy = new Enemy();
         
         Switch t = new Switch();
@@ -36,7 +36,8 @@ public class Scene {
             public void onExecute(NetworkTask task, NetworkClient client) {
                 Dummy dummy = new Dummy();
                 dummy.networkActor = new NetworkActor(task.actorId, dummy, client);
-                GameObject.instantiate(dummy);
+                alien.transform.position = new Vector2(400, 200);
+                //GameObject.instantiate(dummy);
             }
         });
 
