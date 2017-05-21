@@ -81,6 +81,8 @@ public abstract class GameObject {
      * */
     public void onCollisionEnter(GameObject obj) {
 
+
+        
     }
 
     /**
@@ -92,7 +94,7 @@ public abstract class GameObject {
      * @param GameObject other object collided
      * */
     public void onCollisionStay(GameObject obj) {
-
+       
     }
 
     /**

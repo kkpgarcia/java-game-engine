@@ -95,7 +95,7 @@ public class Alien extends GameObject {
     }
 
     public void onCollisionStay(GameObject other) {
-        System.out.println("Hello");
+        System.out.println(other == null);
     }
 
     private Animator createAnimator() {

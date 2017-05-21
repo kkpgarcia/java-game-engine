@@ -65,6 +65,11 @@ public abstract class Engine implements Runnable {
     public void removeObject(GameObject obj) {
         lock.lock();
         
+        if(objects.length == 0) {
+            lock.unlock();
+            return;
+        } 
+
         try {
             GameObject[] elements = objects;
             ArrayList<GameObject> newElements = new ArrayList<GameObject>(Arrays.asList(elements));
@@ -165,6 +170,7 @@ public abstract class Engine implements Runnable {
      * objects.
      * */
     public void updateCollisionEngine() {
+        
     }
 
     /**

@@ -100,8 +100,8 @@ public class Renderer {
         }
 
         if(bb != null) {
-            g.setColor (Color.BLACK);
-            g.drawRect((int)((bb.min.x + bb.max.x)/2 - 50)-(int)Camera.x, (int)((bb.min.y + bb.max.y)/2 - 50)-(int)Camera.y, 100, 100);
+            g.setColor (Color.RED);
+            g.drawRect((int)((bb.min.x + bb.max.x)/2 - 25)-(int)Camera.x, (int)((bb.min.y + bb.max.y)/2 - 25)-(int)Camera.y, 50, 50);
         }
 
         if(sprite == null || sprite.image == null) {
