@@ -125,13 +125,10 @@ public class Alien extends GameObject {
         }
         if(other.tag.equals("platform") || (other.tag.equals("switch"))) {
             isGrounded = true;
-            System.out.println("is Staying: " + i);
-            i++;
         }
-        
-        if(other.tag.equals("enemy")) {
-            System.out.println("HIT: " + j);
-            j++;
+
+        if(other.tag.equals("exit")) {
+            System.exit(0);
         }
     }
 
