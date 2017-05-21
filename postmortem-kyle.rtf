@@ -1,0 +1,101 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf810
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Java Game Engine Post Mortem\
+\
+Engine Libraries\
+- Animation\
+- Calculations\
+- Collections\
+- Collision\
+- Core\
+- Network\
+- Physics\
+- Test\
+- Utility\
+- Editor\
+\
+Animation\
+\
+The animation library is fairly simple, yet could use a better data structure for framing. I was not sure if this is actually the right way to do animation frames but it kinda works.\
+\
+When a frame is assigned a callback, it will execute after the frame interval is finished. Maybe it is better to do callbacks at the start, rather than the end.\
+\
+This simple implementation is not ready to be extended to a better implementation since this library does not have a proper planning to integrate some of the other important parts of animation.\
+\
+Since this library is strictly for frame by frame animation, adding curves, and interpolation to each animation is going to be hard.\
+\
+There are things that were left out:\
+	- Animation Curves\
+	- Interpolation\
+	- Proper Event Callbacks\
+\
+Calculations\
+\
+This could be a library inside the core. It does not do as much. Java\'92s math library already has some of the functions given in this library. Although it does not have a comparison between two floats. I think gravity shouldn\'92t be here? I\'92m not really sure.\
+\
+Collections\
+\
+Probably not the best way to do a personal collection library. Probably we should see Java\'92s collection libraries and see their run-time on sort, search, lambdas, etc. before doing basic data structures. I was just frustrated on how java implements theirs so\'85 yeah. Oh yeah, Java does not have a dictionary data structure. They changed it to java.util.Map and java.util.HashMap. I\'92m sure one of them is an interface. Not so sure which of them.\
+\
+Collision\
+\
+Collision library consists two collision implementation. I should have left with one to reduce calculations. But since I was not that familiar with Randy\'92s physics engine, I thought it was the best to do something different, and not mess up the collisions for the physics. Bounding box definitely needs some work since we\'92re having problems with its position. Well\'85 We\'92re having problems with ALL kinds of position. I\'92ll deal with the positions later.\
+\
+Network\
+\
+Probably not the best implementation. Still need to learn more about network servers and clients. Needs interpolation for passing movement data.\
+\
+\
+\
+Nitpicks\
+\
+This engine is not the best way to implement a game engine. Here\'92s the flaws that I found while developing this engine:\
+\
+- The abstract engine contains the time step of the whole game. Since we have 4 kinds of engines, they all run in parallel. This creates a problem by trying to make them run in sync. I\'92m not sure how to do this, I believe there are references online that guides you to do this. TL;DR. Every engine is not in synced.\
+\
+- As stated, we have 4 kinds of engines. Each of them needs a reference to a game object. If we have 200 game objects in scene, the engine will have 800 referenced objects in worst case. Best case would be approximately 500, but it\'92s still too large. The reason for this is that we need to update each component included in the game object: Renderer, Rigidbody, BoundingBox, and Update. Maybe\'85 just maybe. The game engine can run on a single thread just to save us RAM space? and to keep us from running multiple threads. Keep in mind that running a network game will make more than 10 threads. It\'92s not practical I think?\
+	- Main Thread\
+	- Render Thread \
+	- Paint Thread (Implemented by JPanel)\
+	- Collision Thread (Bounding box)\
+	- Physics Thread\
+	- Client Thread\
+	- Listener Thread\
+	- Dispatcher Thread\
+	- Input Thread (assuming java\'92s input implementations runs on thread which is very likely)\
+	- other threads\
+\
+Running parallel programs is hard, and even harder to manage all of them.\
+\
+- All of the objects are updating around four to five times per frames, thirty frames per second whether you like it or not. Maybe we could create a logic on where to choose the objects to be updated?\
+\
+- Vector2 needs even more better calculations.\
+\
+- Camera is just a trick. So as other engine\'92s cameras.\
+\
+- Position is really tricky. I\'92m not really sure right now what makes sense anymore. I created transform class for every other objects to have a reference on position. Render should follow transform? Maybe I should list something down:\
+\
+	- Java\'92s drawing starts from the upper left corner. It was hard to draw stuff, so I decided to put 0,0 on the center of the frame.\
+	- This means that java\'92s drawing will start from width/2 and height/2\
+	- drawing stuff on graphics 2d starts from the upper left corner of the width/2 and height/2 of java, and transform\'92s 0,0. So it makes sense to render an object by x - object.width/2, and y - object.height/2.\
+	- to be able to navigate the whole scene, we should be able to move the viewport of the frame. To do this, I implemented a camera class that has a moving x, and y values.\
+	- x and y values from the camera is now included in the render calculation and gives us:\
+\
+		(x,y,width,height) >> (obj.x- camera.x - obj.width/2, obj.y - camera.y - obj.height/2)\
+\
+- Editor should be planned. EDITOR SHOULD BE PLANNED.\
+\
+- Editor contains static instance of their classes (singleton pattern). Don\'92t do this. Not. Best. Practice. It\'92s an anti-pattern. We don\'92t like it.\
+\
+- No UI implementation, and thank god I didn\'92t do it.\
+\
+\
+Overall\
+\
+This is the biggest program that I\'92ve written so far. I\'92m not sure if I am going to write an engine like this again. It was a great experience, probably the best learning experience ever. It does need a bit of improvement, specially updating the game object part, and instantiating them. Maybe I could do an engine full of matrix, instead of just dead vector2. It\'92s better to do it by matrices, but harder.\
+	}
