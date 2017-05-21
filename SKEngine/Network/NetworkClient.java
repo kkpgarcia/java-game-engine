@@ -240,6 +240,12 @@ public class NetworkClient {
         }
     }
 
+    public void removeNewClientConnectionAction(NetworkClientCallback callback) {
+        if(onNewClientActions != null) {
+            onNewClientActions.remove(callback);
+        }
+    }
+
     /**
      * Add actions when the client recieve other client disconnection
      * @param NetworkClientCallback action to be executed

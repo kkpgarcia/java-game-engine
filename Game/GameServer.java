@@ -1,4 +1,4 @@
-package Test;
+package Game;
 
 import SKEngine.Network.NetworkServer;
 
