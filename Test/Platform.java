@@ -1,9 +1,11 @@
 package Test;
 
+import SKEngine.Collision.BoundingBox2D;
 import SKEngine.Core.GameObject;
 import SKEngine.Core.Vector2;
 import SKEngine.Core.Sprite;
 import SKEngine.Collision.Polygon;
+import SKEngine.Network.NetworkActor;
 import SKEngine.Physics.Rigidbody;
 import SKEngine.Utility.Resources;
 
@@ -11,14 +13,15 @@ import java.awt.image.BufferedImage;
 
 public class Platform extends GameObject {
     public Brick[] platforms;
-
+    
     public Platform(Vector2 position, int amount) {
         super();
         initialize(position, amount);
     }
 
     public void initialize(Vector2 position, int amount) {
-        BufferedImage image = Resources.loadImage("Assets/brick.png");
+        this.tag = "platform";
+        BufferedImage image = Resources.loadImage("src\\Assets\\brick.png");
         Sprite sprite = new Sprite(image);
         platforms = new Brick[amount];
 
@@ -32,9 +35,13 @@ public class Platform extends GameObject {
         this.rigidbody = new Rigidbody (new Polygon(500, 35), 0, 200);
         this.rigidbody.setStatic();
         this.transform.position = position;
+        
+        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(1000,50));
     }
 
     public void update() {
         super.update();
+        this.boundingbox.translate(this.transform.position);
+        
     }
 }
