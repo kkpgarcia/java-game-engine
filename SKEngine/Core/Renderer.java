@@ -101,7 +101,7 @@ public class Renderer {
 
         if(bb != null) {
             g.setColor (Color.RED);
-            g.drawRect((int)((bb.min.x + bb.max.x)/2 - 25)-(int)Camera.x, (int)((bb.min.y + bb.max.y)/2 - 25)-(int)Camera.y, 50, 50);
+            g.drawRect((int)((bb.min.x + bb.max.x)/2 - 25)-(int)Camera.x, (int)((bb.min.y + bb.max.y)/2 - 25)-(int)Camera.y, (int)(bb.max.x-bb.min.x), (int)(bb.max.y-bb.min.y));
         }
 
         if(sprite == null || sprite.image == null) {
