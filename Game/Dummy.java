@@ -1,4 +1,4 @@
-package Test;
+package Game;
 
 import SKEngine.Core.GameObject;
 import SKEngine.Core.Sprite;
@@ -17,8 +17,8 @@ public class Dummy extends GameObject {
     public Dummy() {
         super();
         this.tag = "dummy";
-        this.transform.scale.set(4,4);
-        BufferedImage image = Resources.loadImage("src\\Assets\\pink-alien.png");
+        this.transform.scale.set(2,2);
+        BufferedImage image = Resources.loadImage("Assets/2-19.png");
         this.renderer.sprite = new Sprite(image);
         this.rigidbody = new Rigidbody(new Circle(40),0,0);
         this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));

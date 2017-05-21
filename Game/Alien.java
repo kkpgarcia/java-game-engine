@@ -1,4 +1,4 @@
-package Test;
+package Game;
 
 import SKEngine.Core.Vector2;
 import SKEngine.Core.GameObject;
@@ -41,7 +41,7 @@ public class Alien extends GameObject {
 
     private void initialize() {
         this.tag = "player";
-        this.transform.scale.set(4,4);
+        this.transform.scale.set(2,2);
         this.animator = createAnimator();
         this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
         this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
@@ -110,13 +110,13 @@ public class Alien extends GameObject {
 
     private void mapSprites() {
         try {
-            spriteMap.add("STANDING", loadSprite("blue-alien"));
-            spriteMap.add("WALKING_1", loadSprite("blue-alien-7"));
-            spriteMap.add("WALKING_2", loadSprite("blue-alien-2"));
-            spriteMap.add("WALKING_3", loadSprite("blue-alien-8"));
-            spriteMap.add("JUMP_1", loadSprite("blue-alien-5"));
-            spriteMap.add("JUMP_2", loadSprite("blue-alien-4"));
-            spriteMap.add("ACTION", loadSprite("blue-alien-3"));
+            spriteMap.add("STANDING", loadSprite("0-19"));
+            spriteMap.add("WALKING_1", loadSprite("0-28"));
+            spriteMap.add("WALKING_2", loadSprite("0-20"));
+            spriteMap.add("WALKING_3", loadSprite("0-29"));
+            spriteMap.add("JUMP_1", loadSprite("0-26"));
+            spriteMap.add("JUMP_2", loadSprite("0-27"));
+            spriteMap.add("ACTION", loadSprite("0-20"));
         } catch (Exception e) {
             e.printStackTrace();
         }
