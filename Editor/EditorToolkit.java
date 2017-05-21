@@ -14,7 +14,9 @@ import SKEngine.Core.Sprite;
 public class EditorToolkit extends JPanel {
     public static String currentTool = "BRUSH";
     public static Sprite currentSprite = null;
+    public static String currentSpriteName = null;
     public Sprite previousSprite;
+    public String prevSpriteName;
 
     public EditorToolkit() {
         super(new GridLayout(3,4));
@@ -26,6 +28,9 @@ public class EditorToolkit extends JPanel {
                 
                 if(currentSprite != previousSprite)
                     currentSprite = previousSprite;
+
+                if(currentSpriteName != prevSpriteName)
+                    currentSpriteName = prevSpriteName;
                     
                 currentTool = "BRUSH";
             }
@@ -36,6 +41,7 @@ public class EditorToolkit extends JPanel {
                     return;
 
                 previousSprite = currentSprite;
+                prevSpriteName = currentSpriteName;
                 currentTool = "ERASER";
             }
         });
@@ -55,12 +61,16 @@ public class EditorToolkit extends JPanel {
         });
         JButton export = createButton("Export", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            
+                if(textField.getText() != null) {
+                    Exporter.export(Viewport.objects, textField.getText());
+                }
             }
         });
         JButton load = createButton("Load", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            
+                if(textField.getText() != null) {
+                    Exporter.load("map.sk");
+                }
             }
         });
         JButton selectionTool = createButton("Selection", new ActionListener() {

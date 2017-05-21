@@ -44,7 +44,7 @@ public class EditorInteraction implements MouseListener, MouseMotionListener {
                 EditorCellGrid p = optional.get();
                 if(EditorToolkit.currentSprite == null)
                     return;
-                Viewport.instance.paintSprite(EditorToolkit.currentSprite, p);
+                Viewport.instance.paintSprite(EditorToolkit.currentSprite, p, EditorToolkit.currentSpriteName);
             }
         } else if (currentTool.equals("ERASER")) {
             Optional<EditorObject> optional = Viewport.objects.stream()

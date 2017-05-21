@@ -23,6 +23,8 @@ public class LevelEditor {
         editorWindow.createEditorScene();
 
         Viewport viewport = new Viewport();
+        viewport.input = input;
+        viewport.bindInput();
 
         EditorInteraction interaction = new EditorInteraction(screen);
         screen.addMouseListener(interaction);

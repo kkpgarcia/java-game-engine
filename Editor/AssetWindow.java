@@ -74,6 +74,7 @@ public class AssetWindow extends JPanel {
 
     public void onSelected(String selection) {
         EditorToolkit.currentSprite = assetsDictionary.getValue(selection);
+        EditorToolkit.currentSpriteName = selection;
     }
 
     public class AssetWindowRenderer extends DefaultListCellRenderer {
