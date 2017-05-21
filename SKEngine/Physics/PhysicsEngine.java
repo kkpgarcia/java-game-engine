@@ -41,7 +41,7 @@ public class PhysicsEngine extends Engine {
 		{
 			Rigidbody A = objects[i].rigidbody;
 
-			if(A == null)
+			if(A == null )
 				continue;
 
 			for (int j = i + 1; j < objects.length; ++j)

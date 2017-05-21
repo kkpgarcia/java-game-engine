@@ -139,6 +139,11 @@ public class NetworkServer {
         if(clients.size() < 1 || newClient == null)
             return;
 
+        float delay = 100;
+        while(delay > 0) {
+            delay -= 0.1f;
+        }
+
         for(String id : idList) {
             NetworkClientConnection client = clients.getValue(id);
             NetworkTask task = new NetworkTask();

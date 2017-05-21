@@ -9,6 +9,7 @@ import SKEngine.Core.GameObject;
 import java.util.ArrayList;
 
 public class SKEngineTest {
+    /*
     public static void main(String[] args) {
         SKEngineTest test = new SKEngineTest();
         test.runTest();
@@ -25,4 +26,5 @@ public class SKEngineTest {
 
         game.start();
     }
+*/
 }

@@ -23,9 +23,15 @@ import java.awt.event.KeyEvent;
 public class Alien extends GameObject {
     public Input input;
     public NetworkActor networkActor;
-
+    
+    private int i = 0;
+    private int j = 0;
+    
     private float movementSpeed = 5;
     private String currentState = "IDLE_STATE";
+    private boolean isGrounded;
+    private boolean isJumping;
+    private boolean isFalling;
 
     private Dictionary<String, Sprite> spriteMap = new Dictionary<String, Sprite>();
     private InputAction rightArrow = new InputAction("right");
@@ -44,8 +50,8 @@ public class Alien extends GameObject {
         this.transform.scale.set(4,4);
         this.animator = createAnimator();
         this.rigidbody = new Rigidbody(new Circle(40), 0, 0);
-        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(20,20));
-        
+        this.boundingbox = new BoundingBox2D(new Vector2(), new Vector2(100,100));
+        isJumping = false;
         this.animator.play(currentState);
     }
 
@@ -74,11 +80,30 @@ public class Alien extends GameObject {
             this.currentState = "WALKING_STATE";
             this.rigidbody.position.x -= movementSpeed;
         }
-        
-        if(spacebar.isPressed()) {
-            this.currentState = "ACTION_STATE";
+       
+        if(isGrounded){
+               if(spacebar.isPressed()) {
+                this.currentState = "JUMP_STATE";
+                this.rigidbody.position.y -= 1;
+                this.rigidbody.velocity.y = -1200;
+               isGrounded = false;
+                isJumping = true;
+            }   
         }
-
+        
+        if(isJumping){
+            this.rigidbody.velocity.y += 80;
+            if(this.rigidbody.velocity.y >= 0){
+                isFalling = true;
+                isJumping = false;
+            }
+        }
+        
+        if(isFalling) {
+            this.rigidbody.velocity.y = 400;
+            isFalling = false;
+        }
+            
         if(!rightArrow.isPressed() && !leftArrow.isPressed()
         && !upArrow.isPressed() && !downArrow.isPressed()
         && !spacebar.isPressed() && !currentState.equals("ACTION_STATE")) {
@@ -88,10 +113,26 @@ public class Alien extends GameObject {
         if(!this.animator.currentState.equals(currentState)) {
             this.animator.play(currentState);
         }
-
+        
         this.boundingbox.translate(this.transform.position);
         if(networkActor != null)
             networkActor.updateActor();
+    }
+    
+    public void onCollisionEnter(GameObject other) {
+        if(other.tag == null){
+            return;
+        }
+        if(other.tag.equals("platform") || (other.tag.equals("switch"))) {
+            isGrounded = true;
+            System.out.println("is Staying: " + i);
+            i++;
+        }
+        
+        if(other.tag.equals("enemy")) {
+            System.out.println("HIT: " + j);
+            j++;
+        }
     }
 
     private Animator createAnimator() {
@@ -106,13 +147,13 @@ public class Alien extends GameObject {
 
     private void mapSprites() {
         try {
-            spriteMap.add("STANDING", loadSprite("blue-alien"));
-            spriteMap.add("WALKING_1", loadSprite("blue-alien-7"));
-            spriteMap.add("WALKING_2", loadSprite("blue-alien-2"));
-            spriteMap.add("WALKING_3", loadSprite("blue-alien-8"));
-            spriteMap.add("JUMP_1", loadSprite("blue-alien-5"));
-            spriteMap.add("JUMP_2", loadSprite("blue-alien-4"));
-            spriteMap.add("ACTION", loadSprite("blue-alien-3"));
+            spriteMap.add("STANDING", loadSprite("0-19"));
+            spriteMap.add("WALKING_1", loadSprite("0-28"));
+            spriteMap.add("WALKING_2", loadSprite("0-20"));
+            spriteMap.add("WALKING_3", loadSprite("0-29"));
+            spriteMap.add("JUMP_1", loadSprite("0-26"));
+            spriteMap.add("JUMP_2", loadSprite("0-27"));
+            spriteMap.add("ACTION", loadSprite("0-20"));
         } catch (Exception e) {
             e.printStackTrace();
         }

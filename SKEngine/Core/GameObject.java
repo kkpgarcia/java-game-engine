@@ -34,9 +34,9 @@ public abstract class GameObject {
      * <b>NOTE:</b> add super or initialize transform and renderer.
      * */
 	public GameObject() {
-		this.transform = new Transform();
-        this.renderer = new Renderer();
-        instantiate(this);
+            this.transform = new Transform();
+            this.renderer = new Renderer();
+            instantiate(this);
 	}
 
     /**
@@ -81,6 +81,8 @@ public abstract class GameObject {
      * */
     public void onCollisionEnter(GameObject obj) {
 
+
+        
     }
 
     /**
@@ -92,7 +94,7 @@ public abstract class GameObject {
      * @param GameObject other object collided
      * */
     public void onCollisionStay(GameObject obj) {
-
+       
     }
 
     /**
