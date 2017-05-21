@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import SKEngine.Core.Vector2;
 
 public class EditorGrid {
-    int multiplier = 10;
+    int multiplier = 2;
     public static ArrayList<EditorCellGrid> cellGrid = new ArrayList<EditorCellGrid>();
     public EditorGrid(int cellSize, int width, int height) {
         int widthCount = (width/cellSize) * multiplier;

@@ -25,23 +25,12 @@ public class EditorToolkit extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(currentTool.equals("BRUSH"))
                     return;
-                
-                if(currentSprite != previousSprite)
-                    currentSprite = previousSprite;
-
-                if(currentSpriteName != prevSpriteName)
-                    currentSpriteName = prevSpriteName;
                     
                 currentTool = "BRUSH";
             }
         });
         JButton eraserTool = createButton("Eraser", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(currentTool.equals("ERASER"))
-                    return;
-
-                previousSprite = currentSprite;
-                prevSpriteName = currentSpriteName;
                 currentTool = "ERASER";
             }
         });

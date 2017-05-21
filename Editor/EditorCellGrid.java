@@ -8,6 +8,7 @@ import SKEngine.Core.GameObject;
 import SKEngine.Core.Renderer;
 import SKEngine.Core.Vector2;
 import SKEngine.Collision.BoundingBox2D;
+import SKEngine.Core.Screen;
 
 public class EditorCellGrid extends GameObject {
     public int cellSize;
@@ -31,7 +32,6 @@ public class EditorCellGrid extends GameObject {
     @Override
     public void render(Graphics2D g) {
         originalTransform = g.getTransform();
-
         /*if(this.boundingbox != null) {
             g.setColor (Color.BLUE);
             g.drawRect((int)(((this.boundingbox.min.x + this.boundingbox.max.x)/2) - cellSize/2), (int)(((this.boundingbox.min.y + this.boundingbox.max.y)/2) - cellSize/2), (int)cellSize, (int)cellSize);

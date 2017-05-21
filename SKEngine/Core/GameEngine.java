@@ -31,7 +31,7 @@ public class GameEngine extends Engine {
 		super();
 		instance = this;
 		renderEngine = new RenderEngine(screen);
-		physicsEngine = new PhysicsEngine(MathEx.DT, 1);
+		//physicsEngine = new PhysicsEngine(MathEx.DT, 1);
 		collisionEngine = new CollisionEngine();
 	}
 
@@ -43,7 +43,7 @@ public class GameEngine extends Engine {
 		
 		renderEngine.addObject(obj);
 		collisionEngine.addObject(obj);
-		physicsEngine.addObject(obj);
+		//physicsEngine.addObject(obj);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class GameEngine extends Engine {
 
 		renderEngine.removeObject(obj);
 		collisionEngine.removeObject(obj);
-		physicsEngine.removeObject(obj);
+		//physicsEngine.removeObject(obj);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class GameEngine extends Engine {
 	public void start() {
 		super.start();
 		collisionEngine.start();
-		physicsEngine.start();
+		//physicsEngine.start();
 		renderEngine.start();
 	}
 

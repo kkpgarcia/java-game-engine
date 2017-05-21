@@ -8,8 +8,4 @@ public class EditorObject extends GameObject {
     public EditorObject() {
         super();
     }
-
-    public void update() {
-        super.update();
-    }
 }
