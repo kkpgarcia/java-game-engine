@@ -7,6 +7,5 @@ public class Scene {
 
     public void createScene() {
         Level level = new Level();
-
     }
 }
