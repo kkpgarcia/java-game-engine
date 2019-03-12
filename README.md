@@ -14,22 +14,34 @@ How to Compile
 Directory
 ----------------------
 
-Assets - Contains all the assets related in the game
-Editor - Unfinished editor for the game due to lack of time
-Game - Contains the proof of concept for the game engine
-SKEngine - Contains the actual game engine
-Test - Unit testing for the game engine
+*Assets* - Contains all the assets related in the game
+
+*Editor* - Unfinished editor for the game due to lack of time
+
+*Game* - Contains the proof of concept for the game engine
+
+*SKEngine* - Contains the actual game engine
+
+*Test* - Unit testing for the game engine
 
 SKEngine
 -----------------------
 
-Animation - Contains a simple sprite animation engine for 2D assets
-Calculations - Contains Math Extensions for Java
-Collections - Contains Data structures for the game engine
-Collision - Contains the Collision Engine for the game
-Core - Contains all the core classes that runs the engine
-Network - A network layer that implements Sockets for Multiplayer, and simple server functions for real-time playing
-Physics - Contains Physics Engine for the game
-Test - Unit testing for the game engine
-Utility - Utility classes to help the engine run
+*Animation* - Contains a simple sprite animation engine for 2D assets
+
+*Calculations* - Contains Math Extensions for Java
+
+*Collections* - Contains Data structures for the game engine
+
+*Collision* - Contains the Collision Engine for the game
+
+*Core* - Contains all the core classes that runs the engine
+
+*Network* - A network layer that implements Sockets for Multiplayer, and simple server functions for real-time playing
+
+*Physics* - Contains Physics Engine for the game
+
+*Test* - Unit testing for the game engine
+
+*Utility* - Utility classes to help the engine run
 
